@@ -631,8 +631,12 @@ a { text-decoration: none; color: inherit; }
 
 .orga-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
+}
+
+.orga-main {
+  grid-column: span 2;
 }
 
 .orga-card {
