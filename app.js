@@ -1,37 +1,16 @@
-// Nav scroll effect
+/* =============================================
+   NAV SCROLL
+============================================= */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-// Scroll-reveal animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll(
-  '.why-card, .orga-card, .sponsor-card, .tl-item, .benefit'
-).forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-  observer.observe(el);
-});
-
-// Stagger cards
-document.querySelectorAll('.why-card, .orga-card, .sponsor-card').forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 4) * 0.08}s`;
-});
-
-// Smooth active nav link
+/* =============================================
+   ACTIVE NAV LINK
+============================================= */
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
-
 window.addEventListener('scroll', () => {
   const scroll = window.scrollY + 120;
   sections.forEach(sec => {
@@ -41,4 +20,247 @@ window.addEventListener('scroll', () => {
       if (match) match.classList.add('active');
     }
   });
+});
+
+/* =============================================
+   SPLIT TEXT — HERO TITLE LETTER ANIMATION
+============================================= */
+document.querySelectorAll('.line-1, .line-2').forEach(el => {
+  const text = el.textContent.trim();
+  el.innerHTML = text.split('').map((ch, i) =>
+    `<span class="char" style="animation-delay:${i * 0.05}s">${ch}</span>`
+  ).join('');
+});
+
+/* =============================================
+   ANIMATED COUNTER — STATS
+============================================= */
+function animateCounter(el, target, duration = 1800) {
+  const isTime = el.dataset.suffix === 'H';
+  let start = null;
+  const step = ts => {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 4);
+    el.textContent = Math.floor(ease * target) + (isTime ? 'H' : '');
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+const statNums = document.querySelectorAll('.stat-num');
+statNums.forEach(el => {
+  const raw = el.textContent.trim();
+  const num = parseInt(raw);
+  el.dataset.suffix = raw.includes('H') ? 'H' : '';
+  el.dataset.target = num;
+  el.textContent = '0' + el.dataset.suffix;
+});
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      animateCounter(el, parseInt(el.dataset.target));
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+statNums.forEach(el => statsObserver.observe(el));
+
+/* =============================================
+   SCROLL REVEAL — STAGGERED
+============================================= */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll(
+  '.why-card, .orga-card, .sponsor-card, .tl-item, .benefit, .gallery-item, .section-label, .section-title'
+).forEach((el, i) => {
+  el.classList.add('reveal-el');
+  el.style.transitionDelay = `${(i % 5) * 0.07}s`;
+  revealObserver.observe(el);
+});
+
+/* =============================================
+   TILT CARDS — 3D HOVER
+============================================= */
+document.querySelectorAll('.why-card, .orga-card, .sponsor-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(600px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateY(-6px)`;
+    card.style.boxShadow = `${-x * 16}px ${-y * 16}px 40px rgba(108,99,255,0.18)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+  });
+});
+
+/* =============================================
+   MAGNETIC BUTTONS
+============================================= */
+document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+    btn.style.transition = 'transform 0.4s cubic-bezier(0.23,1,0.32,1)';
+    setTimeout(() => btn.style.transition = '', 400);
+  });
+});
+
+/* =============================================
+   AURORA / PARTICLE CANVAS — HERO BG
+============================================= */
+(function() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'aurora-canvas';
+  canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.55;';
+  document.querySelector('.hero-bg').appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = { x: 0, y: 0 };
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  document.querySelector('.hero').addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  });
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4;
+      this.opacity = Math.random() * 0.6 + 0.2;
+      this.color = Math.random() > 0.5 ? '108,99,255' : '0,212,170';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      const dx = this.x - mouse.x, dy = this.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        this.x += dx / dist * 1.2;
+        this.y += dy / dist * 1.2;
+      }
+      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 90) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(108,99,255,${0.12 * (1 - dist / 90)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    drawConnections();
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* =============================================
+   TYPEWRITER — HERO SUBTITLE
+============================================= */
+(function() {
+  const el = document.querySelector('.hero-sub');
+  const lines = [
+    '48 hours of non-stop creation. AI as the tool.',
+    'Innovation as the goal. Laâyoune as the playground.'
+  ];
+  const full = lines.join('\n');
+  el.textContent = '';
+  el.style.whiteSpace = 'pre-line';
+  let i = 0;
+  function type() {
+    if (i <= full.length) {
+      el.textContent = full.slice(0, i);
+      i++;
+      setTimeout(type, 28);
+    }
+  }
+  setTimeout(type, 900);
+})();
+
+/* =============================================
+   SHINY SHIMMER ON SECTION LABELS
+============================================= */
+document.querySelectorAll('.section-label').forEach(el => {
+  el.classList.add('shimmer-text');
+});
+
+/* =============================================
+   CURSOR GLOW
+============================================= */
+(function() {
+  const cursor = document.createElement('div');
+  cursor.id = 'cursor-glow';
+  document.body.appendChild(cursor);
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .why-card, .orga-card, .sponsor-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('cursor-big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-big'));
+  });
+})();
+
+/* =============================================
+   TIMELINE PROGRESS LINE DRAW
+============================================= */
+document.querySelectorAll('.timeline').forEach(tl => {
+  const tlObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('tl-animate');
+    });
+  }, { threshold: 0.1 });
+  tlObserver.observe(tl);
 });

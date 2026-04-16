@@ -1019,3 +1019,226 @@ a { text-decoration: none; color: inherit; }
   .sponsor-grid { grid-template-columns: 1fr; }
   .hero-cta { flex-direction: column; align-items: center; }
 }
+
+/* =============================================
+   SPLIT TEXT — CHAR ANIMATION
+============================================= */
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60px) rotate(8deg);
+  animation: charReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes charReveal {
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+/* =============================================
+   SCROLL REVEAL
+============================================= */
+.reveal-el {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s cubic-bezier(0.23,1,0.32,1), transform 0.65s cubic-bezier(0.23,1,0.32,1);
+}
+
+.reveal-el.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =============================================
+   SHIMMER TEXT
+============================================= */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--accent2) 0%,
+    #fff 40%,
+    var(--accent2) 60%,
+    var(--accent2) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* =============================================
+   CURSOR GLOW
+============================================= */
+#cursor-glow {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.6) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s;
+  mix-blend-mode: screen;
+}
+
+#cursor-glow.cursor-big {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(108,99,255,0.25) 0%, transparent 70%);
+}
+
+/* =============================================
+   TILT CARD TRANSITION
+============================================= */
+.why-card, .orga-card, .sponsor-card {
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.2s, opacity 0.65s cubic-bezier(0.23,1,0.32,1);
+  will-change: transform;
+}
+
+/* =============================================
+   TIMELINE DRAW ANIMATION
+============================================= */
+.timeline {
+  --tl-progress: 0%;
+}
+
+.timeline.tl-animate {
+  --tl-progress: 100%;
+}
+
+.tl-item {
+  border-left: 1px solid transparent;
+  background-image: linear-gradient(var(--bg), var(--bg)),
+    linear-gradient(to bottom, rgba(108,99,255,0.5), rgba(0,212,170,0.2));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: opacity 0.65s cubic-bezier(0.23,1,0.32,1), transform 0.65s cubic-bezier(0.23,1,0.32,1);
+}
+
+.tl-item.highlight {
+  background-image: linear-gradient(var(--bg), var(--bg)),
+    linear-gradient(to bottom, var(--accent), var(--accent2));
+}
+
+/* =============================================
+   HERO CONTENT ENTRANCE
+============================================= */
+.hero-badge {
+  animation: fadeUp 0.7s cubic-bezier(0.23,1,0.32,1) 0.2s both;
+}
+
+.hero-stats {
+  animation: fadeUp 0.7s cubic-bezier(0.23,1,0.32,1) 0.5s both;
+}
+
+.hero-cta {
+  animation: fadeUp 0.7s cubic-bezier(0.23,1,0.32,1) 0.7s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   STAT NUMBER GLOW PULSE
+============================================= */
+.stat-num {
+  animation: statGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes statGlow {
+  from { filter: drop-shadow(0 0 0px transparent); }
+  to   { filter: drop-shadow(0 0 16px rgba(108,99,255,0.7)); }
+}
+
+/* =============================================
+   GALLERY ITEM ENTRANCE
+============================================= */
+.gallery-item {
+  transition: transform 0.5s ease, box-shadow 0.5s ease,
+              opacity 0.65s cubic-bezier(0.23,1,0.32,1),
+              transform 0.65s cubic-bezier(0.23,1,0.32,1);
+}
+
+.gallery-item.revealed:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+/* =============================================
+   SECTION TITLE UNDERLINE ANIMATE
+============================================= */
+.section-title {
+  position: relative;
+}
+
+/* =============================================
+   CARD SHINE EFFECT
+============================================= */
+.why-card, .orga-card, .sponsor-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.why-card::after, .orga-card::after, .sponsor-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.055) 50%,
+    transparent 60%
+  );
+  transform: skewX(-15deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.why-card:hover::after, .orga-card:hover::after, .sponsor-card:hover::after {
+  left: 125%;
+}
+
+/* =============================================
+   BUTTON RIPPLE
+============================================= */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  border-radius: inherit;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.btn-primary:active::after {
+  transform: scale(2);
+  opacity: 0;
+  transition: 0s;
+}
+
+/* =============================================
+   AURORA CANVAS POSITION FIX
+============================================= */
+#aurora-canvas {
+  position: absolute;
+  inset: 0;
+}
