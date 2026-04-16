@@ -24,11 +24,12 @@ window.addEventListener('scroll', () => {
 
 /* =============================================
    SPLIT TEXT — HERO TITLE LETTER ANIMATION
+   Only applied to .line-3 (no bg-clip gradient)
 ============================================= */
-document.querySelectorAll('.line-1, .line-2').forEach(el => {
+document.querySelectorAll('.line-3').forEach(el => {
   const text = el.textContent.trim();
   el.innerHTML = text.split('').map((ch, i) =>
-    `<span class="char" style="animation-delay:${i * 0.05}s">${ch}</span>`
+    `<span class="char" style="animation-delay:${0.4 + i * 0.04}s">${ch === ' ' ? '&nbsp;' : ch}</span>`
   ).join('');
 });
 
