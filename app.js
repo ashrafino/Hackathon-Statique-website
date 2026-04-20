@@ -265,3 +265,20 @@ document.querySelectorAll('.timeline').forEach(tl => {
   }, { threshold: 0.1 });
   tlObserver.observe(tl);
 });
+
+/* =============================================
+   SPOTS BAR ANIMATION
+============================================= */
+const spotsBar = document.querySelector('.spots-fill');
+if (spotsBar) {
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        // simulate ~30 spots taken out of 100
+        spotsBar.style.width = '30%';
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  barObserver.observe(spotsBar);
+}

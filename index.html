@@ -23,6 +23,7 @@
         <li><a href="#programme">Schedule</a></li>
         <li><a href="#organisateurs">Organizers</a></li>
         <li><a href="#partenariat">Sponsorship</a></li>
+        <li><a href="#register">Apply</a></li>
         <li><a href="#contact" class="btn-nav">Join Us</a></li>
       </ul>
     </div>
@@ -67,8 +68,8 @@
         </div>
       </div>
       <div class="hero-cta">
-        <a href="#concept" class="btn-primary">Discover the Concept</a>
-        <a href="#contact" class="btn-ghost">Become a Partner</a>
+        <a href="#register" class="btn-primary">Apply Now</a>
+        <a href="#concept" class="btn-ghost">Discover the Concept</a>
       </div>
     </div>
     <div class="hero-scroll">
@@ -375,6 +376,124 @@
         <div class="gallery-item">
           <img src="https://mx4augg1q7.ufs.sh/f/M7p4J9nf1eWYM7Im40af1eWYxIya5XkHsGN6pDTQh8Lq93C4" alt="Hackathon atmosphere" loading="lazy" />
           <div class="gallery-overlay"><span>Hackathon Atmosphere</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTRATION -->
+  <section class="section registration" id="register">
+    <div class="container">
+      <div class="section-label">06 — Apply</div>
+      <h2 class="section-title">Register as a<br /><em>participant</em></h2>
+      <p class="reg-lead">100 spots available. Fill in your details and we'll confirm your participation.</p>
+      <div class="reg-grid">
+        <form class="reg-form" name="hackathon-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
+          <input type="hidden" name="form-name" value="hackathon-registration" />
+          <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullname">Full Name <span class="req">*</span></label>
+              <input type="text" id="fullname" name="fullname" placeholder="Achraf El Bachra" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="etablissement">Institution <span class="req">*</span></label>
+              <input type="text" id="etablissement" name="etablissement" placeholder="Universiapolis Laâyoune" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="filiere">Program / Field of Study <span class="req">*</span></label>
+              <select id="filiere" name="filiere" required>
+                <option value="" disabled selected>Select your program</option>
+                <option>Engineering — Computer Science</option>
+                <option>Engineering — Civil / Industrial</option>
+                <option>Business Administration</option>
+                <option>Finance &amp; Accounting</option>
+                <option>Social Sciences</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="niveau">Academic Level <span class="req">*</span></label>
+              <select id="niveau" name="niveau" required>
+                <option value="" disabled selected>Select your level</option>
+                <option>1st Year (Bac+1)</option>
+                <option>2nd Year (Bac+2)</option>
+                <option>3rd Year (Bac+3)</option>
+                <option>4th Year (Bac+4)</option>
+                <option>5th Year (Bac+5)</option>
+                <option>Master / PhD</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="experience">Technical Experience</label>
+              <select id="experience" name="experience">
+                <option value="" disabled selected>Select level</option>
+                <option>Beginner — no coding experience</option>
+                <option>Intermediate — some projects</option>
+                <option>Advanced — regular developer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tshirt">T-Shirt Size</label>
+              <select id="tshirt" name="tshirt">
+                <option value="" disabled selected>Select size</option>
+                <option>XS</option><option>S</option><option>M</option>
+                <option>L</option><option>XL</option><option>XXL</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
+            <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required></textarea>
+          </div>
+
+          <div class="form-group full checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="terms" required />
+              <span>I confirm I will be available on <strong>June 15–16, 2026</strong> and agree to the event terms.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary btn-large btn-submit">Submit Application</button>
+        </form>
+
+        <div class="reg-info">
+          <div class="reg-info-card">
+            <h3>What to expect</h3>
+            <ul class="reg-checklist">
+              <li><span class="check-icon">✓</span> Confirmation email within 48h</li>
+              <li><span class="check-icon">✓</span> Free access — zero cost for participants</li>
+              <li><span class="check-icon">✓</span> Meals &amp; refreshments included</li>
+              <li><span class="check-icon">✓</span> Mentoring from 15 experts</li>
+              <li><span class="check-icon">✓</span> Prizes &amp; career opportunities</li>
+              <li><span class="check-icon">✓</span> Certificate of participation</li>
+            </ul>
+          </div>
+          <div class="reg-info-card reg-spots">
+            <div class="spots-num" id="spots-counter">100</div>
+            <div class="spots-label">spots available</div>
+            <div class="spots-bar"><div class="spots-fill"></div></div>
+            <p>Applications close June 10, 2026</p>
+          </div>
         </div>
       </div>
     </div>
