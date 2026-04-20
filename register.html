@@ -14,7 +14,7 @@
 <body class="reg-page">
 
   <header class="reg-header">
-    <a href="index.html" class="reg-back" data-i18n="back_to_site">
+    <a href="index.html" class="reg-back">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back to site
     </a>
@@ -22,10 +22,7 @@
       <span class="logo-dot"></span>
       VIBE CODING HACKATHON
     </div>
-    <div class="reg-header-right">
-      <span class="reg-header-date">May 23–24, 2026 · Laâyoune</span>
-      <button type="button" class="btn-lang" id="reg-lang-toggle" onclick="toggleFormLanguage()">FR</button>
-    </div>
+    <div class="reg-header-date">May 23–24, 2026 · Laâyoune</div>
   </header>
 
   <main class="reg-main">
@@ -34,31 +31,34 @@
       <!-- FORM -->
       <div class="reg-form-wrap">
         <div class="reg-page-title">
-          <div class="section-label" data-i18n="section_label">Application Form</div>
-          <h1 data-i18n-html="title">Register as a<br /><em>participant</em></h1>
-          <p data-i18n="subtitle">Fill in your details below. We'll confirm your spot within 48 hours.</p>
+          <div class="section-label">Application Form · Formulaire · <span class="ar">استمارة التسجيل</span></div>
+          <h1>Register as a<br /><em>participant</em></h1>
+          <p class="reg-subtitle">
+            Fill in your details below · Remplissez vos informations · <span class="ar">أدخل معلوماتك أدناه</span><br />
+            <span class="reg-note">We'll confirm your spot within 48 hours · Confirmation sous 48h · سيتم تأكيد مكانك خلال 48 ساعة</span>
+          </p>
         </div>
 
         <!-- Step Progress Indicator -->
         <div class="form-progress" id="form-progress">
           <div class="fp-step active" data-step="1">
             <div class="fp-num">1</div>
-            <span data-i18n="step_personal">Personal</span>
+            <span>Personal <span class="ar-sm">شخصي</span></span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="2">
             <div class="fp-num">2</div>
-            <span data-i18n="step_team">Team</span>
+            <span>Team <span class="ar-sm">فريق</span></span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="3">
             <div class="fp-num">3</div>
-            <span data-i18n="step_project">Project</span>
+            <span>Project <span class="ar-sm">مشروع</span></span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="4">
             <div class="fp-num">4</div>
-            <span data-i18n="step_submit">Submit</span>
+            <span>Submit <span class="ar-sm">إرسال</span></span>
           </div>
         </div>
 
@@ -66,124 +66,159 @@
           <input type="hidden" name="form-name" value="hackathon-registration" />
           <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
-          <!-- STEP 1: Personal Info -->
+          <!-- ══════════════════════════════
+               STEP 1: Personal Info
+          ══════════════════════════════ -->
           <div class="form-step active" id="step-1">
-            <div class="form-section-title" data-i18n="personal_info">Personal Information</div>
+            <div class="form-section-title">
+              Personal Information · Informations Personnelles · <span class="ar">المعلومات الشخصية</span>
+            </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="fullname" data-i18n-html="label_fullname">Full Name <span class="req">*</span></label>
-                <input type="text" id="fullname" name="fullname" data-i18n-placeholder="ph_fullname" placeholder="Your full name" required autocomplete="name" />
+                <label for="fullname">
+                  Full Name <span class="req">*</span>
+                  <span class="label-sub">Nom Complet · <span class="ar">الاسم الكامل</span></span>
+                </label>
+                <input type="text" id="fullname" name="fullname" placeholder="Your full name · Votre nom · اسمك الكامل" required autocomplete="name" />
                 <span class="field-error" id="err-fullname"></span>
               </div>
               <div class="form-group">
-                <label for="phone" data-i18n-html="label_phone">Phone Number <span class="req">*</span></label>
-                <input type="tel" id="phone" name="phone" data-i18n-placeholder="ph_phone" placeholder="+212 6XX XXX XXX" required pattern="^\+?[0-9\s\-]{8,18}$" autocomplete="tel" />
+                <label for="phone">
+                  Phone Number <span class="req">*</span>
+                  <span class="label-sub">Téléphone · <span class="ar">رقم الهاتف</span></span>
+                </label>
+                <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required pattern="^\+?[0-9\s\-]{8,18}$" autocomplete="tel" />
                 <span class="field-error" id="err-phone"></span>
               </div>
             </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="email" data-i18n-html="label_email">Email Address <span class="req">*</span></label>
-                <input type="email" id="email" name="email" data-i18n-placeholder="ph_email" placeholder="you@example.com" required autocomplete="email" />
+                <label for="email">
+                  Email Address <span class="req">*</span>
+                  <span class="label-sub">Adresse Email · <span class="ar">البريد الإلكتروني</span></span>
+                </label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
                 <span class="field-error" id="err-email"></span>
               </div>
-              <div class="form-group" id="cin-group">
-                <label for="cin" data-i18n-html="label_cin">CIN / Student ID <span class="req">*</span></label>
-                <input type="text" id="cin" name="cin" data-i18n-placeholder="ph_cin" placeholder="AB123456" required />
+              <div class="form-group">
+                <label for="cin">
+                  CIN / Student ID <span class="req">*</span>
+                  <span class="label-sub">N° Étudiant · <span class="ar">رقم البطاقة / رقم الطالب</span></span>
+                </label>
+                <input type="text" id="cin" name="cin" placeholder="AB123456" required />
                 <span class="field-error" id="err-cin"></span>
               </div>
             </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="etablissement" data-i18n-html="label_institution">Institution <span class="req">*</span></label>
-                <input type="text" id="etablissement" name="etablissement" data-i18n-placeholder="ph_institution" placeholder="Your university or school" required />
+                <label for="etablissement">
+                  Institution <span class="req">*</span>
+                  <span class="label-sub">Établissement · <span class="ar">المؤسسة التعليمية</span></span>
+                </label>
+                <input type="text" id="etablissement" name="etablissement" placeholder="e.g. Universiapolis Laâyoune" required />
                 <span class="field-error" id="err-etablissement"></span>
               </div>
               <div class="form-group">
-                <label for="filiere" data-i18n-html="label_program">Program / Field of Study <span class="req">*</span></label>
-                <select id="filiere" name="filiere" required>
-                  <option value="" disabled selected>Select your program</option>
-                  <option>Engineering — Computer Science</option>
-                  <option>Engineering — Civil / Industrial</option>
-                  <option>Business Administration</option>
-                  <option>Finance &amp; Accounting</option>
-                  <option>Social Sciences</option>
-                  <option>Other</option>
-                </select>
+                <label for="filiere">
+                  Program / Field of Study <span class="req">*</span>
+                  <span class="label-sub">Filière · <span class="ar">التخصص</span></span>
+                </label>
+                <input type="text" id="filiere" name="filiere" placeholder="e.g. Computer Science, Finance, Business..." required />
                 <span class="field-error" id="err-filiere"></span>
               </div>
             </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="niveau" data-i18n-html="label_level">Academic Level <span class="req">*</span></label>
-                <select id="niveau" name="niveau" required>
-                  <option value="" disabled selected>Select your level</option>
-                  <option>1st Year (Bac+1)</option>
-                  <option>2nd Year (Bac+2)</option>
-                  <option>3rd Year (Bac+3)</option>
-                  <option>4th Year (Bac+4)</option>
-                  <option>5th Year (Bac+5)</option>
-                  <option>Master / PhD</option>
-                </select>
+                <label for="niveau">
+                  Academic Level <span class="req">*</span>
+                  <span class="label-sub">Niveau · <span class="ar">المستوى الدراسي</span></span>
+                </label>
+                <input type="text" id="niveau" name="niveau" placeholder="e.g. 3rd Year, Bac+3, Master 1..." required />
                 <span class="field-error" id="err-niveau"></span>
               </div>
               <div class="form-group">
-                <label for="experience" data-i18n-html="label_experience">Technical Experience <span class="req">*</span></label>
-                <select id="experience" name="experience" required>
-                  <option value="" disabled selected>Select level</option>
-                  <option>Beginner — no coding experience</option>
-                  <option>Intermediate — some projects</option>
-                  <option>Advanced — regular developer</option>
-                </select>
+                <label for="experience">
+                  Technical Experience <span class="req">*</span>
+                  <span class="label-sub">Expérience · <span class="ar">الخبرة التقنية</span></span>
+                </label>
+                <input type="text" id="experience" name="experience" placeholder="e.g. Beginner, 2 years coding, No experience..." required />
                 <span class="field-error" id="err-experience"></span>
               </div>
             </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="tshirt" data-i18n-html="label_tshirt">T-Shirt Size <span class="req">*</span></label>
+                <label for="tshirt">
+                  T-Shirt Size <span class="req">*</span>
+                  <span class="label-sub">Taille · <span class="ar">مقاس التيشيرت</span></span>
+                </label>
                 <select id="tshirt" name="tshirt" required>
-                  <option value="" disabled selected>Select size</option>
-                  <option>XS</option><option>S</option><option>M</option>
-                  <option>L</option><option>XL</option><option>XXL</option>
+                  <option value="" disabled selected>Select · Choisir · <span>اختر</span></option>
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
                 </select>
                 <span class="field-error" id="err-tshirt"></span>
               </div>
               <div class="form-group"></div>
             </div>
+
             <div class="form-nav">
               <div></div>
-              <button type="button" class="btn-primary btn-next" onclick="goToStep(2)" data-i18n="btn_next_team">
-                Next: Team Info
+              <button type="button" class="btn-primary btn-next" onclick="goToStep(2)">
+                Next: Team · Équipe · <span class="ar-btn">الفريق</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
-          <!-- STEP 2: Team -->
+          <!-- ══════════════════════════════
+               STEP 2: Team
+          ══════════════════════════════ -->
           <div class="form-step" id="step-2">
-            <div class="form-section-title" data-i18n="team_info">Team Information</div>
+            <div class="form-section-title">
+              Team Information · Informations d'Équipe · <span class="ar">معلومات الفريق</span>
+            </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="registering-as" data-i18n-html="label_registering_as">Registering as <span class="req">*</span></label>
+                <label for="registering-as">
+                  Registering as <span class="req">*</span>
+                  <span class="label-sub">Inscription · <span class="ar">التسجيل بصفة</span></span>
+                </label>
                 <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
-                  <option value="" disabled selected>Select</option>
-                  <option value="solo">Solo — I'll be assigned to a team</option>
-                  <option value="team">With a team</option>
+                  <option value="" disabled selected>Select · Choisir · اختر</option>
+                  <option value="solo">Solo — I'll be assigned to a team · Je serai assigné · سأُوضع في فريق</option>
+                  <option value="team">With my team · Avec mon équipe · مع فريقي</option>
                 </select>
                 <span class="field-error" id="err-registering-as"></span>
               </div>
               <div class="form-group" id="team-name-group" style="display:none">
-                <label for="team-name">Team Name <span class="req">*</span></label>
-                <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara" />
+                <label for="team-name">
+                  Team Name <span class="req">*</span>
+                  <span class="label-sub">Nom d'Équipe · <span class="ar">اسم الفريق</span></span>
+                </label>
+                <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara · فريق الصحراء" />
                 <span class="field-error" id="err-team-name"></span>
               </div>
             </div>
+
             <div id="team-size-group" style="display:none">
               <div class="form-row">
                 <div class="form-group">
-                  <label for="team-size">Number of Members (including you) <span class="req">*</span></label>
+                  <label for="team-size">
+                    Number of Members (including you) <span class="req">*</span>
+                    <span class="label-sub">Nombre de membres · <span class="ar">عدد الأعضاء (شاملاً أنت)</span></span>
+                  </label>
                   <select id="team-size" name="team_size" onchange="renderMembers(this.value)">
-                    <option value="" disabled selected>Select</option>
+                    <option value="" disabled selected>Select · اختر</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -192,93 +227,115 @@
               </div>
               <div id="team-members-container"></div>
             </div>
+
             <div class="form-nav">
               <button type="button" class="btn-ghost btn-prev" onclick="goToStep(1)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                Back
+                Back · Retour · <span class="ar-btn">رجوع</span>
               </button>
               <button type="button" class="btn-primary btn-next" onclick="goToStep(3)">
-                Next: Project
+                Next: Project · Projet · <span class="ar-btn">المشروع</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
-          <!-- STEP 3: Project -->
+          <!-- ══════════════════════════════
+               STEP 3: Project
+          ══════════════════════════════ -->
           <div class="form-step" id="step-3">
-            <div class="form-section-title" data-i18n="project_idea_section">Project Idea</div>
+            <div class="form-section-title">
+              Project Idea · Idée de Projet · <span class="ar">فكرة المشروع</span>
+            </div>
+
             <div class="form-group full">
-              <label for="project-theme" data-i18n-html="label_theme">Challenge Theme <span class="req">*</span></label>
+              <label for="project-theme">
+                Challenge Theme <span class="req">*</span>
+                <span class="label-sub">Thème du Challenge · <span class="ar">موضوع التحدي</span></span>
+              </label>
               <select id="project-theme" name="project_theme" required>
-                <option value="" disabled selected>Select a theme</option>
-                <option>Smart Water Management</option>
-                <option>FinTech &amp; Financial Inclusion</option>
-                <option>Sustainable Tourism</option>
-                <option>Precision Agriculture</option>
-                <option>Education &amp; Social Innovation</option>
-                <option>Open Innovation</option>
+                <option value="" disabled selected>Select a theme · Choisir un thème · اختر موضوعاً</option>
+                <option>Smart Water Management · Gestion de l'Eau · إدارة المياه الذكية</option>
+                <option>FinTech & Financial Inclusion · Inclusion Financière · التكنولوجيا المالية</option>
+                <option>Sustainable Tourism · Tourisme Durable · السياحة المستدامة</option>
+                <option>Precision Agriculture · Agriculture de Précision · الزراعة الدقيقة</option>
+                <option>Education & Social Innovation · Innovation Sociale · التعليم والابتكار الاجتماعي</option>
+                <option>Open Innovation · Innovation Ouverte · الابتكار المفتوح</option>
               </select>
               <span class="field-error" id="err-project-theme"></span>
             </div>
+
             <div class="form-group full">
-              <label for="project-idea" data-i18n="label_project_idea">Brief Project Idea</label>
-              <textarea id="project-idea" name="project_idea" rows="3" data-i18n-placeholder="ph_project_idea" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..." maxlength="500"></textarea>
+              <label for="project-idea">
+                Brief Project Idea
+                <span class="label-sub">Brève idée de projet · <span class="ar">فكرة مشروعك باختصار (اختياري)</span></span>
+              </label>
+              <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences · Décrivez votre idée · اشرح فكرتك في جملتين أو ثلاث (اختياري)..." maxlength="500"></textarea>
               <div class="char-count"><span id="idea-count">0</span>/500</div>
             </div>
+
             <div class="form-nav">
               <button type="button" class="btn-ghost btn-prev" onclick="goToStep(2)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                Back
+                Back · Retour · <span class="ar-btn">رجوع</span>
               </button>
               <button type="button" class="btn-primary btn-next" onclick="goToStep(4)">
-                Next: Finalize
+                Next: Finalize · Finaliser · <span class="ar-btn">إنهاء</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
-          <!-- STEP 4: Motivation + Submit -->
+          <!-- ══════════════════════════════
+               STEP 4: Motivation + Submit
+          ══════════════════════════════ -->
           <div class="form-step" id="step-4">
-            <div class="form-section-title" data-i18n="motivation_section">Motivation</div>
-            <div class="form-group full">
-              <label for="motivation" data-i18n="label_motivation">Why do you want to participate?</label>
-              <textarea id="motivation" name="motivation" rows="4" data-i18n-placeholder="ph_motivation" placeholder="Tell us what motivates you to join this hackathon (optional)..." maxlength="800"></textarea>
-              <div class="char-count"><span id="motivation-count">0</span>/800</div>
-              <span class="field-error" id="err-motivation"></span>
+            <div class="form-section-title">
+              Motivation · <span class="ar">الدافع</span>
             </div>
+
             <div class="form-group full">
-              <label for="heard-from" data-i18n="label_heard_from">How did you hear about us?</label>
-              <select id="heard-from" name="heard_from">
-                <option value="" disabled selected>Select</option>
-                <option>Instagram</option>
-                <option>University announcement</option>
-                <option>Friend / colleague</option>
-                <option>Professor</option>
-                <option>Other</option>
-              </select>
+              <label for="motivation">
+                Why do you want to participate?
+                <span class="label-sub">Pourquoi participer ? · <span class="ar">لماذا تريد المشاركة؟ (اختياري)</span></span>
+              </label>
+              <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you · Dites-nous ce qui vous motive · أخبرنا بما يدفعك للمشاركة (اختياري)..." maxlength="800"></textarea>
+              <div class="char-count"><span id="motivation-count">0</span>/800</div>
+            </div>
+
+            <div class="form-group full">
+              <label for="heard-from">
+                How did you hear about us?
+                <span class="label-sub">Comment nous avez-vous connus ? · <span class="ar">كيف سمعت عنا؟ (اختياري)</span></span>
+              </label>
+              <input type="text" id="heard-from" name="heard_from" placeholder="Instagram, Professor, Friend · إنستغرام، أستاذ، صديق..." />
             </div>
 
             <div class="form-group full checkbox-group">
-              <label class="checkbox-label" id="terms-label">
+              <label class="checkbox-label">
                 <input type="checkbox" name="terms" id="terms-checkbox" required />
-                <span data-i18n-html="terms_text">I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.</span>
+                <span>
+                  I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.<br />
+                  <span class="terms-sub">Je confirme être disponible les <strong>23–24 mai 2026</strong> et j'accepte les conditions.</span><br />
+                  <span class="terms-sub ar">أؤكد توفري في <strong>٢٣–٢٤ مايو ٢٠٢٦</strong> وأوافق على شروط الفعالية.</span>
+                </span>
               </label>
               <span class="field-error" id="err-terms"></span>
             </div>
 
             <!-- Summary Preview -->
             <div class="form-summary" id="form-summary">
-              <div class="fs-title" data-i18n="summary_title">Application Summary</div>
+              <div class="fs-title">Application Summary · Résumé · <span class="ar">ملخص الطلب</span></div>
               <div class="fs-grid" id="summary-content"></div>
             </div>
 
             <div class="form-nav">
               <button type="button" class="btn-ghost btn-prev" onclick="goToStep(3)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                Back
+                Back · Retour · <span class="ar-btn">رجوع</span>
               </button>
               <button type="submit" class="btn-primary btn-large btn-submit" id="submit-btn">
-                <span id="submit-text" data-i18n="btn_submit">Submit Application</span>
+                <span id="submit-text">Submit Application · Soumettre · إرسال</span>
                 <span id="submit-spinner" class="spinner hidden"></span>
               </button>
             </div>
@@ -289,29 +346,29 @@
       <!-- SIDEBAR -->
       <aside class="reg-sidebar">
         <div class="reg-info-card">
-          <h3 data-i18n="what_to_expect">What to expect</h3>
+          <h3>What to expect · À attendre · <span class="ar">ما تتوقعه</span></h3>
           <ul class="reg-checklist">
-            <li><span class="check-icon">✓</span> Confirmation within 48h</li>
-            <li><span class="check-icon">✓</span> Free — zero cost for participants</li>
-            <li><span class="check-icon">✓</span> Meals &amp; refreshments included</li>
-            <li><span class="check-icon">✓</span> Expert mentoring throughout</li>
-            <li><span class="check-icon">✓</span> Prizes &amp; career opportunities</li>
-            <li><span class="check-icon">✓</span> Certificate of participation</li>
+            <li><span class="check-icon">✓</span> Confirmation within 48h · sous 48h · <span class="ar">خلال 48 ساعة</span></li>
+            <li><span class="check-icon">✓</span> Free — zero cost · Gratuit · <span class="ar">مجاناً</span></li>
+            <li><span class="check-icon">✓</span> Meals & refreshments · Repas inclus · <span class="ar">الوجبات مشمولة</span></li>
+            <li><span class="check-icon">✓</span> Expert mentoring · Mentorat · <span class="ar">إشراف الخبراء</span></li>
+            <li><span class="check-icon">✓</span> Prizes & opportunities · Prix · <span class="ar">جوائز وفرص</span></li>
+            <li><span class="check-icon">✓</span> Certificate · Certificat · <span class="ar">شهادة مشاركة</span></li>
           </ul>
         </div>
         <div class="reg-info-card reg-spots">
           <div class="spots-num">100</div>
-          <div class="spots-label">spots available</div>
+          <div class="spots-label">spots · places · <span class="ar">مقعد</span></div>
           <div class="spots-bar"><div class="spots-fill"></div></div>
-          <p>Applications close May 20, 2026</p>
+          <p>Applications close May 20, 2026 · <span class="ar">التسجيل يغلق ٢٠ مايو</span></p>
         </div>
         <div class="reg-info-card reg-event-info">
-          <h3 data-i18n="event_details">Event Details</h3>
+          <h3>Event Details · Détails · <span class="ar">تفاصيل الفعالية</span></h3>
           <div class="ei-row"><span>Date</span><strong>May 23–24, 2026</strong></div>
-          <div class="ei-row"><span>Duration</span><strong>48 hours</strong></div>
-          <div class="ei-row"><span>Location</span><strong>Universiapolis Laâyoune</strong></div>
-          <div class="ei-row"><span>Format</span><strong>In-person</strong></div>
-          <div class="ei-row"><span>Entry</span><strong>Free</strong></div>
+          <div class="ei-row"><span>Duration · <span class="ar">المدة</span></span><strong>48 hours</strong></div>
+          <div class="ei-row"><span>Location · <span class="ar">المكان</span></span><strong>Universiapolis Laâyoune</strong></div>
+          <div class="ei-row"><span>Format</span><strong>In-person · <span class="ar">حضوري</span></strong></div>
+          <div class="ei-row"><span>Entry · <span class="ar">الدخول</span></span><strong>Free · Gratuit · <span class="ar">مجاني</span></strong></div>
         </div>
       </aside>
 
