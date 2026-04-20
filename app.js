@@ -282,3 +282,100 @@ if (spotsBar) {
   }, { threshold: 0.5 });
   barObserver.observe(spotsBar);
 }
+
+/* =============================================
+   TEAM REGISTRATION LOGIC
+============================================= */
+function toggleTeam(val) {
+  const teamNameGroup = document.getElementById('team-name-group');
+  const teamSizeGroup = document.getElementById('team-size-group');
+  const teamNameInput = document.getElementById('team-name');
+  const teamSizeSelect = document.getElementById('team-size');
+
+  if (val === 'team') {
+    teamNameGroup.style.display = 'flex';
+    teamSizeGroup.style.display = 'block';
+    teamNameInput.required = true;
+    teamSizeSelect.required = true;
+  } else {
+    teamNameGroup.style.display = 'none';
+    teamSizeGroup.style.display = 'none';
+    teamNameInput.required = false;
+    teamSizeSelect.required = false;
+    document.getElementById('team-members-container').innerHTML = '';
+  }
+}
+
+function renderMembers(count) {
+  const container = document.getElementById('team-members-container');
+  container.innerHTML = '';
+  // member 1 = the applicant themselves, so start from member 2
+  for (let i = 2; i <= parseInt(count); i++) {
+    const block = document.createElement('div');
+    block.className = 'member-block';
+    block.innerHTML = `
+      <div class="member-block-title">Member ${i}</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" name="member${i}_name" placeholder="Full name" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" name="member${i}_phone" placeholder="+212 6XX XXX XXX" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" name="member${i}_email" placeholder="email@example.com" required />
+        </div>
+        <div class="form-group">
+          <label>CIN / Student ID <span class="req">*</span></label>
+          <input type="text" name="member${i}_cin" placeholder="AB123456" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Institution</label>
+          <input type="text" name="member${i}_etablissement" placeholder="Universiapolis Laâyoune" />
+        </div>
+        <div class="form-group">
+          <label>Program</label>
+          <select name="member${i}_filiere">
+            <option value="">Select program</option>
+            <option>Engineering — Computer Science</option>
+            <option>Engineering — Civil / Industrial</option>
+            <option>Business Administration</option>
+            <option>Finance &amp; Accounting</option>
+            <option>Social Sciences</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Academic Level</label>
+          <select name="member${i}_niveau">
+            <option value="">Select level</option>
+            <option>1st Year (Bac+1)</option>
+            <option>2nd Year (Bac+2)</option>
+            <option>3rd Year (Bac+3)</option>
+            <option>4th Year (Bac+4)</option>
+            <option>5th Year (Bac+5)</option>
+            <option>Master / PhD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>T-Shirt Size</label>
+          <select name="member${i}_tshirt">
+            <option value="">Select size</option>
+            <option>XS</option><option>S</option><option>M</option>
+            <option>L</option><option>XL</option><option>XXL</option>
+          </select>
+        </div>
+      </div>
+    `;
+    container.appendChild(block);
+  }
+}

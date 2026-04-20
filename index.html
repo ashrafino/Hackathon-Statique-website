@@ -392,6 +392,9 @@
           <input type="hidden" name="form-name" value="hackathon-registration" />
           <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
+          <!-- SECTION: Personal Info -->
+          <div class="form-section-title">Personal Information</div>
+
           <div class="form-row">
             <div class="form-group">
               <label for="fullname">Full Name <span class="req">*</span></label>
@@ -409,12 +412,16 @@
               <input type="email" id="email" name="email" placeholder="you@example.com" required />
             </div>
             <div class="form-group">
-              <label for="etablissement">Institution <span class="req">*</span></label>
-              <input type="text" id="etablissement" name="etablissement" placeholder="Universiapolis Laâyoune" required />
+              <label for="cin">CIN / Student ID <span class="req">*</span></label>
+              <input type="text" id="cin" name="cin" placeholder="AB123456" required />
             </div>
           </div>
 
           <div class="form-row">
+            <div class="form-group">
+              <label for="etablissement">Institution <span class="req">*</span></label>
+              <input type="text" id="etablissement" name="etablissement" placeholder="Universiapolis Laâyoune" required />
+            </div>
             <div class="form-group">
               <label for="filiere">Program / Field of Study <span class="req">*</span></label>
               <select id="filiere" name="filiere" required>
@@ -427,6 +434,9 @@
                 <option>Other</option>
               </select>
             </div>
+          </div>
+
+          <div class="form-row">
             <div class="form-group">
               <label for="niveau">Academic Level <span class="req">*</span></label>
               <select id="niveau" name="niveau" required>
@@ -439,18 +449,29 @@
                 <option>Master / PhD</option>
               </select>
             </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-group">
-              <label for="experience">Technical Experience</label>
-              <select id="experience" name="experience">
+              <label for="experience">Technical Experience <span class="req">*</span></label>
+              <select id="experience" name="experience" required>
                 <option value="" disabled selected>Select level</option>
                 <option>Beginner — no coding experience</option>
                 <option>Intermediate — some projects</option>
                 <option>Advanced — regular developer</option>
               </select>
             </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="github">GitHub Profile</label>
+              <input type="url" id="github" name="github" placeholder="https://github.com/username" />
+            </div>
+            <div class="form-group">
+              <label for="linkedin">LinkedIn Profile</label>
+              <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username" />
+            </div>
+          </div>
+
+          <div class="form-row">
             <div class="form-group">
               <label for="tshirt">T-Shirt Size</label>
               <select id="tshirt" name="tshirt">
@@ -459,11 +480,91 @@
                 <option>L</option><option>XL</option><option>XXL</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="dietary">Dietary Restrictions</label>
+              <select id="dietary" name="dietary">
+                <option value="None">None</option>
+                <option>Vegetarian</option>
+                <option>Vegan</option>
+                <option>Halal only</option>
+                <option>Gluten-free</option>
+                <option>Other</option>
+              </select>
+            </div>
           </div>
+
+          <!-- SECTION: Team -->
+          <div class="form-section-title">Team Information</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="registering-as">Registering as <span class="req">*</span></label>
+              <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
+                <option value="" disabled selected>Select</option>
+                <option value="solo">Solo — I'll be assigned to a team</option>
+                <option value="team">With a team</option>
+              </select>
+            </div>
+            <div class="form-group" id="team-name-group" style="display:none">
+              <label for="team-name">Team Name <span class="req">*</span></label>
+              <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara" />
+            </div>
+          </div>
+
+          <div id="team-size-group" style="display:none">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="team-size">Number of Members (including you) <span class="req">*</span></label>
+                <select id="team-size" name="team_size" onchange="renderMembers(this.value)">
+                  <option value="" disabled selected>Select</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+            </div>
+            <div id="team-members-container"></div>
+          </div>
+
+          <!-- SECTION: Project -->
+          <div class="form-section-title">Project Idea</div>
+
+          <div class="form-group full">
+            <label for="project-theme">Challenge Theme <span class="req">*</span></label>
+            <select id="project-theme" name="project_theme" required>
+              <option value="" disabled selected>Select a theme</option>
+              <option>Smart Water Management</option>
+              <option>FinTech &amp; Financial Inclusion</option>
+              <option>Sustainable Tourism</option>
+              <option>Precision Agriculture</option>
+              <option>Education &amp; Social Innovation</option>
+              <option>Open Innovation</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="project-idea">Brief Project Idea</label>
+            <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..."></textarea>
+          </div>
+
+          <!-- SECTION: Motivation -->
+          <div class="form-section-title">Motivation</div>
 
           <div class="form-group full">
             <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
             <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="heard-from">How did you hear about us?</label>
+            <select id="heard-from" name="heard_from">
+              <option value="" disabled selected>Select</option>
+              <option>Instagram</option>
+              <option>University announcement</option>
+              <option>Friend / colleague</option>
+              <option>Professor</option>
+              <option>Other</option>
+            </select>
           </div>
 
           <div class="form-group full checkbox-group">
