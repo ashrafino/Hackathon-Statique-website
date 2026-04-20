@@ -220,15 +220,28 @@ if (form) {
     txtEl.textContent = 'Submitting · Envoi · جاري الإرسال...';
     spinner.classList.remove('hidden');
 
-    // Native Netlify Form submission
-    setTimeout(() => form.submit(), 100);
+    const formData = new FormData(form);
 
-    // Safety reset after 10s
-    setTimeout(() => {
+    fetch('/.netlify/functions/submit-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString(),
+    })
+    .then(res => {
+      // Function returns 302 → fetch follows it → res.url is /success.html
+      if (res.ok || res.redirected) {
+        window.location.href = '/success.html';
+      } else {
+        throw new Error(`${res.status}`);
+      }
+    })
+    .catch(err => {
+      console.error('Submission error:', err);
       btn.disabled = false;
       txtEl.textContent = 'Submit Application · Soumettre · إرسال';
       spinner.classList.add('hidden');
-    }, 10000);
+      showToast('Something went wrong. Please try again. · Erreur, réessayez.', 'error');
+    });
   });
 }
 
