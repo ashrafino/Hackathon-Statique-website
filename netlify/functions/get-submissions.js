@@ -1,6 +1,15 @@
-// get-submissions.js — Netlify Function
-// Reads all submissions from Netlify Blobs — no env vars needed
-const { getStore } = require('@netlify/blobs');
+// get-submissions.js — reads registrations from MongoDB
+const { MongoClient } = require('mongodb');
+
+let cachedClient = null;
+
+async function getDb() {
+  if (!cachedClient) {
+    cachedClient = new MongoClient(process.env.MONGODB_URI);
+    await cachedClient.connect();
+  }
+  return cachedClient.db('venturelens');
+}
 
 exports.handler = async (event) => {
   const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
@@ -12,22 +21,25 @@ exports.handler = async (event) => {
   }
 
   try {
-    const store = getStore({ name: 'hackathon-submissions', consistency: 'strong' });
-    const { blobs } = await store.list();
+    const db = await getDb();
+    const docs = await db
+      .collection('hackathon_registrations')
+      .find({})
+      .sort({ date: -1 })
+      .toArray();
 
-    if (!blobs.length) {
-      return { statusCode: 200, headers: CORS, body: JSON.stringify([]) };
-    }
+    // Normalize: convert _id ObjectId → plain id string
+    const submissions = docs.map(({ _id, ...rest }) => ({
+      id: _id.toString(),
+      ...rest,
+      date: rest.date instanceof Date ? rest.date.toISOString() : rest.date,
+    }));
 
-    const submissions = await Promise.all(
-      blobs.map(b => store.get(b.key, { type: 'json' }).catch(() => null))
-    );
-
-    const sorted = submissions
-      .filter(Boolean)
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    return { statusCode: 200, headers: CORS, body: JSON.stringify(sorted) };
+    return {
+      statusCode: 200,
+      headers: CORS,
+      body: JSON.stringify(submissions),
+    };
   } catch (err) {
     console.error('get-submissions error:', err.message);
     return {

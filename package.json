@@ -2,6 +2,6 @@
   "name": "hackathon-site",
   "version": "1.0.0",
   "dependencies": {
-    "@netlify/blobs": "^8.0.0"
+    "mongodb": "^6.0.0"
   }
 }
