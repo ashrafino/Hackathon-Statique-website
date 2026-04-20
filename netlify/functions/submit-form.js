@@ -1,29 +1,25 @@
 // submit-form.js — Netlify Function
-// Receives form POST, saves to Netlify Blobs, redirects to success page
-const { getStore } = require('@netlify/blobs');
+// Stores submission in Netlify Blobs via REST API (no npm packages needed)
 
 exports.handler = async (event) => {
-  // Only accept POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // Parse URL-encoded form body
+  // Parse form body
   const raw = new URLSearchParams(event.body || '');
   const data = {};
   for (const [k, v] of raw.entries()) data[k] = v;
 
-  // Honeypot check (bot trap)
+  // Honeypot check
   if (data['bot-field']) {
     return { statusCode: 302, headers: { Location: '/success.html' }, body: '' };
   }
 
-  // Require at minimum a name and email
   if (!data.fullname || !data.email) {
-    return { statusCode: 302, headers: { Location: '/register.html?error=missing' }, body: '' };
+    return { statusCode: 302, headers: { Location: '/register.html' }, body: '' };
   }
 
-  // Build submission record
   const submission = {
     id: `sub_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     fullname: data.fullname || '',
@@ -46,17 +42,30 @@ exports.handler = async (event) => {
     date: new Date().toISOString(),
   };
 
-  try {
-    const store = getStore('hackathon-submissions');
-    await store.setJSON(submission.id, submission);
-  } catch (err) {
-    console.error('Blob save error:', err);
-    // Still redirect to success — don't block the user
-    // Log the submission body as fallback
-    console.log('SUBMISSION_FALLBACK:', JSON.stringify(submission));
+  // Save to Netlify Blobs via REST API
+  const TOKEN = process.env.NETLIFY_TOKEN;
+  const SITE_ID = process.env.NETLIFY_SITE_ID;
+
+  if (TOKEN && SITE_ID) {
+    try {
+      const blobUrl = `https://api.netlify.com/api/v1/blobs/${SITE_ID}/hackathon/${submission.id}`;
+      await fetch(blobUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submission),
+      });
+    } catch (err) {
+      // Log but don't block success redirect
+      console.error('Blob save error:', err.message);
+    }
+  } else {
+    // No env vars — log to function output as fallback
+    console.log('SUBMISSION:', JSON.stringify(submission));
   }
 
-  // Redirect to success page
   return {
     statusCode: 302,
     headers: { Location: '/success.html' },
