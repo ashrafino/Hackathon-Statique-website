@@ -9,9 +9,7 @@ function checkLogin() {
   if (val === ADMIN_PASSWORD) {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('dashboard').classList.remove('hidden');
-    loadDemoData();
-    renderTable();
-    updateStats();
+    loadSubmissions(val);
   } else {
     document.getElementById('login-error').textContent = 'Incorrect password. Try again.';
   }
@@ -20,6 +18,46 @@ function checkLogin() {
 document.getElementById('pwd-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkLogin();
 });
+
+/* ── LOAD: try Netlify Function, fall back to localStorage demo ── */
+async function loadSubmissions(password) {
+  try {
+    const res = await fetch(`/.netlify/functions/get-submissions?password=${encodeURIComponent(password)}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        // Merge with any locally-added apps, giving Netlify submissions priority
+        const local = getApps().filter(a => a._manual);
+        saveApps([...data.map(d => ({ ...d, _netlify: true })), ...local]);
+        showBanner('✓ Showing live Netlify submissions', 'success');
+        renderTable();
+        updateStats();
+        return;
+      } else if (Array.isArray(data) && data.length === 0) {
+        showBanner('No submissions yet in Netlify Forms. Showing demo data.', 'info');
+      } else if (data.error && data.error.includes('env')) {
+        showBanner('⚙ Set NETLIFY_TOKEN + NETLIFY_SITE_ID in Netlify → Env Vars to see real data. Showing demo.', 'warn');
+      } else if (data.error) {
+        showBanner(`Netlify API: ${data.error} — showing demo data`, 'warn');
+      }
+    }
+  } catch (e) {
+    // Function not deployed yet or network error — use demo
+  }
+  // Fallback: demo data
+  loadDemoData();
+  renderTable();
+  updateStats();
+}
+
+function showBanner(msg, type = 'info') {
+  const colors = { success: '#00d4aa', warn: '#f5a623', info: '#6c63ff' };
+  const b = document.createElement('div');
+  b.style.cssText = `position:fixed;top:0;left:0;right:0;z-index:999;padding:0.6rem 1.5rem;font-size:0.82rem;font-weight:600;text-align:center;background:${colors[type]}22;color:${colors[type]};border-bottom:1px solid ${colors[type]}44`;
+  b.textContent = msg;
+  document.body.prepend(b);
+  setTimeout(() => b.remove(), 6000);
+}
 
 /* ── STORAGE ── */
 function getApps() {
@@ -30,7 +68,7 @@ function saveApps(apps) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
 }
 
-/* ── DEMO DATA (loads once) ── */
+/* ── DEMO DATA (loads once if no real data) ── */
 function loadDemoData() {
   if (getApps().length > 0) return;
   const demo = [
