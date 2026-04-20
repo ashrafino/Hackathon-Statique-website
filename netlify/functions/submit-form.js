@@ -1,17 +1,17 @@
 // submit-form.js — Netlify Function
-// Stores submission in Netlify Blobs via REST API (no npm packages needed)
+// Saves form submissions to Netlify Blobs (auto-credentialed, no env vars needed)
+const { getStore } = require('@netlify/blobs');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // Parse form body
   const raw = new URLSearchParams(event.body || '');
   const data = {};
   for (const [k, v] of raw.entries()) data[k] = v;
 
-  // Honeypot check
+  // Honeypot
   if (data['bot-field']) {
     return { statusCode: 302, headers: { Location: '/success.html' }, body: '' };
   }
@@ -20,8 +20,9 @@ exports.handler = async (event) => {
     return { statusCode: 302, headers: { Location: '/register.html' }, body: '' };
   }
 
+  const id = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const submission = {
-    id: `sub_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    id,
     fullname: data.fullname || '',
     email: data.email || '',
     phone: data.phone || '',
@@ -42,28 +43,14 @@ exports.handler = async (event) => {
     date: new Date().toISOString(),
   };
 
-  // Save to Netlify Blobs via REST API
-  const TOKEN = process.env.NETLIFY_TOKEN;
-  const SITE_ID = process.env.NETLIFY_SITE_ID;
-
-  if (TOKEN && SITE_ID) {
-    try {
-      const blobUrl = `https://api.netlify.com/api/v1/blobs/${SITE_ID}/hackathon/${submission.id}`;
-      await fetch(blobUrl, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submission),
-      });
-    } catch (err) {
-      // Log but don't block success redirect
-      console.error('Blob save error:', err.message);
-    }
-  } else {
-    // No env vars — log to function output as fallback
-    console.log('SUBMISSION:', JSON.stringify(submission));
+  try {
+    // @netlify/blobs uses runtime-injected credentials automatically — no env vars needed
+    const store = getStore({ name: 'hackathon-submissions', consistency: 'strong' });
+    await store.setJSON(id, submission);
+    console.log('Saved submission:', id, submission.fullname);
+  } catch (err) {
+    console.error('Blob error:', err.message);
+    // Still redirect to success even if save fails
   }
 
   return {
