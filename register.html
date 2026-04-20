@@ -14,7 +14,7 @@
 <body class="reg-page">
 
   <header class="reg-header">
-    <a href="index.html" class="reg-back">
+    <a href="index.html" class="reg-back" data-i18n="back_to_site">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back to site
     </a>
@@ -22,7 +22,10 @@
       <span class="logo-dot"></span>
       VIBE CODING HACKATHON
     </div>
-    <div class="reg-header-date">May 23–24, 2026 · Laâyoune</div>
+    <div class="reg-header-right">
+      <span class="reg-header-date">May 23–24, 2026 · Laâyoune</span>
+      <button type="button" class="btn-lang" id="reg-lang-toggle" onclick="toggleFormLanguage()">FR</button>
+    </div>
   </header>
 
   <main class="reg-main">
@@ -31,31 +34,31 @@
       <!-- FORM -->
       <div class="reg-form-wrap">
         <div class="reg-page-title">
-          <div class="section-label">Application Form</div>
-          <h1>Register as a<br /><em>participant</em></h1>
-          <p>Fill in your details below. We'll confirm your spot within 48 hours.</p>
+          <div class="section-label" data-i18n="section_label">Application Form</div>
+          <h1 data-i18n-html="title">Register as a<br /><em>participant</em></h1>
+          <p data-i18n="subtitle">Fill in your details below. We'll confirm your spot within 48 hours.</p>
         </div>
 
         <!-- Step Progress Indicator -->
         <div class="form-progress" id="form-progress">
           <div class="fp-step active" data-step="1">
             <div class="fp-num">1</div>
-            <span>Personal</span>
+            <span data-i18n="step_personal">Personal</span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="2">
             <div class="fp-num">2</div>
-            <span>Team</span>
+            <span data-i18n="step_team">Team</span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="3">
             <div class="fp-num">3</div>
-            <span>Project</span>
+            <span data-i18n="step_project">Project</span>
           </div>
           <div class="fp-line"></div>
           <div class="fp-step" data-step="4">
             <div class="fp-num">4</div>
-            <span>Submit</span>
+            <span data-i18n="step_submit">Submit</span>
           </div>
         </div>
 
@@ -65,39 +68,39 @@
 
           <!-- STEP 1: Personal Info -->
           <div class="form-step active" id="step-1">
-            <div class="form-section-title">Personal Information</div>
+            <div class="form-section-title" data-i18n="personal_info">Personal Information</div>
             <div class="form-row">
               <div class="form-group">
-                <label for="fullname">Full Name <span class="req">*</span></label>
-                <input type="text" id="fullname" name="fullname" placeholder="Your full name" required autocomplete="name" />
+                <label for="fullname" data-i18n-html="label_fullname">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullname" name="fullname" data-i18n-placeholder="ph_fullname" placeholder="Your full name" required autocomplete="name" />
                 <span class="field-error" id="err-fullname"></span>
               </div>
               <div class="form-group">
-                <label for="phone">Phone Number <span class="req">*</span></label>
-                <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required pattern="^\+?[0-9\s\-]{8,18}$" autocomplete="tel" />
+                <label for="phone" data-i18n-html="label_phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="phone" name="phone" data-i18n-placeholder="ph_phone" placeholder="+212 6XX XXX XXX" required pattern="^\+?[0-9\s\-]{8,18}$" autocomplete="tel" />
                 <span class="field-error" id="err-phone"></span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="email">Email Address <span class="req">*</span></label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+                <label for="email" data-i18n-html="label_email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" data-i18n-placeholder="ph_email" placeholder="you@example.com" required autocomplete="email" />
                 <span class="field-error" id="err-email"></span>
               </div>
-              <div class="form-group">
-                <label for="cin">CIN / Student ID <span class="req">*</span></label>
-                <input type="text" id="cin" name="cin" placeholder="AB123456" required />
+              <div class="form-group" id="cin-group">
+                <label for="cin" data-i18n-html="label_cin">CIN / Student ID <span class="req">*</span></label>
+                <input type="text" id="cin" name="cin" data-i18n-placeholder="ph_cin" placeholder="AB123456" required />
                 <span class="field-error" id="err-cin"></span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="etablissement">Institution <span class="req">*</span></label>
-                <input type="text" id="etablissement" name="etablissement" placeholder="Your university or school" required />
+                <label for="etablissement" data-i18n-html="label_institution">Institution <span class="req">*</span></label>
+                <input type="text" id="etablissement" name="etablissement" data-i18n-placeholder="ph_institution" placeholder="Your university or school" required />
                 <span class="field-error" id="err-etablissement"></span>
               </div>
               <div class="form-group">
-                <label for="filiere">Program / Field of Study <span class="req">*</span></label>
+                <label for="filiere" data-i18n-html="label_program">Program / Field of Study <span class="req">*</span></label>
                 <select id="filiere" name="filiere" required>
                   <option value="" disabled selected>Select your program</option>
                   <option>Engineering — Computer Science</option>
@@ -112,7 +115,7 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="niveau">Academic Level <span class="req">*</span></label>
+                <label for="niveau" data-i18n-html="label_level">Academic Level <span class="req">*</span></label>
                 <select id="niveau" name="niveau" required>
                   <option value="" disabled selected>Select your level</option>
                   <option>1st Year (Bac+1)</option>
@@ -125,7 +128,7 @@
                 <span class="field-error" id="err-niveau"></span>
               </div>
               <div class="form-group">
-                <label for="experience">Technical Experience <span class="req">*</span></label>
+                <label for="experience" data-i18n-html="label_experience">Technical Experience <span class="req">*</span></label>
                 <select id="experience" name="experience" required>
                   <option value="" disabled selected>Select level</option>
                   <option>Beginner — no coding experience</option>
@@ -137,7 +140,7 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="tshirt">T-Shirt Size <span class="req">*</span></label>
+                <label for="tshirt" data-i18n-html="label_tshirt">T-Shirt Size <span class="req">*</span></label>
                 <select id="tshirt" name="tshirt" required>
                   <option value="" disabled selected>Select size</option>
                   <option>XS</option><option>S</option><option>M</option>
@@ -149,7 +152,7 @@
             </div>
             <div class="form-nav">
               <div></div>
-              <button type="button" class="btn-primary btn-next" onclick="goToStep(2)">
+              <button type="button" class="btn-primary btn-next" onclick="goToStep(2)" data-i18n="btn_next_team">
                 Next: Team Info
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
@@ -158,10 +161,10 @@
 
           <!-- STEP 2: Team -->
           <div class="form-step" id="step-2">
-            <div class="form-section-title">Team Information</div>
+            <div class="form-section-title" data-i18n="team_info">Team Information</div>
             <div class="form-row">
               <div class="form-group">
-                <label for="registering-as">Registering as <span class="req">*</span></label>
+                <label for="registering-as" data-i18n-html="label_registering_as">Registering as <span class="req">*</span></label>
                 <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
                   <option value="" disabled selected>Select</option>
                   <option value="solo">Solo — I'll be assigned to a team</option>
@@ -203,9 +206,9 @@
 
           <!-- STEP 3: Project -->
           <div class="form-step" id="step-3">
-            <div class="form-section-title">Project Idea</div>
+            <div class="form-section-title" data-i18n="project_idea_section">Project Idea</div>
             <div class="form-group full">
-              <label for="project-theme">Challenge Theme <span class="req">*</span></label>
+              <label for="project-theme" data-i18n-html="label_theme">Challenge Theme <span class="req">*</span></label>
               <select id="project-theme" name="project_theme" required>
                 <option value="" disabled selected>Select a theme</option>
                 <option>Smart Water Management</option>
@@ -218,8 +221,8 @@
               <span class="field-error" id="err-project-theme"></span>
             </div>
             <div class="form-group full">
-              <label for="project-idea">Brief Project Idea</label>
-              <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..." maxlength="500"></textarea>
+              <label for="project-idea" data-i18n="label_project_idea">Brief Project Idea</label>
+              <textarea id="project-idea" name="project_idea" rows="3" data-i18n-placeholder="ph_project_idea" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..." maxlength="500"></textarea>
               <div class="char-count"><span id="idea-count">0</span>/500</div>
             </div>
             <div class="form-nav">
@@ -236,15 +239,15 @@
 
           <!-- STEP 4: Motivation + Submit -->
           <div class="form-step" id="step-4">
-            <div class="form-section-title">Motivation</div>
+            <div class="form-section-title" data-i18n="motivation_section">Motivation</div>
             <div class="form-group full">
-              <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
-              <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required maxlength="800"></textarea>
+              <label for="motivation" data-i18n="label_motivation">Why do you want to participate?</label>
+              <textarea id="motivation" name="motivation" rows="4" data-i18n-placeholder="ph_motivation" placeholder="Tell us what motivates you to join this hackathon (optional)..." maxlength="800"></textarea>
               <div class="char-count"><span id="motivation-count">0</span>/800</div>
               <span class="field-error" id="err-motivation"></span>
             </div>
             <div class="form-group full">
-              <label for="heard-from">How did you hear about us?</label>
+              <label for="heard-from" data-i18n="label_heard_from">How did you hear about us?</label>
               <select id="heard-from" name="heard_from">
                 <option value="" disabled selected>Select</option>
                 <option>Instagram</option>
@@ -258,14 +261,14 @@
             <div class="form-group full checkbox-group">
               <label class="checkbox-label" id="terms-label">
                 <input type="checkbox" name="terms" id="terms-checkbox" required />
-                <span>I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.</span>
+                <span data-i18n-html="terms_text">I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.</span>
               </label>
               <span class="field-error" id="err-terms"></span>
             </div>
 
             <!-- Summary Preview -->
             <div class="form-summary" id="form-summary">
-              <div class="fs-title">Application Summary</div>
+              <div class="fs-title" data-i18n="summary_title">Application Summary</div>
               <div class="fs-grid" id="summary-content"></div>
             </div>
 
@@ -275,7 +278,7 @@
                 Back
               </button>
               <button type="submit" class="btn-primary btn-large btn-submit" id="submit-btn">
-                <span id="submit-text">Submit Application</span>
+                <span id="submit-text" data-i18n="btn_submit">Submit Application</span>
                 <span id="submit-spinner" class="spinner hidden"></span>
               </button>
             </div>
@@ -286,7 +289,7 @@
       <!-- SIDEBAR -->
       <aside class="reg-sidebar">
         <div class="reg-info-card">
-          <h3>What to expect</h3>
+          <h3 data-i18n="what_to_expect">What to expect</h3>
           <ul class="reg-checklist">
             <li><span class="check-icon">✓</span> Confirmation within 48h</li>
             <li><span class="check-icon">✓</span> Free — zero cost for participants</li>
@@ -303,7 +306,7 @@
           <p>Applications close May 20, 2026</p>
         </div>
         <div class="reg-info-card reg-event-info">
-          <h3>Event Details</h3>
+          <h3 data-i18n="event_details">Event Details</h3>
           <div class="ei-row"><span>Date</span><strong>May 23–24, 2026</strong></div>
           <div class="ei-row"><span>Duration</span><strong>48 hours</strong></div>
           <div class="ei-row"><span>Location</span><strong>Universiapolis Laâyoune</strong></div>

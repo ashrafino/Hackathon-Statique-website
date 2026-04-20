@@ -53,6 +53,32 @@ body.reg-page {
   letter-spacing: 0.08em;
 }
 
+.reg-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-lang {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.35rem 0.8rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+}
+
+.btn-lang:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(108,99,255,0.08);
+}
+
 /* ── LAYOUT ── */
 .reg-main {
   max-width: 1200px;
