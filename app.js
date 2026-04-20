@@ -2,25 +2,29 @@
    NAV SCROLL
 ============================================= */
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-});
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
 
 /* =============================================
    ACTIVE NAV LINK
 ============================================= */
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  const scroll = window.scrollY + 120;
-  sections.forEach(sec => {
-    if (scroll >= sec.offsetTop && scroll < sec.offsetTop + sec.offsetHeight) {
-      navLinks.forEach(a => a.classList.remove('active'));
-      const match = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
-      if (match) match.classList.add('active');
-    }
+if (navLinks.length > 0) {
+  window.addEventListener('scroll', () => {
+    const scroll = window.scrollY + 120;
+    sections.forEach(sec => {
+      if (scroll >= sec.offsetTop && scroll < sec.offsetTop + sec.offsetHeight) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const match = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
   });
-});
+}
 
 /* =============================================
    SPLIT TEXT — HERO TITLE LETTER ANIMATION
@@ -127,10 +131,13 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
    AURORA / PARTICLE CANVAS — HERO BG
 ============================================= */
 (function() {
+  const heroBg = document.querySelector('.hero-bg');
+  if (!heroBg) return;
+
   const canvas = document.createElement('canvas');
   canvas.id = 'aurora-canvas';
   canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.55;';
-  document.querySelector('.hero-bg').appendChild(canvas);
+  heroBg.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], mouse = { x: 0, y: 0 };
@@ -142,11 +149,14 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
   resize();
   window.addEventListener('resize', resize);
 
-  document.querySelector('.hero').addEventListener('mousemove', e => {
-    const r = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - r.left;
-    mouse.y = e.clientY - r.top;
-  });
+  const heroEl = document.querySelector('.hero');
+  if (heroEl) {
+    heroEl.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+    });
+  }
 
   class Particle {
     constructor() { this.reset(); }
@@ -212,6 +222,7 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
 ============================================= */
 (function() {
   const el = document.querySelector('.hero-sub');
+  if (!el) return;
   const lines = [
     '48 hours of non-stop creation. AI as the tool.',
     'Innovation as the goal. Laâyoune as the playground.'
@@ -285,100 +296,10 @@ if (spotsBar) {
 
 /* =============================================
    TEAM REGISTRATION LOGIC
+   (Moved to register-form.js for the register page)
 ============================================= */
-function toggleTeam(val) {
-  const teamNameGroup = document.getElementById('team-name-group');
-  const teamSizeGroup = document.getElementById('team-size-group');
-  const teamNameInput = document.getElementById('team-name');
-  const teamSizeSelect = document.getElementById('team-size');
 
-  if (val === 'team') {
-    teamNameGroup.style.display = 'flex';
-    teamSizeGroup.style.display = 'block';
-    teamNameInput.required = true;
-    teamSizeSelect.required = true;
-  } else {
-    teamNameGroup.style.display = 'none';
-    teamSizeGroup.style.display = 'none';
-    teamNameInput.required = false;
-    teamSizeSelect.required = false;
-    document.getElementById('team-members-container').innerHTML = '';
-  }
-}
-
-function renderMembers(count) {
-  const container = document.getElementById('team-members-container');
-  container.innerHTML = '';
-  // member 1 = the applicant themselves, so start from member 2
-  for (let i = 2; i <= parseInt(count); i++) {
-    const block = document.createElement('div');
-    block.className = 'member-block';
-    block.innerHTML = `
-      <div class="member-block-title">Member ${i}</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Full Name <span class="req">*</span></label>
-          <input type="text" name="member${i}_name" placeholder="Full name" required />
-        </div>
-        <div class="form-group">
-          <label>Phone Number <span class="req">*</span></label>
-          <input type="tel" name="member${i}_phone" placeholder="+212 6XX XXX XXX" required />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Email <span class="req">*</span></label>
-          <input type="email" name="member${i}_email" placeholder="email@example.com" required />
-        </div>
-        <div class="form-group">
-          <label>CIN / Student ID <span class="req">*</span></label>
-          <input type="text" name="member${i}_cin" placeholder="AB123456" required />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Institution</label>
-          <input type="text" name="member${i}_etablissement" placeholder="Universiapolis Laâyoune" />
-        </div>
-        <div class="form-group">
-          <label>Program</label>
-          <select name="member${i}_filiere">
-            <option value="">Select program</option>
-            <option>Engineering — Computer Science</option>
-            <option>Engineering — Civil / Industrial</option>
-            <option>Business Administration</option>
-            <option>Finance &amp; Accounting</option>
-            <option>Social Sciences</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Academic Level</label>
-          <select name="member${i}_niveau">
-            <option value="">Select level</option>
-            <option>1st Year (Bac+1)</option>
-            <option>2nd Year (Bac+2)</option>
-            <option>3rd Year (Bac+3)</option>
-            <option>4th Year (Bac+4)</option>
-            <option>5th Year (Bac+5)</option>
-            <option>Master / PhD</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>T-Shirt Size</label>
-          <select name="member${i}_tshirt">
-            <option value="">Select size</option>
-            <option>XS</option><option>S</option><option>M</option>
-            <option>L</option><option>XL</option><option>XXL</option>
-          </select>
-        </div>
-      </div>
-    `;
-    container.appendChild(block);
-  }
-}
+/* renderMembers() moved to register-form.js */
 
 /* =============================================
    LANGUAGE TOGGLE

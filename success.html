@@ -3,24 +3,322 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Application Received — Vibe Coding Hackathon</title>
+  <title>Application Received — Vibe Coding Hackathon 2026</title>
+  <meta name="description" content="Your application to the Vibe Coding & FinTech Hackathon 2026 has been received. We'll confirm your spot within 48 hours." />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Space Grotesk', sans-serif; background: #050811; color: #e8eaf2; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .card { background: #0d1425; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 3rem 2.5rem; max-width: 520px; width: 100%; text-align: center; }
-    .icon { font-size: 3rem; margin-bottom: 1.5rem; }
-    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #6c63ff, #00d4aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    p { color: #7b84a3; line-height: 1.7; margin-bottom: 2rem; }
-    a { display: inline-block; background: linear-gradient(135deg, #6c63ff, #8b83ff); color: #fff; padding: 0.85rem 2rem; border-radius: 100px; font-weight: 600; text-decoration: none; }
+
+    :root {
+      --bg: #050811;
+      --surface: #0d1425;
+      --border: rgba(255,255,255,0.07);
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --text: #e8eaf2;
+      --text-muted: #7b84a3;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background effects */
+    .bg-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.2;
+    }
+    .bg-glow-1 {
+      width: 500px; height: 500px;
+      background: var(--accent);
+      top: -150px; left: -100px;
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+    .bg-glow-2 {
+      width: 350px; height: 350px;
+      background: var(--accent2);
+      bottom: -100px; right: -80px;
+      animation: floatGlow 10s ease-in-out infinite reverse;
+    }
+    @keyframes floatGlow {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, -20px); }
+    }
+
+    .card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3.5rem 3rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      animation: cardIn 0.6s cubic-bezier(0.23,1,0.32,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .success-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 2rem;
+      border-radius: 50%;
+      background: rgba(0,212,170,0.1);
+      border: 2px solid rgba(0,212,170,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: iconPop 0.5s cubic-bezier(0.23,1,0.32,1) 0.3s both;
+    }
+
+    @keyframes iconPop {
+      from { opacity: 0; transform: scale(0.5); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .success-icon svg {
+      width: 36px; height: 36px;
+      color: var(--accent2);
+    }
+
+    .checkmark-path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: drawCheck 0.6s ease 0.6s forwards;
+    }
+
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp 0.5s cubic-bezier(0.23,1,0.32,1) 0.4s both;
+    }
+
+    p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: 1rem;
+      animation: fadeUp 0.5s cubic-bezier(0.23,1,0.32,1) 0.5s both;
+    }
+
+    p strong {
+      color: var(--text);
+    }
+
+    .next-steps {
+      margin: 2rem 0;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      animation: fadeUp 0.5s cubic-bezier(0.23,1,0.32,1) 0.6s both;
+    }
+
+    .ns-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .ns-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.25);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), #8b83ff);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 30px rgba(108,99,255,0.4);
+      animation: fadeUp 0.5s cubic-bezier(0.23,1,0.32,1) 0.7s both;
+    }
+
+    .btn-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(108,99,255,0.55);
+    }
+
+    .footer-note {
+      margin-top: 2.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      letter-spacing: 0.08em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2.5rem 1.5rem; }
+      h1 { font-size: 1.6rem; }
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <canvas id="confetti-canvas"></canvas>
+
   <div class="card">
-    <div class="icon">✅</div>
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12" class="checkmark-path"/>
+      </svg>
+    </div>
     <h1>Application Received!</h1>
-    <p>Thank you for applying to the <strong style="color:#e8eaf2">Vibe Coding & FinTech Hackathon</strong>.<br />We'll review your application and send a confirmation to your email within 48 hours.</p>
-    <a href="index.html">Back to Website</a>
+    <p>Thank you for applying to the <strong>Vibe Coding & FinTech Hackathon</strong>.<br />We're thrilled you want to be part of this journey.</p>
+
+    <div class="next-steps">
+      <div class="ns-item">
+        <div class="ns-num">1</div>
+        We'll review your application within <strong>&nbsp;48 hours</strong>
+      </div>
+      <div class="ns-item">
+        <div class="ns-num">2</div>
+        Check your email for a confirmation message
+      </div>
+      <div class="ns-item">
+        <div class="ns-num">3</div>
+        Prepare for <strong>&nbsp;May 23–24</strong> — it'll be epic!
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Website
+    </a>
+
+    <div class="footer-note">VIBE CODING HACKATHON · MAY 23–24, 2026</div>
   </div>
+
+  <script>
+    /* Simple confetti burst */
+    (function() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ['#6c63ff','#00d4aa','#ff6b6b','#8b83ff','#00f5d4','#ffd166'];
+      const particles = [];
+
+      class Particle {
+        constructor() {
+          this.x = canvas.width * 0.5 + (Math.random() - 0.5) * 200;
+          this.y = canvas.height * 0.4;
+          this.vx = (Math.random() - 0.5) * 12;
+          this.vy = Math.random() * -14 - 4;
+          this.gravity = 0.3;
+          this.size = Math.random() * 6 + 3;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.rotation = Math.random() * 360;
+          this.rotSpeed = (Math.random() - 0.5) * 10;
+          this.opacity = 1;
+          this.decay = Math.random() * 0.01 + 0.005;
+        }
+        update() {
+          this.x += this.vx;
+          this.vy += this.gravity;
+          this.y += this.vy;
+          this.rotation += this.rotSpeed;
+          this.opacity -= this.decay;
+        }
+        draw() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.rotation * Math.PI / 180);
+          ctx.globalAlpha = Math.max(0, this.opacity);
+          ctx.fillStyle = this.color;
+          ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
+          ctx.restore();
+        }
+      }
+
+      // Create particles
+      for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          p.update();
+          if (p.opacity > 0) {
+            p.draw();
+            alive = true;
+          }
+        });
+        if (alive) requestAnimationFrame(animate);
+      }
+
+      setTimeout(animate, 400);
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    })();
+  </script>
 </body>
 </html>

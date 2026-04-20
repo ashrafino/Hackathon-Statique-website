@@ -1,9 +1,14 @@
-/* Register page specific styles */
+/* =============================================
+   REGISTER PAGE — Complete Styles
+   Multi-step form, validation, progress bar
+============================================= */
+
 body.reg-page {
   background: var(--bg);
   min-height: 100vh;
 }
 
+/* ── HEADER ── */
 .reg-header {
   display: flex;
   align-items: center;
@@ -48,6 +53,7 @@ body.reg-page {
   letter-spacing: 0.08em;
 }
 
+/* ── LAYOUT ── */
 .reg-main {
   max-width: 1200px;
   margin: 0 auto;
@@ -64,7 +70,7 @@ body.reg-page {
 .reg-form-wrap { min-width: 0; }
 
 .reg-page-title {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .reg-page-title h1 {
@@ -88,7 +94,290 @@ body.reg-page {
   font-size: 1rem;
 }
 
-/* Sidebar */
+/* =============================================
+   PROGRESS BAR
+============================================= */
+.form-progress {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+  padding: 1.4rem 1.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.fp-step {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.fp-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+  background: transparent;
+}
+
+.fp-step span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+
+.fp-step.active .fp-num {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(108,99,255,0.4);
+}
+
+.fp-step.active span {
+  color: var(--text);
+}
+
+.fp-step.completed .fp-num {
+  border-color: var(--accent2);
+  background: var(--accent2);
+  color: #fff;
+}
+
+.fp-step.completed span {
+  color: var(--accent2);
+}
+
+.fp-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 0.8rem;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =============================================
+   FORM STEPS
+============================================= */
+.form-step {
+  display: none;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: stepIn 0.4s cubic-bezier(0.23,1,0.32,1) both;
+}
+
+.form-step.active {
+  display: flex;
+}
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Shake animation for validation errors */
+.form-step.shake {
+  animation: shakeIt 0.4s ease-in-out;
+}
+
+@keyframes shakeIt {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* ── NAVIGATION BUTTONS ── */
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-next, .btn-prev {
+  gap: 0.5rem;
+}
+
+.btn-prev {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+.btn-next {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* =============================================
+   FIELD VALIDATION STATES
+============================================= */
+.field-error {
+  font-size: 0.72rem;
+  color: var(--accent3);
+  min-height: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.input-error {
+  border-color: var(--accent3) !important;
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.15) !important;
+}
+
+/* Valid state */
+.form-group input:valid:not(:placeholder-shown),
+.form-group select:valid:not([value=""]) {
+  border-color: rgba(0,212,170,0.3);
+}
+
+/* =============================================
+   CHARACTER COUNT
+============================================= */
+.char-count {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 0.2rem;
+  opacity: 0.6;
+}
+
+/* =============================================
+   APPLICATION SUMMARY
+============================================= */
+.form-summary {
+  background: rgba(108,99,255,0.04);
+  border: 1px solid rgba(108,99,255,0.15);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.fs-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.fs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.fs-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.fs-label {
+  font-size: 0.7rem;
+  font-family: var(--mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fs-value {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* =============================================
+   LOADING SPINNER
+============================================= */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spinAnim 0.6s linear infinite;
+  margin-left: 0.5rem;
+}
+
+@keyframes spinAnim {
+  to { transform: rotate(360deg); }
+}
+
+.btn-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+============================================= */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  padding: 0.9rem 1.8rem;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.23,1,0.32,1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.toast-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-error {
+  background: rgba(255,107,107,0.15);
+  border: 1px solid rgba(255,107,107,0.3);
+  color: #ff6b6b;
+}
+
+.toast-info {
+  background: rgba(108,99,255,0.15);
+  border: 1px solid rgba(108,99,255,0.3);
+  color: var(--accent);
+}
+
+.toast-success {
+  background: rgba(0,212,170,0.15);
+  border: 1px solid rgba(0,212,170,0.3);
+  color: var(--accent2);
+}
+
+/* =============================================
+   SIDEBAR
+============================================= */
 .reg-sidebar {
   display: flex;
   flex-direction: column;
@@ -112,13 +401,29 @@ body.reg-page {
 .ei-row span { color: var(--text-muted); }
 .ei-row strong { color: var(--text); }
 
+/* =============================================
+   RESPONSIVE
+============================================= */
 @media (max-width: 900px) {
   .reg-page-grid { grid-template-columns: 1fr; }
   .reg-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
   .reg-sidebar .reg-info-card { flex: 1; min-width: 240px; }
+  .form-progress { padding: 1rem; }
+  .fp-step span { display: none; }
+  .fp-line { margin: 0 0.5rem; }
+}
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: span 1; }
+  .fs-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
   .reg-main { padding: 2rem 1rem 4rem; }
   .reg-header { padding: 1rem; }
+  .form-nav { flex-direction: column-reverse; gap: 0.8rem; }
+  .form-nav .btn-next,
+  .form-nav .btn-prev { width: 100%; justify-content: center; }
+  .fp-step span { display: none; }
 }

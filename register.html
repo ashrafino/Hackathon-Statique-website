@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apply — Vibe Coding Hackathon 2026</title>
+  <meta name="description" content="Apply to the Vibe Coding & FinTech Hackathon 2026 in Laâyoune. 48 hours of AI-powered development, May 23–24, 2026. Free for all students." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -35,159 +36,250 @@
           <p>Fill in your details below. We'll confirm your spot within 48 hours.</p>
         </div>
 
-        <form class="reg-form" name="hackathon-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
+        <!-- Step Progress Indicator -->
+        <div class="form-progress" id="form-progress">
+          <div class="fp-step active" data-step="1">
+            <div class="fp-num">1</div>
+            <span>Personal</span>
+          </div>
+          <div class="fp-line"></div>
+          <div class="fp-step" data-step="2">
+            <div class="fp-num">2</div>
+            <span>Team</span>
+          </div>
+          <div class="fp-line"></div>
+          <div class="fp-step" data-step="3">
+            <div class="fp-num">3</div>
+            <span>Project</span>
+          </div>
+          <div class="fp-line"></div>
+          <div class="fp-step" data-step="4">
+            <div class="fp-num">4</div>
+            <span>Submit</span>
+          </div>
+        </div>
+
+        <form class="reg-form" id="hackathon-form" name="hackathon-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html" novalidate>
           <input type="hidden" name="form-name" value="hackathon-registration" />
           <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
 
-          <!-- Personal Info -->
-          <div class="form-section-title">Personal Information</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fullname">Full Name <span class="req">*</span></label>
-              <input type="text" id="fullname" name="fullname" placeholder="Your full name" required />
+          <!-- STEP 1: Personal Info -->
+          <div class="form-step active" id="step-1">
+            <div class="form-section-title">Personal Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullname">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullname" name="fullname" placeholder="Your full name" required autocomplete="name" />
+                <span class="field-error" id="err-fullname"></span>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required pattern="^\+?[0-9\s\-]{8,18}$" autocomplete="tel" />
+                <span class="field-error" id="err-phone"></span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="phone">Phone Number <span class="req">*</span></label>
-              <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+                <span class="field-error" id="err-email"></span>
+              </div>
+              <div class="form-group">
+                <label for="cin">CIN / Student ID <span class="req">*</span></label>
+                <input type="text" id="cin" name="cin" placeholder="AB123456" required />
+                <span class="field-error" id="err-cin"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="etablissement">Institution <span class="req">*</span></label>
+                <input type="text" id="etablissement" name="etablissement" placeholder="Your university or school" required />
+                <span class="field-error" id="err-etablissement"></span>
+              </div>
+              <div class="form-group">
+                <label for="filiere">Program / Field of Study <span class="req">*</span></label>
+                <select id="filiere" name="filiere" required>
+                  <option value="" disabled selected>Select your program</option>
+                  <option>Engineering — Computer Science</option>
+                  <option>Engineering — Civil / Industrial</option>
+                  <option>Business Administration</option>
+                  <option>Finance &amp; Accounting</option>
+                  <option>Social Sciences</option>
+                  <option>Other</option>
+                </select>
+                <span class="field-error" id="err-filiere"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="niveau">Academic Level <span class="req">*</span></label>
+                <select id="niveau" name="niveau" required>
+                  <option value="" disabled selected>Select your level</option>
+                  <option>1st Year (Bac+1)</option>
+                  <option>2nd Year (Bac+2)</option>
+                  <option>3rd Year (Bac+3)</option>
+                  <option>4th Year (Bac+4)</option>
+                  <option>5th Year (Bac+5)</option>
+                  <option>Master / PhD</option>
+                </select>
+                <span class="field-error" id="err-niveau"></span>
+              </div>
+              <div class="form-group">
+                <label for="experience">Technical Experience <span class="req">*</span></label>
+                <select id="experience" name="experience" required>
+                  <option value="" disabled selected>Select level</option>
+                  <option>Beginner — no coding experience</option>
+                  <option>Intermediate — some projects</option>
+                  <option>Advanced — regular developer</option>
+                </select>
+                <span class="field-error" id="err-experience"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tshirt">T-Shirt Size <span class="req">*</span></label>
+                <select id="tshirt" name="tshirt" required>
+                  <option value="" disabled selected>Select size</option>
+                  <option>XS</option><option>S</option><option>M</option>
+                  <option>L</option><option>XL</option><option>XXL</option>
+                </select>
+                <span class="field-error" id="err-tshirt"></span>
+              </div>
+              <div class="form-group"></div>
+            </div>
+            <div class="form-nav">
+              <div></div>
+              <button type="button" class="btn-primary btn-next" onclick="goToStep(2)">
+                Next: Team Info
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Email Address <span class="req">*</span></label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+          <!-- STEP 2: Team -->
+          <div class="form-step" id="step-2">
+            <div class="form-section-title">Team Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="registering-as">Registering as <span class="req">*</span></label>
+                <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
+                  <option value="" disabled selected>Select</option>
+                  <option value="solo">Solo — I'll be assigned to a team</option>
+                  <option value="team">With a team</option>
+                </select>
+                <span class="field-error" id="err-registering-as"></span>
+              </div>
+              <div class="form-group" id="team-name-group" style="display:none">
+                <label for="team-name">Team Name <span class="req">*</span></label>
+                <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara" />
+                <span class="field-error" id="err-team-name"></span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="cin">CIN / Student ID <span class="req">*</span></label>
-              <input type="text" id="cin" name="cin" placeholder="AB123456" required />
+            <div id="team-size-group" style="display:none">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="team-size">Number of Members (including you) <span class="req">*</span></label>
+                  <select id="team-size" name="team_size" onchange="renderMembers(this.value)">
+                    <option value="" disabled selected>Select</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+              </div>
+              <div id="team-members-container"></div>
+            </div>
+            <div class="form-nav">
+              <button type="button" class="btn-ghost btn-prev" onclick="goToStep(1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+              </button>
+              <button type="button" class="btn-primary btn-next" onclick="goToStep(3)">
+                Next: Project
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="etablissement">Institution <span class="req">*</span></label>
-              <input type="text" id="etablissement" name="etablissement" placeholder="Your university or school" required />
+
+          <!-- STEP 3: Project -->
+          <div class="form-step" id="step-3">
+            <div class="form-section-title">Project Idea</div>
+            <div class="form-group full">
+              <label for="project-theme">Challenge Theme <span class="req">*</span></label>
+              <select id="project-theme" name="project_theme" required>
+                <option value="" disabled selected>Select a theme</option>
+                <option>Smart Water Management</option>
+                <option>FinTech &amp; Financial Inclusion</option>
+                <option>Sustainable Tourism</option>
+                <option>Precision Agriculture</option>
+                <option>Education &amp; Social Innovation</option>
+                <option>Open Innovation</option>
+              </select>
+              <span class="field-error" id="err-project-theme"></span>
             </div>
-            <div class="form-group">
-              <label for="filiere">Program / Field of Study <span class="req">*</span></label>
-              <select id="filiere" name="filiere" required>
-                <option value="" disabled selected>Select your program</option>
-                <option>Engineering — Computer Science</option>
-                <option>Engineering — Civil / Industrial</option>
-                <option>Business Administration</option>
-                <option>Finance &amp; Accounting</option>
-                <option>Social Sciences</option>
+            <div class="form-group full">
+              <label for="project-idea">Brief Project Idea</label>
+              <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..." maxlength="500"></textarea>
+              <div class="char-count"><span id="idea-count">0</span>/500</div>
+            </div>
+            <div class="form-nav">
+              <button type="button" class="btn-ghost btn-prev" onclick="goToStep(2)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+              </button>
+              <button type="button" class="btn-primary btn-next" onclick="goToStep(4)">
+                Next: Finalize
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Motivation + Submit -->
+          <div class="form-step" id="step-4">
+            <div class="form-section-title">Motivation</div>
+            <div class="form-group full">
+              <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
+              <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required maxlength="800"></textarea>
+              <div class="char-count"><span id="motivation-count">0</span>/800</div>
+              <span class="field-error" id="err-motivation"></span>
+            </div>
+            <div class="form-group full">
+              <label for="heard-from">How did you hear about us?</label>
+              <select id="heard-from" name="heard_from">
+                <option value="" disabled selected>Select</option>
+                <option>Instagram</option>
+                <option>University announcement</option>
+                <option>Friend / colleague</option>
+                <option>Professor</option>
                 <option>Other</option>
               </select>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="niveau">Academic Level <span class="req">*</span></label>
-              <select id="niveau" name="niveau" required>
-                <option value="" disabled selected>Select your level</option>
-                <option>1st Year (Bac+1)</option>
-                <option>2nd Year (Bac+2)</option>
-                <option>3rd Year (Bac+3)</option>
-                <option>4th Year (Bac+4)</option>
-                <option>5th Year (Bac+5)</option>
-                <option>Master / PhD</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="experience">Technical Experience <span class="req">*</span></label>
-              <select id="experience" name="experience" required>
-                <option value="" disabled selected>Select level</option>
-                <option>Beginner — no coding experience</option>
-                <option>Intermediate — some projects</option>
-                <option>Advanced — regular developer</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="tshirt">T-Shirt Size</label>
-              <select id="tshirt" name="tshirt">
-                <option value="" disabled selected>Select size</option>
-                <option>XS</option><option>S</option><option>M</option>
-                <option>L</option><option>XL</option><option>XXL</option>
-              </select>
-          </div>
 
-          <!-- Team -->
-          <div class="form-section-title">Team Information</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="registering-as">Registering as <span class="req">*</span></label>
-              <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
-                <option value="" disabled selected>Select</option>
-                <option value="solo">Solo — I'll be assigned to a team</option>
-                <option value="team">With a team</option>
-              </select>
+            <div class="form-group full checkbox-group">
+              <label class="checkbox-label" id="terms-label">
+                <input type="checkbox" name="terms" id="terms-checkbox" required />
+                <span>I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.</span>
+              </label>
+              <span class="field-error" id="err-terms"></span>
             </div>
-            <div class="form-group" id="team-name-group" style="display:none">
-              <label for="team-name">Team Name <span class="req">*</span></label>
-              <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara" />
+
+            <!-- Summary Preview -->
+            <div class="form-summary" id="form-summary">
+              <div class="fs-title">Application Summary</div>
+              <div class="fs-grid" id="summary-content"></div>
+            </div>
+
+            <div class="form-nav">
+              <button type="button" class="btn-ghost btn-prev" onclick="goToStep(3)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+              </button>
+              <button type="submit" class="btn-primary btn-large btn-submit" id="submit-btn">
+                <span id="submit-text">Submit Application</span>
+                <span id="submit-spinner" class="spinner hidden"></span>
+              </button>
             </div>
           </div>
-          <div id="team-size-group" style="display:none">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="team-size">Number of Members (including you) <span class="req">*</span></label>
-                <select id="team-size" name="team_size" onchange="renderMembers(this.value)">
-                  <option value="" disabled selected>Select</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-            </div>
-            <div id="team-members-container"></div>
-          </div>
-
-          <!-- Project -->
-          <div class="form-section-title">Project Idea</div>
-          <div class="form-group full">
-            <label for="project-theme">Challenge Theme <span class="req">*</span></label>
-            <select id="project-theme" name="project_theme" required>
-              <option value="" disabled selected>Select a theme</option>
-              <option>Smart Water Management</option>
-              <option>FinTech &amp; Financial Inclusion</option>
-              <option>Sustainable Tourism</option>
-              <option>Precision Agriculture</option>
-              <option>Education &amp; Social Innovation</option>
-              <option>Open Innovation</option>
-            </select>
-          </div>
-          <div class="form-group full">
-            <label for="project-idea">Brief Project Idea</label>
-            <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..."></textarea>
-          </div>
-
-          <!-- Motivation -->
-          <div class="form-section-title">Motivation</div>
-          <div class="form-group full">
-            <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
-            <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required></textarea>
-          </div>
-          <div class="form-group full">
-            <label for="heard-from">How did you hear about us?</label>
-            <select id="heard-from" name="heard_from">
-              <option value="" disabled selected>Select</option>
-              <option>Instagram</option>
-              <option>University announcement</option>
-              <option>Friend / colleague</option>
-              <option>Professor</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div class="form-group full checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" name="terms" required />
-              <span>I confirm I will be available on <strong>May 23–24, 2026</strong> and agree to the event terms.</span>
-            </label>
-          </div>
-
-          <button type="submit" class="btn-primary btn-large btn-submit">Submit Application</button>
         </form>
       </div>
 
@@ -223,6 +315,6 @@
     </div>
   </main>
 
-  <script src="app.js"></script>
+  <script src="register-form.js"></script>
 </body>
 </html>
