@@ -469,30 +469,19 @@ if (form) {
     submitText.textContent = currentLang === 'fr' ? 'Envoi en cours...' : 'Submitting...';
     submitSpinner.classList.remove('hidden');
 
-    // Use native form submission via a hidden iframe-like approach
-    // This is the most reliable method for Netlify Forms
-    const formData = new FormData(form);
-    const encoded = new URLSearchParams(formData).toString();
-
-    fetch(form.action || '/success.html', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encoded
-    })
-    .then(response => {
-      if (response.ok) {
-        window.location.href = '/success.html';
-      } else {
-        // Fallback: submit the form natively
-        console.warn('Fetch submission returned', response.status, '— falling back to native submit.');
-        form.submit();
-      }
-    })
-    .catch(error => {
-      console.warn('Fetch failed, falling back to native submit:', error);
-      // Fallback: let the browser handle it natively
+    // Native form submission — Netlify intercepts data-netlify="true" forms
+    // automatically and redirects to the action URL (/success.html).
+    // This is the correct approach; fetch() POSTing to /success.html hangs.
+    setTimeout(() => {
       form.submit();
-    });
+    }, 100);
+
+    // Safety: re-enable the button after 10s in case something goes wrong
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitText.textContent = currentLang === 'fr' ? 'Soumettre la Candidature' : 'Submit Application';
+      submitSpinner.classList.add('hidden');
+    }, 10000);
   });
 }
 
