@@ -23,7 +23,7 @@
         <li><a href="#programme">Schedule</a></li>
         <li><a href="#organisateurs">Organizers</a></li>
         <li><a href="#partenariat">Sponsorship</a></li>
-        <li><a href="#register">Apply</a></li>
+        <li><a href="register.html">Apply</a></li>
         <li><a href="#contact" class="btn-nav">Join Us</a></li>
       </ul>
     </div>
@@ -64,7 +64,7 @@
         <div class="stat-divider"></div>
         <div class="stat">
           <span class="stat-num">15</span>
-          <span class="stat-label">Expert Mentors</span>
+          <span class="stat-label">Mentors</span>
         </div>
       </div>
       <div class="hero-cta">
@@ -94,7 +94,7 @@
           <p class="concept-body">
             100 students from Engineering, Computer Science, Business Administration,
             and Finance form pluridisciplinary teams to build AI-powered solutions
-            for the Sahara region — guided by <strong>15 professors and industry professionals</strong>
+            for the Sahara region — guided by experienced professors and industry professionals
             throughout the full 48 hours.
           </p>
           <div class="concept-tools">
@@ -381,221 +381,23 @@
     </div>
   </section>
 
-  <!-- REGISTRATION -->
+  <!-- REGISTRATION CTA -->
   <section class="section registration" id="register">
     <div class="container">
-      <div class="section-label">06 — Apply</div>
-      <h2 class="section-title">Register as a<br /><em>participant</em></h2>
-      <p class="reg-lead">100 spots available. Fill in your details and we'll confirm your participation.</p>
-      <div class="reg-grid">
-        <form class="reg-form" name="hackathon-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
-          <input type="hidden" name="form-name" value="hackathon-registration" />
-          <p class="hidden"><label>Don't fill this out: <input name="bot-field" /></label></p>
-
-          <!-- SECTION: Personal Info -->
-          <div class="form-section-title">Personal Information</div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fullname">Full Name <span class="req">*</span></label>
-              <input type="text" id="fullname" name="fullname" placeholder="Achraf El Bachra" required />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone Number <span class="req">*</span></label>
-              <input type="tel" id="phone" name="phone" placeholder="+212 6XX XXX XXX" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Email Address <span class="req">*</span></label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required />
-            </div>
-            <div class="form-group">
-              <label for="cin">CIN / Student ID <span class="req">*</span></label>
-              <input type="text" id="cin" name="cin" placeholder="AB123456" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="etablissement">Institution <span class="req">*</span></label>
-              <input type="text" id="etablissement" name="etablissement" placeholder="Universiapolis Laâyoune" required />
-            </div>
-            <div class="form-group">
-              <label for="filiere">Program / Field of Study <span class="req">*</span></label>
-              <select id="filiere" name="filiere" required>
-                <option value="" disabled selected>Select your program</option>
-                <option>Engineering — Computer Science</option>
-                <option>Engineering — Civil / Industrial</option>
-                <option>Business Administration</option>
-                <option>Finance &amp; Accounting</option>
-                <option>Social Sciences</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="niveau">Academic Level <span class="req">*</span></label>
-              <select id="niveau" name="niveau" required>
-                <option value="" disabled selected>Select your level</option>
-                <option>1st Year (Bac+1)</option>
-                <option>2nd Year (Bac+2)</option>
-                <option>3rd Year (Bac+3)</option>
-                <option>4th Year (Bac+4)</option>
-                <option>5th Year (Bac+5)</option>
-                <option>Master / PhD</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="experience">Technical Experience <span class="req">*</span></label>
-              <select id="experience" name="experience" required>
-                <option value="" disabled selected>Select level</option>
-                <option>Beginner — no coding experience</option>
-                <option>Intermediate — some projects</option>
-                <option>Advanced — regular developer</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="github">GitHub Profile</label>
-              <input type="url" id="github" name="github" placeholder="https://github.com/username" />
-            </div>
-            <div class="form-group">
-              <label for="linkedin">LinkedIn Profile</label>
-              <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="tshirt">T-Shirt Size</label>
-              <select id="tshirt" name="tshirt">
-                <option value="" disabled selected>Select size</option>
-                <option>XS</option><option>S</option><option>M</option>
-                <option>L</option><option>XL</option><option>XXL</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="dietary">Dietary Restrictions</label>
-              <select id="dietary" name="dietary">
-                <option value="None">None</option>
-                <option>Vegetarian</option>
-                <option>Vegan</option>
-                <option>Halal only</option>
-                <option>Gluten-free</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- SECTION: Team -->
-          <div class="form-section-title">Team Information</div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="registering-as">Registering as <span class="req">*</span></label>
-              <select id="registering-as" name="registering_as" onchange="toggleTeam(this.value)" required>
-                <option value="" disabled selected>Select</option>
-                <option value="solo">Solo — I'll be assigned to a team</option>
-                <option value="team">With a team</option>
-              </select>
-            </div>
-            <div class="form-group" id="team-name-group" style="display:none">
-              <label for="team-name">Team Name <span class="req">*</span></label>
-              <input type="text" id="team-name" name="team_name" placeholder="e.g. Team Sahara" />
-            </div>
-          </div>
-
-          <div id="team-size-group" style="display:none">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="team-size">Number of Members (including you) <span class="req">*</span></label>
-                <select id="team-size" name="team_size" onchange="renderMembers(this.value)">
-                  <option value="" disabled selected>Select</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-            </div>
-            <div id="team-members-container"></div>
-          </div>
-
-          <!-- SECTION: Project -->
-          <div class="form-section-title">Project Idea</div>
-
-          <div class="form-group full">
-            <label for="project-theme">Challenge Theme <span class="req">*</span></label>
-            <select id="project-theme" name="project_theme" required>
-              <option value="" disabled selected>Select a theme</option>
-              <option>Smart Water Management</option>
-              <option>FinTech &amp; Financial Inclusion</option>
-              <option>Sustainable Tourism</option>
-              <option>Precision Agriculture</option>
-              <option>Education &amp; Social Innovation</option>
-              <option>Open Innovation</option>
-            </select>
-          </div>
-
-          <div class="form-group full">
-            <label for="project-idea">Brief Project Idea</label>
-            <textarea id="project-idea" name="project_idea" rows="3" placeholder="Describe your idea in 2–3 sentences (optional at this stage)..."></textarea>
-          </div>
-
-          <!-- SECTION: Motivation -->
-          <div class="form-section-title">Motivation</div>
-
-          <div class="form-group full">
-            <label for="motivation">Why do you want to participate? <span class="req">*</span></label>
-            <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to join this hackathon..." required></textarea>
-          </div>
-
-          <div class="form-group full">
-            <label for="heard-from">How did you hear about us?</label>
-            <select id="heard-from" name="heard_from">
-              <option value="" disabled selected>Select</option>
-              <option>Instagram</option>
-              <option>University announcement</option>
-              <option>Friend / colleague</option>
-              <option>Professor</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div class="form-group full checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" name="terms" required />
-              <span>I confirm I will be available on <strong>June 15–16, 2026</strong> and agree to the event terms.</span>
-            </label>
-          </div>
-
-          <button type="submit" class="btn-primary btn-large btn-submit">Submit Application</button>
-        </form>
-
-        <div class="reg-info">
-          <div class="reg-info-card">
-            <h3>What to expect</h3>
-            <ul class="reg-checklist">
-              <li><span class="check-icon">✓</span> Confirmation email within 48h</li>
-              <li><span class="check-icon">✓</span> Free access — zero cost for participants</li>
-              <li><span class="check-icon">✓</span> Meals &amp; refreshments included</li>
-              <li><span class="check-icon">✓</span> Mentoring from 15 experts</li>
-              <li><span class="check-icon">✓</span> Prizes &amp; career opportunities</li>
-              <li><span class="check-icon">✓</span> Certificate of participation</li>
-            </ul>
-          </div>
-          <div class="reg-info-card reg-spots">
-            <div class="spots-num" id="spots-counter">100</div>
-            <div class="spots-label">spots available</div>
-            <div class="spots-bar"><div class="spots-fill"></div></div>
-            <p>Applications close June 10, 2026</p>
-          </div>
+      <div class="reg-cta-box">
+        <div class="glow glow-reg"></div>
+        <div class="section-label">06 — Apply</div>
+        <h2 class="section-title">Ready to<br /><em>participate?</em></h2>
+        <p class="reg-lead">100 spots available. Applications close June 10, 2026. Free for all students.</p>
+        <div class="reg-cta-stats">
+          <div class="rcs-item"><span>100</span><small>Spots</small></div>
+          <div class="rcs-div"></div>
+          <div class="rcs-item"><span>48H</span><small>Duration</small></div>
+          <div class="rcs-div"></div>
+          <div class="rcs-item"><span>Free</span><small>Entry</small></div>
         </div>
+        <a href="register.html" class="btn-primary btn-large">Apply Now</a>
+        <p class="reg-cta-note">Takes about 3 minutes · No fee required</p>
       </div>
     </div>
   </section>

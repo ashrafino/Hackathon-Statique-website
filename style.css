@@ -1502,3 +1502,58 @@ a { text-decoration: none; color: inherit; }
   color: var(--accent);
   margin-bottom: -0.2rem;
 }
+
+/* =============================================
+   REGISTRATION CTA BOX (index page)
+============================================= */
+.reg-cta-box {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 24px;
+  padding: 4rem 3rem;
+}
+
+.glow-reg {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: var(--accent);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.06;
+  filter: blur(80px);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.reg-cta-box .section-label { margin-bottom: 1rem; }
+.reg-cta-box .section-title { margin-bottom: 1rem; }
+.reg-cta-box .reg-lead { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
+
+.reg-cta-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.rcs-item { text-align: center; }
+.rcs-item span {
+  display: block;
+  font-family: var(--mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.rcs-item small { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.rcs-div { width: 1px; height: 40px; background: var(--border); }
+
+.reg-cta-note { margin-top: 1rem; font-size: 0.82rem; color: var(--text-muted); font-family: var(--mono); }

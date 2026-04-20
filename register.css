@@ -1,0 +1,124 @@
+/* Register page specific styles */
+body.reg-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.reg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(5,8,17,0.9);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.reg-back {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.reg-back:hover { color: var(--text); }
+
+.reg-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+
+.reg-header-date {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent2);
+  letter-spacing: 0.08em;
+}
+
+.reg-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+.reg-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.reg-form-wrap { min-width: 0; }
+
+.reg-page-title {
+  margin-bottom: 2.5rem;
+}
+
+.reg-page-title h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0.8rem 0 0.8rem;
+}
+
+.reg-page-title h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.reg-page-title p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Sidebar */
+.reg-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: sticky;
+  top: 80px;
+}
+
+.reg-event-info { display: flex; flex-direction: column; gap: 0.8rem; }
+.reg-event-info h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+
+.ei-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.ei-row:last-child { border-bottom: none; }
+.ei-row span { color: var(--text-muted); }
+.ei-row strong { color: var(--text); }
+
+@media (max-width: 900px) {
+  .reg-page-grid { grid-template-columns: 1fr; }
+  .reg-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+  .reg-sidebar .reg-info-card { flex: 1; min-width: 240px; }
+}
+
+@media (max-width: 560px) {
+  .reg-main { padding: 2rem 1rem 4rem; }
+  .reg-header { padding: 1rem; }
+}
