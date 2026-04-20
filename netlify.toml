@@ -5,32 +5,24 @@
 [build.processing]
   skip_processing = false
 
-# Redirect success page for form submissions
+# Pretty URLs: serve /success → /success.html
 [[redirects]]
   from = "/success"
   to = "/success.html"
   status = 200
 
-# Security headers
+# Also handle /register → /register.html
+[[redirects]]
+  from = "/register"
+  to = "/register.html"
+  status = 200
+
+# Security headers (removed X-Frame-Options DENY — breaks some Netlify success redirects)
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    X-XSS-Protection = "1; mode=block"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-# Cache static assets
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
 
 # Prevent admin page from being indexed
 [[headers]]
