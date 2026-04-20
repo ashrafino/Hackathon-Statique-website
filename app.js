@@ -379,3 +379,23 @@ function renderMembers(count) {
     container.appendChild(block);
   }
 }
+
+/* =============================================
+   LANGUAGE TOGGLE
+============================================= */
+function toggleLanguage() {
+  const btn = document.getElementById('lang-toggle');
+  const currentLang = btn.textContent.trim();
+  
+  if (currentLang === 'FR') {
+    // Switch to French
+    btn.textContent = 'EN';
+    // Add French translation logic here
+    alert('French version coming soon! / Version française à venir !');
+  } else {
+    // Switch to English
+    btn.textContent = 'FR';
+    // Add English translation logic here
+    alert('Switched to English');
+  }
+}

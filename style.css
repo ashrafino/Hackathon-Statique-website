@@ -108,6 +108,25 @@ a { text-decoration: none; color: inherit; }
 
 .btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
 
+.btn-lang {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.45rem 1rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--mono);
+}
+
+.btn-lang:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(108,99,255,0.08);
+}
+
 /* =============================================
    HERO
 ============================================= */
