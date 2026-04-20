@@ -108,14 +108,20 @@ a { text-decoration: none; color: inherit; }
 
 .btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
 
+.lang-buttons {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
 .btn-lang {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-muted);
-  padding: 0.45rem 1rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 100px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--mono);
@@ -125,6 +131,12 @@ a { text-decoration: none; color: inherit; }
   border-color: var(--accent);
   color: var(--accent);
   background: rgba(108,99,255,0.08);
+}
+
+.btn-lang.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 /* =============================================

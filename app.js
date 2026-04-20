@@ -383,19 +383,38 @@ function renderMembers(count) {
 /* =============================================
    LANGUAGE TOGGLE
 ============================================= */
-function toggleLanguage() {
-  const btn = document.getElementById('lang-toggle');
-  const currentLang = btn.textContent.trim();
+function setLanguage(lang) {
+  // Remove active class from all language buttons
+  document.querySelectorAll('.btn-lang').forEach(btn => {
+    btn.classList.remove('active');
+  });
   
-  if (currentLang === 'FR') {
-    // Switch to French
-    btn.textContent = 'EN';
-    // Add French translation logic here
-    alert('French version coming soon! / Version française à venir !');
+  // Add active class to the clicked button
+  event.target.classList.add('active');
+  
+  // Store language preference
+  localStorage.setItem('language', lang);
+  
+  // TODO: Implement actual language switching logic here
+  // For now, just update the active state
+  if (lang === 'fr') {
+    // French translation logic will go here
+    console.log('Switched to French');
   } else {
-    // Switch to English
-    btn.textContent = 'FR';
-    // Add English translation logic here
-    alert('Switched to English');
+    // English is default
+    console.log('Switched to English');
   }
 }
+
+// Load saved language preference on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('language') || 'en';
+  const langButtons = document.querySelectorAll('.btn-lang');
+  langButtons.forEach(btn => {
+    if (btn.textContent.toLowerCase() === savedLang) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+});
