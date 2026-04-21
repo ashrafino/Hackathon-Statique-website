@@ -259,13 +259,9 @@ document.querySelectorAll('.why-card, .sponsor-card, .orga-card').forEach(card =
 /* =============================================
    TYPEWRITER — HERO SUBTITLE
 ============================================= */
-(function() {
+function runHeroTypewriter(lines) {
   const el = document.querySelector('.hero-sub');
-  if (!el) return;
-  const lines = [
-    '48 hours of non-stop creation. AI as the tool.',
-    'Innovation as the goal. Laâyoune as the playground.'
-  ];
+  if (!el || !Array.isArray(lines)) return;
   const full = lines.join('\n');
   el.textContent = '';
   el.style.whiteSpace = 'pre-line';
@@ -274,11 +270,11 @@ document.querySelectorAll('.why-card, .sponsor-card, .orga-card').forEach(card =
     if (i <= full.length) {
       el.textContent = full.slice(0, i);
       i++;
-      setTimeout(type, 28);
+      setTimeout(type, 22);
     }
   }
-  setTimeout(type, 900);
-})();
+  setTimeout(type, 350);
+}
 
 /* =============================================
    SHINY SHIMMER ON SECTION LABELS
@@ -344,38 +340,151 @@ if (spotsBar) {
    LANGUAGE TOGGLE
 ============================================= */
 function setLanguage(lang) {
-  // Remove active class from all language buttons
+  applyLanguage(lang);
+  localStorage.setItem('language', lang);
+}
+
+const i18n = {
+  en: {
+    title: 'Vibe Coding Hackathon — Laâyoune',
+    heroSubLines: [
+      '48 hours to build real MVPs with AI, mentors, and industry experts.',
+      'Water, finance, and tourism challenges. Career opportunities included.'
+    ],
+    heroPrize: 'Prizes Revealed Soon',
+    ctaPrize: 'Prizes Soon',
+    map: {
+      '.nav-links li:nth-child(1) a': 'Concept',
+      '.nav-links li:nth-child(2) a': 'Schedule',
+      '.nav-links li:nth-child(3) a': 'Organizers',
+      '.nav-links li:nth-child(4) a': 'Sponsorship',
+      '.nav-links li:nth-child(5) a': 'Apply',
+      '.nav-links li:nth-child(6) a': 'Contact',
+      '.hero-badge': '<span class="badge-dot"></span> May 23–24, 2026 · Laâyoune',
+      '.hero-cta .btn-primary': 'Apply Now',
+      '.hero-cta .btn-ghost': 'Discover the Concept',
+      '.concept .section-label': '02 — Concept',
+      '.concept .section-title': 'A new era of<br /><em>development</em>',
+      '.programme .section-label': '03 — Schedule',
+      '.programme .section-title': 'A marathon<br /><em>48H non-stop</em>',
+      '.partenariat .section-label': '04 — Sponsorship',
+      '.partenariat .section-title': 'A universal<br /><em>partnership</em>',
+      '.registration .section-label': '06 — Apply',
+      '.registration .section-title': 'Ready to<br /><em>participate?</em>',
+      '.registration .btn-primary': 'Apply Now',
+      '.faq .section-label': '07 — FAQ',
+      '.faq .section-title': 'Everything you need<br /><em>before applying</em>',
+      '.contact .section-label': '05 — Contact',
+      '.contact .section-title': 'Join the<br /><em>adventure</em>',
+      '.contact .btn-primary': 'Get in Touch',
+      '.footer-copy a': 'Privacy & Contact',
+      '.fuzzy-prize-hint': 'hover to peek',
+      '.prize-note': 'Full prize breakdown announced on May 23 at opening ceremony.',
+    }
+  },
+  fr: {
+    title: 'Hackathon Vibe Coding — Laâyoune',
+    heroSubLines: [
+      '48 heures pour construire des MVPs concrets avec l’IA, des mentors et des experts.',
+      'Défis eau, finance et tourisme. Opportunités de carrière incluses.'
+    ],
+    heroPrize: 'Prix annonces bientot',
+    ctaPrize: 'Prix bientot',
+    map: {
+      '.nav-links li:nth-child(1) a': 'Concept',
+      '.nav-links li:nth-child(2) a': 'Programme',
+      '.nav-links li:nth-child(3) a': 'Organisateurs',
+      '.nav-links li:nth-child(4) a': 'Partenariat',
+      '.nav-links li:nth-child(5) a': 'Postuler',
+      '.nav-links li:nth-child(6) a': 'Contact',
+      '.hero-badge': '<span class="badge-dot"></span> 23–24 Mai 2026 · Laâyoune',
+      '.hero-cta .btn-primary': 'Postuler',
+      '.hero-cta .btn-ghost': 'Decouvrir le concept',
+      '.concept .section-label': '02 — Concept',
+      '.concept .section-title': 'Une nouvelle ere<br /><em>du developpement</em>',
+      '.programme .section-label': '03 — Programme',
+      '.programme .section-title': 'Un marathon<br /><em>48H non-stop</em>',
+      '.partenariat .section-label': '04 — Partenariat',
+      '.partenariat .section-title': 'Un partenariat<br /><em>universel</em>',
+      '.registration .section-label': '06 — Postuler',
+      '.registration .section-title': 'Pret a<br /><em>participer ?</em>',
+      '.registration .btn-primary': 'Postuler',
+      '.faq .section-label': '07 — FAQ',
+      '.faq .section-title': 'Tout ce qu il faut savoir<br /><em>avant de postuler</em>',
+      '.contact .section-label': '05 — Contact',
+      '.contact .section-title': 'Rejoignez<br /><em>l aventure</em>',
+      '.contact .btn-primary': 'Nous contacter',
+      '.footer-copy a': 'Confidentialite et Contact',
+      '.fuzzy-prize-hint': 'survolez pour voir',
+      '.prize-note': 'Le detail des prix sera annonce le 23 mai lors de l ouverture.',
+    }
+  }
+};
+
+function setNodeText(selector, value, useHtml = false) {
+  const node = document.querySelector(selector);
+  if (!node) return;
+  if (useHtml) node.innerHTML = value;
+  else node.textContent = value;
+}
+
+function applyLanguage(lang) {
+  const config = i18n[lang] || i18n.en;
+  document.documentElement.lang = lang;
+  document.title = config.title;
+
   document.querySelectorAll('.btn-lang').forEach(btn => {
-    btn.classList.remove('active');
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
   });
 
-  // Add active class to the selected button
-  const selected = Array.from(document.querySelectorAll('.btn-lang'))
-    .find(btn => btn.textContent.trim().toLowerCase() === lang);
-  if (selected) selected.classList.add('active');
+  Object.entries(config.map).forEach(([selector, text]) => {
+    const useHtml = text.includes('<');
+    setNodeText(selector, text, useHtml);
+  });
 
-  // Store language preference
-  localStorage.setItem('language', lang);
+  runHeroTypewriter(config.heroSubLines);
 
-  // Keep UX explicit until full translation exists
-  if (lang === 'fr') {
-    alert('French content is coming soon. English version is currently live.');
-  } else {
-    console.log('Switched to English');
+  const heroCanvas = document.getElementById('hero-prize-fuzzy');
+  if (heroCanvas) {
+    initFuzzyText(heroCanvas, {
+      text: config.heroPrize,
+      fontSize: '14px',
+      fontWeight: 700,
+      fontFamily: 'Space Mono, monospace',
+      gradient: ['#6c63ff', '#00d4aa'],
+      baseIntensity: 0.4,
+      hoverIntensity: 0.05,
+      fuzzRange: 10,
+      fps: 60,
+      glitchMode: true,
+      glitchInterval: 3000,
+      glitchDuration: 200,
+    });
+  }
+
+  const ctaCanvas = document.getElementById('cta-prize-fuzzy');
+  if (ctaCanvas) {
+    initFuzzyText(ctaCanvas, {
+      text: config.ctaPrize,
+      fontSize: '12px',
+      fontWeight: 700,
+      fontFamily: 'Space Mono, monospace',
+      gradient: ['#6c63ff', '#00d4aa'],
+      baseIntensity: 0.4,
+      hoverIntensity: 0.05,
+      fuzzRange: 8,
+      fps: 60,
+      glitchMode: true,
+      glitchInterval: 2800,
+      glitchDuration: 180,
+    });
   }
 }
 
 // Load saved language preference on page load
 document.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('language') || 'en';
-  const langButtons = document.querySelectorAll('.btn-lang');
-  langButtons.forEach(btn => {
-    if (btn.textContent.toLowerCase() === savedLang) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
+  applyLanguage(savedLang);
 });
 
 /* =============================================
