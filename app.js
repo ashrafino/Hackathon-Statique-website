@@ -540,18 +540,17 @@ if (prizeFuzzyCanvas) {
     clickEffect:    true,
   });
 }
-
 const heroPrizeFuzzy = document.getElementById('hero-prize-fuzzy');
 if (heroPrizeFuzzy) {
   initFuzzyText(heroPrizeFuzzy, {
-    text:           '???',
-    fontSize:       'clamp(2rem, 5vw, 3rem)',
-    fontWeight:     900,
-    fontFamily:     'Space Mono, monospace',
+    text:           'Prizes Revealed Soon',
+    fontSize:       'clamp(1rem, 2.5vw, 1.4rem)',
+    fontWeight:     700,
+    fontFamily:     'Space Grotesk, sans-serif',
     gradient:       ['#6c63ff', '#00d4aa'],
-    baseIntensity:  0.6,
+    baseIntensity:  0.4,
     hoverIntensity: 0.05,
-    fuzzRange:      35,
+    fuzzRange:      18,
     fps:            60,
     direction:      'horizontal',
     glitchMode:     true,
@@ -564,14 +563,14 @@ if (heroPrizeFuzzy) {
 const ctaPrizeFuzzy = document.getElementById('cta-prize-fuzzy');
 if (ctaPrizeFuzzy) {
   initFuzzyText(ctaPrizeFuzzy, {
-    text:           '???',
-    fontSize:       '1.8rem',
-    fontWeight:     900,
-    fontFamily:     'Space Mono, monospace',
+    text:           'Prizes Soon',
+    fontSize:       '1.2rem',
+    fontWeight:     700,
+    fontFamily:     'Space Grotesk, sans-serif',
     gradient:       ['#6c63ff', '#00d4aa'],
-    baseIntensity:  0.5,
+    baseIntensity:  0.4,
     hoverIntensity: 0.05,
-    fuzzRange:      25,
+    fuzzRange:      15,
     fps:            60,
     direction:      'horizontal',
     glitchMode:     true,
