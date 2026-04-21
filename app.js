@@ -515,8 +515,18 @@ function initFuzzyText(canvas, {
     }
   }
 
-  // Wait for fonts then build
-  document.fonts.ready.then(build);
+  // Ensure build runs even if fonts.ready hangs
+  let built = false;
+  const tryBuild = () => {
+    if (built) return;
+    built = true;
+    build();
+  };
+  
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(tryBuild).catch(tryBuild);
+  }
+  setTimeout(tryBuild, 150);
 
   return () => {
     cancelAnimationFrame(animId);
@@ -551,13 +561,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroPrizeFuzzy) {
     initFuzzyText(heroPrizeFuzzy, {
       text:           'Prizes Revealed Soon',
-      fontSize:       'clamp(1rem, 2.5vw, 1.4rem)',
+      fontSize:       '14px',
       fontWeight:     700,
       fontFamily:     'Space Mono, monospace',
       gradient:       ['#6c63ff', '#00d4aa'],
       baseIntensity:  0.4,
       hoverIntensity: 0.05,
-      fuzzRange:      18,
+      fuzzRange:      10,
       fps:            60,
       direction:      'horizontal',
       glitchMode:     true,
@@ -571,13 +581,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ctaPrizeFuzzy) {
     initFuzzyText(ctaPrizeFuzzy, {
       text:           'Prizes Soon',
-      fontSize:       '1.2rem',
+      fontSize:       '12px',
       fontWeight:     700,
       fontFamily:     'Space Mono, monospace',
       gradient:       ['#6c63ff', '#00d4aa'],
       baseIntensity:  0.4,
       hoverIntensity: 0.05,
-      fuzzRange:      15,
+      fuzzRange:      8,
       fps:            60,
       direction:      'horizontal',
       glitchMode:     true,

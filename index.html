@@ -74,8 +74,13 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat stat-teaser">
-          <div class="fuzzy-prize-wrap" style="border:none; background:transparent; padding:0; margin:0;" title="Hover to peek…">
-            <canvas id="hero-prize-fuzzy" class="fuzzy-prize-canvas" style="height:clamp(2rem, 5vw, 3rem);"></canvas>
+          <span class="stat-prize-teaser">
+            <span class="tease-dot"></span>
+            <span class="tease-dot"></span>
+            <span class="tease-dot"></span>
+          </span>
+          <div class="stat-label" style="display:flex; justify-content:center; margin-top: 0.5rem;">
+            <canvas id="hero-prize-fuzzy" class="fuzzy-prize-canvas" style="height: 1rem; min-width: 140px;"></canvas>
           </div>
         </div>
       </div>
@@ -461,9 +466,8 @@
           <div class="rcs-item"><span>48H</span><small>Non-Stop</small></div>
           <div class="rcs-div"></div>
           <div class="rcs-item">
-            <div class="fuzzy-prize-wrap" style="border:none; background:transparent; padding:0; margin:0;" title="Hover to peek…">
-              <canvas id="cta-prize-fuzzy" class="fuzzy-prize-canvas" style="height:2.5rem;"></canvas>
-            </div>
+            <span style="font-size:1.4rem; line-height:1;">🎁</span>
+            <canvas id="cta-prize-fuzzy" class="fuzzy-prize-canvas" style="height: 0.8rem; margin-top: 0.2rem; min-width: 80px;"></canvas>
           </div>
         </div>
         <a href="register.html" class="btn-primary btn-large">Apply Now</a>
