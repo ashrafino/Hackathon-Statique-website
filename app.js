@@ -131,6 +131,42 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
 });
 
 /* =============================================
+   HAMBURGER — MOBILE NAV
+============================================= */
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.querySelector('.nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // Close menu when any link is clicked
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+/* =============================================
+   REACTBITS SPOTLIGHT — CARD HOVER
+============================================= */
+document.querySelectorAll('.why-card, .sponsor-card, .orga-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+    const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+    card.style.setProperty('--spot-x', x);
+    card.style.setProperty('--spot-y', y);
+  });
+});
+
+/* =============================================
    AURORA / PARTICLE CANVAS — HERO BG
 ============================================= */
 (function() {
