@@ -1,6 +1,9 @@
 // send-resend.js — send email(s) via Resend (https://resend.com/docs/api-reference/emails/send-email)
 // Netlify env (required): RESEND_API_KEY
-// Netlify env (required for production): RESEND_FROM — e.g. "Vibe Coding <noreply@yourdomain.com>" (must be a verified sender/domain in Resend)
+// Netlify env (optional): RESEND_FROM — e.g. "Vibe Coding <noreply@yourdomain.com>" (must be a verified sender/domain in Resend)
+//   If RESEND_FROM is NOT set, falls back to Resend's free test sender: onboarding@resend.dev
+//   The test sender works on ALL Resend accounts with no domain setup required.
+//   Limitation: can only send to the account owner's email on free tier.
 
 const RESEND_URL = 'https://api.resend.com/emails';
 
@@ -22,7 +25,8 @@ exports.handler = async (event) => {
 
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'vibecoding2026';
   const apiKey = process.env.RESEND_API_KEY;
-  const defaultFrom = process.env.RESEND_FROM || '';
+  // Falls back to Resend's built-in test sender — no domain verification needed
+  const defaultFrom = process.env.RESEND_FROM || 'Hackathon AI <onboarding@resend.dev>';
 
   if (!apiKey) {
     return {
@@ -50,7 +54,7 @@ exports.handler = async (event) => {
       statusCode: 400,
       headers: CORS,
       body: JSON.stringify({
-        error: 'Missing "from" address. Set RESEND_FROM in Netlify or pass "from" in the request body.',
+        error: 'Missing "from" address. Pass "from" in the request body or set RESEND_FROM in Netlify env vars.',
       }),
     };
   }
