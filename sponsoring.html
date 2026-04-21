@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier de Partenariat / ملف الشراكة - AI South Innovation Hackathon 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;600&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @page { 
+            size: A4; 
+            margin: 0; 
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #525659;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            margin: 20px 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+            break-after: page;
+        }
+        
+        .page:last-of-type {
+            page-break-after: auto;
+            break-after: auto;
+        }
+
+        @media print {
+            body {
+                background: none;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .page {
+                margin: 0;
+                box-shadow: none;
+                border: none;
+                width: 210mm;
+                height: 297mm;
+                page-break-after: always;
+                break-after: page;
+                overflow: hidden;
+                print-color-adjust: exact;
+            }
+        }
+
+        :root {
+            --primary-blue: #1a365d;
+            --accent-gold: #059669;
+            --accent-light: #d1fae5;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        p {
+            line-height: 1.5;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-align: justify;
+        }
+
+        .ar-section {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .ar-section h1, .ar-section h2, .ar-section h3, .ar-section h4 {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .ar-section p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .latin-text {
+            font-family: 'Montserrat', sans-serif;
+            direction: ltr;
+            display: inline-block;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .fr-section .section-header h2 {
+            color: var(--primary-blue);
+            font-size: 18px;
+            text-transform: uppercase;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .ar-section .section-header h2 {
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-weight: 800;
+            border-right: 4px solid var(--accent-gold);
+            padding-right: 10px;
+        }
+
+        .content-padding {
+            padding: 25px 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #1a365d 0%, #0f172a 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(5,150,105,0.12) 0%, transparent 60%);
+            z-index: 1;
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 0 40px;
+        }
+
+        .fr-section .cover-content h1 {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+        
+        .fr-section .cover-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 16px 0;
+            display: inline-block;
+        }
+        
+        .ar-section .cover-content h1.latin-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            direction: ltr;
+        }
+        
+        .ar-section .cover-content h2.ar-title {
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            color: var(--accent-light);
+        }
+        
+        .ar-section .cover-subtitle {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 16px 0;
+            display: inline-block;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 50px;
+            background: rgba(255,255,255,0.98);
+            padding: 22px 45px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .logos-container img {
+            height: 55px;
+            object-fit: contain;
+        }
+        
+        .fr-section .club-logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--primary-blue);
+            direction: ltr;
+        }
+        
+        .ar-section .club-logo-text {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 800;
+            font-size: 26px;
+            color: var(--primary-blue);
+        }
+
+        .club-logo-text span {
+            color: var(--accent-gold);
+        }
+
+        .info-box {
+            background-color: var(--light-bg);
+            padding: 12px 14px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 11px;
+        }
+        
+        .fr-section .info-box {
+            border-left: 3px solid var(--primary-blue);
+        }
+        
+        .ar-section .info-box {
+            border-right: 3px solid var(--primary-blue);
+            font-size: 12px;
+        }
+        
+        .highlight-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 11px;
+        }
+        
+        .ar-section .highlight-box {
+            font-size: 12px;
+        }
+        
+        .royal-banner {
+            display: flex;
+            align-items: stretch;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-top: 14px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            min-height: 140px;
+        }
+        
+        .fr-section .royal-banner {
+            border-left: 3px solid var(--accent-gold);
+        }
+        
+        .ar-section .royal-banner {
+            border-right: 3px solid var(--accent-gold);
+        }
+        
+        .royal-banner .img-container {
+            flex: 0 0 40%;
+            overflow: hidden;
+        }
+        
+        .royal-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+        
+        .royal-banner .text-container {
+            flex: 1;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .ar-section .royal-banner .text-container {
+            padding: 16px 20px;
+        }
+        
+        .royal-quote {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--primary-blue);
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .ar-section .royal-quote {
+            font-size: 14px;
+        }
+        
+        .royal-name {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+        
+        .ar-section .royal-name {
+            font-size: 12px;
+        }
+
+        .featured-image-container {
+            width: 100%;
+            margin-top: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            min-height: 150px;
+            max-height: 210px;
+        }
+        
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .fr-section .timeline-time {
+            width: 75px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-align: right;
+            padding-right: 16px;
+            font-size: 13px;
+        }
+        
+        .fr-section .timeline-content {
+            border-left: 2px solid #e5e7eb;
+            padding-left: 16px;
+            padding-bottom: 5px;
+            flex: 1;
+        }
+        
+        .fr-section .timeline-content h4 {
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .fr-section .timeline-content p {
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .fr-section .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: 71px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            top: 4px;
+        }
+
+        .ar-section .timeline-time {
+            width: 75px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-align: left;
+            padding-left: 16px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            direction: ltr;
+        }
+        
+        .ar-section .timeline-content {
+            border-right: 2px solid #e5e7eb;
+            padding-right: 16px;
+            padding-bottom: 5px;
+            flex: 1;
+        }
+        
+        .ar-section .timeline-content h4 {
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .ar-section .timeline-content p {
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .ar-section .timeline-content::before {
+            content: '';
+            position: absolute;
+            right: 71px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            top: 4px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10.5px;
+            margin-top: 10px;
+        }
+        
+        .ar-section .table-custom {
+            font-size: 11px;
+        }
+        
+        .table-custom th {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+        
+        .fr-section .table-custom th {
+            text-align: left;
+        }
+        
+        .ar-section .table-custom th {
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+            font-size: 12px;
+        }
+        
+        .table-custom td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
+            vertical-align: top;
+            line-height: 1.5;
+            font-size: 10px;
+        }
+        
+        .ar-section .table-custom td {
+            line-height: 1.6;
+            font-size: 10.5px;
+        }
+        
+        .pack-titane {
+            background-color: #0f172a;
+            color: white !important;
+        }
+        
+        .pack-price {
+            font-size: 14px;
+            font-weight: 800;
+            display: block;
+            margin-top: 4px;
+            color: var(--accent-gold);
+            font-family: 'Montserrat', sans-serif;
+            direction: ltr;
+        }
+
+        .page-footer {
+            margin-top: auto;
+            background-color: #f1f5f9;
+            padding: 16px 40px;
+            font-size: 10px;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        .ar-section .page-footer {
+            font-size: 11px;
+        }
+
+        .official-letter {
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+        .official-letter p {
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VERSION FRANÇAISE -->
+    <div class="fr-section" dir="ltr">
+        
+        <!-- PAGE 1: COVER -->
+        <div class="page cover-page">
+            <div class="cover-content">
+                <div style="font-size: 14px; letter-spacing: 4px; margin-bottom: 15px; color: var(--accent-light); font-weight: 600; text-transform: uppercase;">Dossier de Partenariat Stratégique</div>
+                <h1><span style="color: #22c55e;">AI</span> SOUTH INNOVATION<br>HACKATHON</h1>
+                <div class="cover-subtitle">Catalyser le Développement Régional par l'IA</div>
+                <div style="font-size: 26px; font-weight: 800; letter-spacing: 1px;">23 & 24 MAI 2026</div>
+                <div style="font-size: 16px; margin-top: 12px; font-weight: 400; color: #cbd5e1;">Campus Universiapolis Laâyoune</div>
+
+                <div class="logos-container">
+                    <div class="club-logo-text">SCIENCE <span>CLUB</span></div>
+                    <div style="width: 1px; height: 40px; background: #cbd5e1;"></div>
+                    <img src="https://universiapolis-laayoune.ma/wp-content/themes/ul2020/img/logo-laayoune.png" alt="Universiapolis">
+                </div>
+                
+                <div style="margin-top: 50px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8;">
+                    Propulsé par les étudiants de l'Universiapolis Laâyoune
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: VISION NATIONALE -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>1. Vision Nationale & Impact</h2>
+                </div>
+
+                <h3 style="color: var(--primary-blue); font-size: 16px; margin-bottom: 10px; font-weight: 700;">L'Innovation Démocratisée par l'IA</h3>
+                <p>S'inscrivant dans la dynamique du Nouveau Modèle de Développement du Maroc, ce hackathon vise à transformer Laâyoune en un véritable laboratoire d'innovation. L'économie numérique n'est plus réservée aux seuls experts en informatique.</p>
+                <p>Notre événement répond à cet appel national en brisant les barrières techniques. Grâce à l'Intelligence Artificielle, nous permettons à toute la jeunesse universitaire de la région — ingénieurs, managers, médecins, infirmiers, juristes ou encore étudiants en marketing — de concevoir, structurer et déployer des solutions viables pour leur territoire.</p>
+                
+                <div class="royal-banner">
+                    <div class="img-container">
+                        <img src="https://www.lexpress.fr/resizer/v2/XOUWSHPA35CR7BKXV3XZV44GVM.jpg?auth=e4f32bc757bd0c35ca6d2b9d6ef66c3221860ee9f08f4829bf7f891c8b23f1e2&width=1200&height=630&quality=85&smart=true" alt="SM Le Roi Mohammed VI">
+                    </div>
+                    <div class="text-container">
+                        <p class="royal-quote">« La jeunesse est la véritable richesse de la Nation [...] Notre engagement est ferme pour ériger nos provinces du Sud en un véritable moteur de développement régional et continental. »</p>
+                        <span class="royal-name">- Extraits des Discours de Sa Majesté le Roi Mohammed VI</span>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 12px;">
+                    <h4 style="color: var(--accent-gold); margin-bottom: 6px; font-size: 12px; font-weight: 700;">Un Impact Régional Tangible</h4>
+                    <p style="margin-bottom: 0; font-size: 10.5px;">Nous voulons des actions concrètes. Les défis de ce Hackathon sont centrés sur l'économie locale de Laâyoune-Sakia El Hamra : gestion intelligente des ressources hydriques (GreenTech), inclusion financière pour les coopératives locales (FinTech), et modernisation des services touristiques.</p>
+                </div>
+
+                <div class="row" style="margin-top: 12px; gap: 12px;">
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 12px; border-radius: 3px; border-left: 3px solid var(--accent-gold);">
+                        <h4 style="color: var(--primary-blue); font-size: 11px; margin-bottom: 6px; font-weight: 700;">Audience Physique</h4>
+                        <p style="margin: 0; font-size: 10px;">Étudiants de toutes les écoles supérieures, facultés et instituts de formation de la région : Universiapolis Laâyoune, Faculté de Médecine, Institut de Formation en Soins Infirmiers, Instituts de Technologie Appliquée et autres — ingénieurs, étudiants en commerce et finance, médecins, infirmiers, techniciens spécialisés et juristes réunis autour de l'innovation.</p>
+                    </div>
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 12px; border-radius: 3px; border-left: 3px solid var(--primary-blue);">
+                        <h4 style="color: var(--primary-blue); font-size: 11px; margin-bottom: 6px; font-weight: 700;">Portée Digitale</h4>
+                        <p style="margin: 0; font-size: 10px;">Objectif : 50 000+ impressions sur réseaux sociaux, couverture presse locale, aftermovie professionnel</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Vision & Impact Régional</span>
+                <span>Page 2</span>
+            </div>
+        </div>
+
+        <!-- PAGE 3: LE CONCEPT -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>2. Le Concept : Vibe Coding & IA</h2>
+                </div>
+
+                <p style="margin-bottom: 20px;">Le Vibe Coding Hackathon marque une rupture majeure : la démocratisation du code par l'IA. Ce n'est pas un événement réservé aux informaticiens. C'est une opportunité inédite pour tous les étudiants de la région — gestion, finance, médecine, soins infirmiers, droit, marketing — de devenir proactifs et bâtisseurs de solutions concrètes pour leur territoire.</p>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--primary-blue); font-size: 12px; margin-bottom: 6px; font-weight: 700;">1. L'IA comme Développeur, l'Étudiant comme Architecte</h4>
+                    <p style="margin:0; font-size: 10.5px;">Avant le sprint, chaque participant recevra une masterclass sur l'utilisation avancée des IA (Cursor, Copilot). La barrière technique disparaît : l'idée prime, et la machine code. Les étudiants se concentrent sur la résolution du problème régional et la viabilité de leur modèle.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--primary-blue); font-size: 12px; margin-bottom: 6px; font-weight: 700;">2. Supervision par des Experts</h4>
+                    <p style="margin:0; font-size: 10.5px;">Durant les 48 heures, les équipes seront guidées par des mentors experts : chefs d'entreprises locaux, experts financiers, et professeurs d'Universiapolis Laâyoune pour valider le sens business de leurs solutions.</p>
+                </div>
+
+                <div class="info-box" style="border-left-color: var(--accent-gold); background-color: var(--primary-blue); color: white; padding: 12px;">
+                    <h4 style="color: var(--accent-gold); font-size: 12px; margin-bottom: 6px; font-weight: 700;">3. Un MVP pour de Vrais Problèmes</h4>
+                    <p style="color: #e2e8f0; margin-bottom: 0; font-size: 10.5px;">Grâce à la vitesse de l'IA, nous n'acceptons pas de simples présentations. Les étudiants doivent livrer un MVP fonctionnel (application web ou mobile opérationnelle) prouvant que l'IA est un levier d'action concret.</p>
+                </div>
+                
+                <div class="featured-image-container">
+                    <img src="https://mx4augg1q7.ufs.sh/f/M7p4J9nf1eWYpXR16U3e2wk05mbroXYDWeNOs7j4UJKvEBuL" class="featured-image" alt="Coding Session with AI">
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Concept : L'IA pour Tous</span>
+                <span>Page 3</span>
+            </div>
+        </div>
+
+        <!-- PAGE 4: PROGRAMME -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>3. Programme des 48 Heures</h2>
+                </div>
+
+                <div class="row" style="flex-grow: 1;">
+                    <!-- JOUR 1 -->
+                    <div class="col">
+                        <div style="background: var(--light-bg); padding: 12px; border-radius: 6px; margin-bottom: 25px; border-top: 3px solid var(--primary-blue);">
+                            <h3 style="color: var(--primary-blue); font-size: 16px; margin: 0;">Samedi 23 Mai 2026</h3>
+                            <span style="font-size: 11px; color: var(--text-light); text-transform: uppercase;">Apprentissage IA & Idéation</span>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-time">08h30</div>
+                            <div class="timeline-content">
+                                <h4>Accueil & Cérémonie</h4>
+                                <p>Présentation des défis régionaux à résoudre.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10h00</div>
+                            <div class="timeline-content">
+                                <h4>Masterclass Vibe Coding</h4>
+                                <p>Apprendre à "prompter" et coder avec l'IA.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11h30</div>
+                            <div class="timeline-content">
+                                <h4 style="color: var(--accent-gold);">LANCEMENT DU SPRINT</h4>
+                                <p>Début des 48h de conception assistée par IA.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">16h00</div>
+                            <div class="timeline-content">
+                                <h4>Checkpoint Mentors #1</h4>
+                                <p>Validation du business model de la solution.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">Nuit</div>
+                            <div class="timeline-content">
+                                <h4>Code & Energy</h4>
+                                <p>Développement continu de la plateforme.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JOUR 2 -->
+                    <div class="col">
+                        <div style="background: var(--light-bg); padding: 12px; border-radius: 6px; margin-bottom: 25px; border-top: 3px solid var(--accent-gold);">
+                            <h3 style="color: var(--primary-blue); font-size: 16px; margin: 0;">Dimanche 24 Mai 2026</h3>
+                            <span style="font-size: 11px; color: var(--text-light); text-transform: uppercase;">Finalisation & MVP Pitch</span>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-time">09h00</div>
+                            <div class="timeline-content">
+                                <h4>Checkpoint Mentors #2</h4>
+                                <p>Entraînement au Pitch et tests des MVPs.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">14h00</div>
+                            <div class="timeline-content">
+                                <h4 style="color: #dc2626;">CODE FREEZE</h4>
+                                <p>Arrêt de l'IA. Soumission des prototypes.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">15h30</div>
+                            <div class="timeline-content">
+                                <h4>Demo Day (Pitch Jury)</h4>
+                                <p>Démonstration fonctionnelle devant les experts.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">18h30</div>
+                            <div class="timeline-content">
+                                <h4>Cérémonie de Clôture</h4>
+                                <p>Remise des prix, networking et célébration.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Programme des 48 Heures</span>
+                <span>Page 4</span>
+            </div>
+        </div>
+
+        <!-- PAGE 5: BESOINS -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>4. Liste Explicite des Besoins</h2>
+                </div>
+                
+                <p style="margin-bottom: 16px;">Pour assurer le succès logistique de cet événement accueillant 100 participants et 20 staffs/mentors, voici l'inventaire précis de nos besoins avec estimation budgétaire. Les partenariats peuvent se faire sous forme de financement direct ou de dons en nature.</p>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th width="28%">Catégorie</th>
+                            <th width="52%">Détail des besoins logistiques (Quantités)</th>
+                            <th width="20%">Coût Estimé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Restauration & Traiteur</strong></td>
+                            <td>
+                                • 240 Repas complets (120 personnes x 2 déjeuners)<br>
+                                • 120 Dîners pour la nuit du Samedi<br>
+                                • Pauses café continues (Snacks, Eau, Café sur 48h)<br>
+                                <em style="color: var(--accent-gold); font-size: 10px;">Opportunité sponsoring en nature</em>
+                            </td>
+                            <td><strong>18 000 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Print & Signalétique</strong></td>
+                            <td>
+                                • 120 T-shirts personnalisés avec logos sponsors<br>
+                                • 120 Badges et cordons professionnels<br>
+                                • 4 Banderoles (3x1m) et 2 Roll-ups<br>
+                                • 1 Mur de photocall pour interviews
+                            </td>
+                            <td><strong>8 500 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outils IA & Infrastructure</strong></td>
+                            <td>
+                                • 30 Abonnements IA Premium (Cursor/ChatGPT Plus) pour 48h<br>
+                                • 40 Multiprises électriques professionnelles<br>
+                                • 4 Routeurs 4G/5G de secours
+                            </td>
+                            <td><strong>4 500 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Récompenses (Cash Prize)</strong></td>
+                            <td>
+                                • 1er Prix : 10 000 MAD (Seed money startup)<br>
+                                • 2ème Prix : 6 000 MAD<br>
+                                • 3ème Prix : 4 000 MAD
+                            </td>
+                            <td><strong>20 000 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication & Médias</strong></td>
+                            <td>
+                                • Campagne réseaux sociaux (Objectif: 50 000+ impressions)<br>
+                                • Couverture presse locale et universitaire<br>
+                                • Vidéo aftermovie professionnel<br>
+                                • Rapport d'impact RSE post-événement
+                            </td>
+                            <td><strong>3 000 MAD</strong></td>
+                        </tr>
+                        <tr style="background-color: var(--light-bg); font-weight: 700; font-size: 13px;">
+                            <td colspan="2" style="text-align: right; padding-right: 20px; color: var(--primary-blue);">BUDGET GLOBAL TOTAL</td>
+                            <td style="color: var(--accent-gold); font-size: 16px;"><strong>54 000 MAD</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 3px; margin-top: 12px; font-size: 10.5px;">
+                    <strong style="color: var(--primary-blue);">Engagement Post-Événement :</strong> Nous nous engageons à fournir un Bilan d'Impact RSE complet (métriques, photos HD, CVthèque, retombées médias) dans les 15 jours suivant la clôture.
+                </div>
+
+                <div class="featured-image-container">
+                    <img src="https://mx4augg1q7.ufs.sh/f/M7p4J9nf1eWY8FudAJ474peJTIrMBc0YkXh1mAWP9yxGoKQg" class="featured-image" alt="Award Ceremony">
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>Besoins Logistiques & Financiers</span>
+                <span>Page 5</span>
+            </div>
+        </div>
+
+        <!-- PAGE 6: ROI & CONTACT -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>5. Retour sur Investissement & Contact</h2>
+                </div>
+                
+                <div class="row" style="margin-bottom: 14px;">
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 14px; border-radius: 3px; border-left: 3px solid var(--accent-gold);">
+                        <h4 style="color: var(--primary-blue); font-size: 12px; margin-bottom: 8px; font-weight: 700;">Acquisition de Solutions Intelligentes</h4>
+                        <p style="font-size: 10.5px;">Pour les partenaires majeurs, ce hackathon agit comme un laboratoire R&D externalisé. Observez comment l'IA permet à des esprits neufs de développer en 48h des logiciels que vous pourrez intégrer pour optimiser vos processus internes.</p>
+                    </div>
+
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 14px; border-radius: 3px; border-left: 3px solid var(--primary-blue);">
+                        <h4 style="color: var(--primary-blue); font-size: 12px; margin-bottom: 8px; font-weight: 700;">Recrutement de Profils Augmentés</h4>
+                        <p style="font-size: 10.5px;">En tant que sponsor, vous identifiez les profils Business et Tech les plus proactifs, capables de maîtriser l'IA pour délivrer des résultats sous pression. Une opportunité idéale pour sécuriser vos stages PFE ou futures embauches.</p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="text-align: center; border: 1px solid var(--primary-blue); background: var(--primary-blue); color: white; margin-top: auto; padding: 16px;">
+                    <h4 style="margin-bottom: 6px; color: var(--accent-gold); font-size: 15px; font-weight: 800;">Construisons ensemble l'avenir de Laâyoune</h4>
+                    <p style="text-align: center; margin: 0; color: #e2e8f0; font-size: 10.5px;">Le Comité Fondateur du Science Club se tient à votre entière disposition pour une présentation détaillée et la signature de conventions de partenariat.</p>
+                </div>
+
+                <div style="display: flex; gap: 20px; margin-top: 20px;">
+                    <div style="flex: 1; background: var(--light-bg); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                        <strong style="color: var(--primary-blue); font-size: 16px; display: block;">EL BACHRA Achraf</strong>
+                        <span style="color: var(--accent-gold); font-weight: 700; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 8px;">Président — Science Club</span>
+                        <span style="font-size: 13px; color: var(--text-dark); display: block; margin-bottom: 4px;"><i class="fa-solid fa-phone" style="color: var(--primary-blue); width: 20px;"></i> +212 600-318586</span>
+                        <span style="font-size: 12px; color: var(--text-dark); display: block;"><i class="fa-solid fa-envelope" style="color: var(--primary-blue); width: 20px;"></i> achraf.elbachra@e-polytechnique.ma</span>
+                    </div>
+                    <div style="flex: 1; background: var(--light-bg); padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                        <strong style="color: var(--primary-blue); font-size: 16px; display: block;">BRIH Wafae</strong>
+                        <span style="color: var(--accent-gold); font-weight: 700; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 8px;">Vice-Présidente — Science Club</span>
+                        <span style="font-size: 13px; color: var(--text-dark); display: block; margin-bottom: 4px;"><i class="fa-solid fa-phone" style="color: var(--primary-blue); width: 20px;"></i> +212 662-538220</span>
+                        <span style="font-size: 12px; color: var(--text-dark); display: block;"><i class="fa-solid fa-envelope" style="color: var(--primary-blue); width: 20px;"></i> wafae.brih@e-polytechnique.ma</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-footer">
+                <span>Contact & Validation</span>
+                <span>Page 6</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- VERSION ARABE -->
+    <div class="ar-section" dir="rtl">
+        
+        <!-- PAGE AR: COVER -->
+        <div class="page cover-page">
+            <div class="cover-content">
+                <div style="font-size: 16px; margin-bottom: 15px; color: var(--accent-light); font-weight: 700;">ملف الشراكة الاستراتيجية</div>
+                
+                <h1 class="latin-title"><span style="color: #22c55e;">AI</span> SOUTH INNOVATION<br>HACKATHON</h1>
+                <h2 class="ar-title">هاكاثون الذكاء الاصطناعي: ابتكار حلول واقعية للأقاليم الجنوبية</h2>
+                
+                <div class="cover-subtitle">الذكاء الاصطناعي في خدمة الابتكار الإقليمي</div>
+                
+                <div style="font-size: 22px; font-family: 'Montserrat', sans-serif; font-weight: 800; letter-spacing: 1px; direction: ltr;">23 & 24 MAI 2026</div>
+                <div style="font-size: 16px; margin-top: 12px; font-weight: 600; color: #cbd5e1;">الجامعة الدولية بالعيون</div>
+
+                <div class="logos-container">
+                    <img src="https://universiapolis-laayoune.ma/wp-content/themes/ul2020/img/logo-laayoune.png" alt="Universiapolis">
+                    <div style="width: 1px; height: 40px; background: #cbd5e1; margin-left: 30px; margin-right: 30px;"></div>
+                    <div class="club-logo-text" style="font-family: 'Cairo', sans-serif;">نادي <span>العلوم</span></div>
+                </div>
+                
+                <div style="margin-top: 50px; font-size: 13px; font-weight: 600; color: #94a3b8;">
+                    بمبادرة من طلاب الجامعة الدولية بالعيون
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE AR: VISION NATIONALE -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>1. الرؤية الوطنية والتأثير</h2>
+                </div>
+
+                <h3 style="color: var(--primary-blue); font-size: 18px; margin-bottom: 10px; font-weight: 800;">إضفاء الطابع الديمقراطي على التكنولوجيا</h3>
+                <p>تماشياً مع أهداف النموذج التنموي الجديد للمغرب، يهدف هذا الهاكاثون إلى تحويل مدينة العيون إلى مختبر حقيقي للابتكار. لم يعد الاقتصاد الرقمي حكراً على خبراء المعلوميات فقط.</p>
+                <p>يلبي حدثنا هذا النداء الوطني من خلال كسر الحواجز التقنية. بفضل الذكاء الاصطناعي، نتيح لجميع الشباب الجامعي في الجهة — مهندسون، مدراء، أطباء، ممرضون، حقوقيون أو طلاب تسويق — القدرة على تصميم وهيكلة ونشر حلول قابلة للتطبيق في منطقتهم.</p>
+                
+                <div class="royal-banner">
+                    <div class="img-container">
+                        <img src="https://www.lexpress.fr/resizer/v2/XOUWSHPA35CR7BKXV3XZV44GVM.jpg?auth=e4f32bc757bd0c35ca6d2b9d6ef66c3221860ee9f08f4829bf7f891c8b23f1e2&width=1200&height=630&quality=85&smart=true" alt="جلالة الملك محمد السادس">
+                    </div>
+                    <div class="text-container">
+                        <p class="royal-quote">« إن شبابنا هو الثروة الحقيقية للوطن [...] والتزامنا راسخ بجعل أقاليمنا الجنوبية قاطرة للتنمية الإقليمية والقارية. »</p>
+                        <span class="royal-name">- مقتطفات من الخطب السامية لصاحب الجلالة الملك محمد السادس نصره الله</span>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 12px;">
+                    <h4 style="color: var(--accent-gold); margin-bottom: 6px; font-size: 16px; font-weight: 700;">تأثير إقليمي ملموس</h4>
+                    <p style="margin-bottom: 0; font-size: 12px;">نحن نريد أفعالاً ملموسة. تتمحور تحديات هذا الهاكاثون حول الاقتصاد المحلي لجهة العيون الساقية الحمراء: التدبير الذكي للموارد المائية، الشمول المالي للتعاونيات المحلية، وتحديث الخدمات السياحية والإدارية.</p>
+                </div>
+
+                <div class="row" style="margin-top: 12px; gap: 12px;">
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 12px; border-radius: 3px; border-right: 3px solid var(--accent-gold);">
+                        <h4 style="color: var(--primary-blue); font-size: 14px; margin-bottom: 6px; font-weight: 700;">الجمهور الحاضر</h4>
+                        <p style="margin: 0; font-size: 11.5px;">طلاب جميع المدارس العليا، الكليات، ومعاهد التكوين في الجهة: الجامعة الدولية بالعيون، كلية الطب، معهد تكوين المهن التمريضية، معاهد التكنولوجيا التطبيقية وغيرها — مهندسون، طلبة التجارة والمالية، أطباء، ممرضون، تقنيون متخصصون، وحقوقيون يجتمعون حول الابتكار.</p>
+                    </div>
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 12px; border-radius: 3px; border-right: 3px solid var(--primary-blue);">
+                        <h4 style="color: var(--primary-blue); font-size: 14px; margin-bottom: 6px; font-weight: 700;">الوصول الرقمي</h4>
+                        <p style="margin: 0; font-size: 11.5px;">الهدف: <strong class="latin-text">50 000+</strong> ظهور على وسائل التواصل، تغطية صحفية، فيديو احترافي</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>الرؤية والتأثير الإقليمي</span>
+                <span class="latin-text">Page 7</span>
+            </div>
+        </div>
+
+        <!-- PAGE AR: LE CONCEPT -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>2. المفهوم : Vibe Coding والذكاء الاصطناعي</h2>
+                </div>
+
+                <p style="margin-bottom: 20px;">يمثل هاكاثون "Vibe Coding" نقلة نوعية: تسهيل البرمجة للجميع بواسطة الذكاء الاصطناعي. هذا الحدث ليس مخصصاً للمبرمجين فقط. بل هو فرصة غير مسبوقة لجميع طلاب الجهة — إدارة، مالية، طب، تمريض، قانون، تسويق — ليصبحوا فاعلين وبناة حلول ملموسة لمنطقتهم.</p>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--primary-blue); font-size: 15px; margin-bottom: 6px; font-weight: 700;">1. الذكاء الاصطناعي كمطور، والطالب كمهندس أفكار</h4>
+                    <p style="margin:0; font-size: 12px;">قبل الانطلاق، سيتلقى كل مشارك دورة مكثفة حول الاستخدام المتقدم للذكاء الاصطناعي. تختفي الحواجز التقنية: الطالب يركز على حل المشكلة الإقليمية وجدوى المشروع، والآلة تقوم بكتابة الكود.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="color: var(--primary-blue); font-size: 15px; margin-bottom: 6px; font-weight: 700;">2. إشراف من قبل خبراء ومرشدين</h4>
+                    <p style="margin:0; font-size: 12px;">خلال الـ 48 ساعة، سيتم توجيه الفرق من قبل قادة أعمال محليين، خبراء ماليين، وأساتذة من الجامعة الدولية بالعيون لضمان واقعية وجدوى الحلول المقترحة.</p>
+                </div>
+
+                <div class="info-box" style="border-right-color: var(--accent-gold); background-color: var(--primary-blue); color: white; padding: 12px;">
+                    <h4 style="color: var(--accent-gold); font-size: 15px; margin-bottom: 6px; font-weight: 700;">3. نموذج أولي لحل إقليمي حقيقي</h4>
+                    <p style="color: #e2e8f0; margin-bottom: 0; font-size: 12px;">بفضل سرعة الذكاء الاصطناعي، نحن لا نقبل العروض التقديمية البسيطة. يجب على الطلاب تقديم نموذج أولي وظيفي (تطبيق فعلي) يثبت أن الذكاء الاصطناعي أداة حقيقية لحل التحديات.</p>
+                </div>
+                
+                <div class="featured-image-container">
+                    <img src="https://mx4augg1q7.ufs.sh/f/M7p4J9nf1eWYpXR16U3e2wk05mbroXYDWeNOs7j4UJKvEBuL" class="featured-image" alt="Coding Session with AI">
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>الذكاء الاصطناعي للجميع</span>
+                <span class="latin-text">Page 8</span>
+            </div>
+        </div>
+
+        <!-- PAGE AR: PROGRAMME -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>3. برنامج الـ 48 ساعة</h2>
+                </div>
+
+                <div class="row" style="flex-grow: 1;">
+                    <!-- JOUR 1 -->
+                    <div class="col">
+                        <div style="background: var(--light-bg); padding: 12px; border-radius: 6px; margin-bottom: 25px; border-top: 3px solid var(--primary-blue);">
+                            <h3 style="color: var(--primary-blue); font-size: 18px; margin: 0;">السبت 23 مايو 2026</h3>
+                            <span style="font-size: 12px; color: var(--text-light);">التعلم على الذكاء الاصطناعي وابتكار الأفكار</span>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-time">08h30</div>
+                            <div class="timeline-content">
+                                <h4>الاستقبال والافتتاح</h4>
+                                <p>عرض التحديات الإقليمية المطلوب حلها.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10h00</div>
+                            <div class="timeline-content">
+                                <h4>دورة Vibe Coding</h4>
+                                <p>تعلم كيفية توجيه الذكاء الاصطناعي لتوليد الأكواد.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11h30</div>
+                            <div class="timeline-content">
+                                <h4 style="color: var(--accent-gold);">الانطلاق الرسمي للهاكاثون</h4>
+                                <p>بدء 48 ساعة من التطوير بمساعدة الذكاء الاصطناعي.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">16h00</div>
+                            <div class="timeline-content">
+                                <h4>جلسة التوجيه الأولى</h4>
+                                <p>المصادقة على النموذج الاقتصادي للحلول المقترحة.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">ليلاً</div>
+                            <div class="timeline-content">
+                                <h4>البرمجة الليلية</h4>
+                                <p>التطوير المستمر للمنصات والمشاريع.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JOUR 2 -->
+                    <div class="col">
+                        <div style="background: var(--light-bg); padding: 12px; border-radius: 6px; margin-bottom: 25px; border-top: 3px solid var(--accent-gold);">
+                            <h3 style="color: var(--primary-blue); font-size: 18px; margin: 0;">الأحد 24 مايو 2026</h3>
+                            <span style="font-size: 12px; color: var(--text-light);">الإنهاء والعرض النهائي للمشروع</span>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-time">09h00</div>
+                            <div class="timeline-content">
+                                <h4>جلسة التوجيه الثانية</h4>
+                                <p>التدرب على تقديم العروض واختبار النماذج الأولية.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">14h00</div>
+                            <div class="timeline-content">
+                                <h4 style="color: #dc2626; direction: ltr; text-align: left;">CODE FREEZE</h4>
+                                <p>توقف الذكاء الاصطناعي. تسليم النماذج النهائية.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">15h30</div>
+                            <div class="timeline-content">
+                                <h4>عروض المشاريع (Demo Day)</h4>
+                                <p>عرض وظيفي للحلول أمام لجنة الخبراء.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">18h30</div>
+                            <div class="timeline-content">
+                                <h4>حفل الختام</h4>
+                                <p>توزيع الجوائز، الكلمات الختامية وفرص التواصل.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>البرنامج</span>
+                <span class="latin-text">Page 9</span>
+            </div>
+        </div>
+
+        <!-- PAGE AR: BESOINS -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>4. الاحتياجات اللوجستية والمالية</h2>
+                </div>
+                
+                <p style="margin-bottom: 16px;">لضمان النجاح اللوجستي لهذا الحدث الذي يستضيف 100 مشارك و 20 مؤطراً، إليكم الجرد الدقيق لاحتياجاتنا مع التقدير المالي. يمكن أن تتم الشراكات في شكل تمويل مباشر أو تبرعات عينية.</p>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th width="28%">الفئة</th>
+                            <th width="52%">تفاصيل الاحتياجات اللوجستية (الكميات)</th>
+                            <th width="20%">التكلفة المقدرة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>التغذية والتموين</strong></td>
+                            <td>
+                                • 240 وجبة غداء كاملة (وجبتين)<br>
+                                • 120 وجبة عشاء (السبت)<br>
+                                • استراحات قهوة مستمرة على مدار 48 ساعة<br>
+                                <em style="color: var(--accent-gold); font-size: 10px;">فرصة رعاية عينية</em>
+                            </td>
+                            <td><strong class="latin-text">18 000 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>الطباعة واللوجستيك</strong></td>
+                            <td>
+                                • 120 قميصاً مخصصاً مع شعارات الرعاة<br>
+                                • 120 شارة احترافية<br>
+                                • 4 لافتات حائطية وجدار تصوير
+                            </td>
+                            <td><strong class="latin-text">8 500 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>أدوات الذكاء الاصطناعي</strong></td>
+                            <td>
+                                • 30 اشتراك مدفوع في الذكاء الاصطناعي لمدة 48 ساعة<br>
+                                • 40 كابل تمديد كهربائي احترافي<br>
+                                • 4 أجهزة توجيه 4G/5G للطوارئ
+                            </td>
+                            <td><strong class="latin-text">4 500 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>الجوائز المالية</strong></td>
+                            <td>
+                                • الجائزة الأولى: 10,000 درهم<br>
+                                • الجائزة الثانية: 6,000 درهم<br>
+                                • الجائزة الثالثة: 4,000 درهم
+                            </td>
+                            <td><strong class="latin-text">20 000 MAD</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>التواصل والإعلام</strong></td>
+                            <td>
+                                • حملة على وسائل التواصل (الهدف: 50,000+ ظهور)<br>
+                                • تغطية صحفية محلية وجامعية<br>
+                                • فيديو احترافي للحدث<br>
+                                • تقرير تأثير المسؤولية الاجتماعية
+                            </td>
+                            <td><strong class="latin-text">3 000 MAD</strong></td>
+                        </tr>
+                        <tr style="background-color: var(--light-bg); font-weight: 700; font-size: 13px;">
+                            <td colspan="2" style="text-align: left; padding-left: 20px; color: var(--primary-blue);">الميزانية الإجمالية الكاملة</td>
+                            <td style="color: var(--accent-gold); font-size: 16px;"><strong class="latin-text">54 000 MAD</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 3px; margin-top: 12px; font-size: 11.5px;">
+                    <strong style="color: var(--primary-blue);">التزام ما بعد الحدث :</strong> نلتزم بتقديم تقرير تأثير كامل للمسؤولية الاجتماعية (مقاييس، صور عالية الدقة، قاعدة بيانات السير الذاتية، التغطية الإعلامية) في غضون 15 يوماً من الاختتام.
+                </div>
+
+                <div class="featured-image-container">
+                    <img src="https://mx4augg1q7.ufs.sh/f/M7p4J9nf1eWY8FudAJ474peJTIrMBc0YkXh1mAWP9yxGoKQg" class="featured-image" alt="Award Ceremony">
+                </div>
+            </div>
+            <div class="page-footer">
+                <span>الاحتياجات</span>
+                <span class="latin-text">Page 10</span>
+            </div>
+        </div>
+
+        <!-- PAGE AR: ROI & CONTACT -->
+        <div class="page">
+            <div class="content-padding">
+                <div class="section-header">
+                    <h2>5. العائد على الاستثمار والتواصل</h2>
+                </div>
+                
+                <div class="row" style="margin-bottom: 14px;">
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 14px; border-radius: 3px; border-right: 3px solid var(--accent-gold);">
+                        <h4 style="color: var(--primary-blue); font-size: 15px; margin-bottom: 8px; font-weight: 700;">الاستحواذ على حلول ذكية</h4>
+                        <p style="font-size: 11.5px;">يعد هذا الهاكاثون بمثابة مختبر للبحث والتطوير. راقبوا كيف يسمح الذكاء الاصطناعي لعقول جديدة بتطوير برامج في 48 ساعة يمكنكم دمجها لتحسين عملياتكم الداخلية.</p>
+                    </div>
+
+                    <div class="col" style="background: white; border: 1px solid var(--border-color); padding: 14px; border-radius: 3px; border-right: 3px solid var(--primary-blue);">
+                        <h4 style="color: var(--primary-blue); font-size: 15px; margin-bottom: 8px; font-weight: 700;">توظيف كفاءات معززة بالذكاء</h4>
+                        <p style="font-size: 11.5px;">بصفتكم راعياً، ستكتشفون أصحاب المهارات الإدارية والتقنية القادرين على إتقان الذكاء الاصطناعي لتقديم نتائج تحت الضغط. فرصة مثالية لتأمين متدربين وموظفين مستقبليين.</p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="text-align: center; border: 1px solid var(--primary-blue); background: var(--primary-blue); color: white; margin-top: auto; padding: 16px;">
+                    <h4 style="margin-bottom: 6px; color: var(--accent-gold); font-size: 18px; font-weight: 800;">لنبنِ معاً مستقبل مدينة العيون</h4>
+                    <p style="text-align: center; margin: 0; color: #e2e8f0; font-size: 12px;">اللجنة المؤسسة لـ <strong>نادي العلوم</strong> تحت تصرفكم الكامل لتقديم عرض تفصيلي وتوقيع اتفاقيات الشراكة.</p>
+                </div>
+
+                <div style="display: flex; gap: 20px; margin-top: 20px;">
+                    <div style="flex: 1; background: var(--light-bg); padding: 20px; border-radius: 8px; border-right: 4px solid var(--primary-blue);">
+                        <strong style="color: var(--primary-blue); font-size: 16px; display: block;">EL BACHRA Achraf</strong>
+                        <span style="color: var(--accent-gold); font-weight: 700; font-size: 13px; display: block; margin-bottom: 8px;">رئيس النادي — نادي العلوم</span>
+                        <span style="font-size: 14px; color: var(--text-dark); display: block; margin-bottom: 4px;" class="latin-text"><i class="fa-solid fa-phone" style="color: var(--primary-blue); width: 20px; margin-right: 8px;"></i> +212 600-318586</span>
+                        <span style="font-size: 13px; color: var(--text-dark); display: block;" class="latin-text"><i class="fa-solid fa-envelope" style="color: var(--primary-blue); width: 20px; margin-right: 8px;"></i> achraf.elbachra@e-polytechnique.ma</span>
+                    </div>
+                    <div style="flex: 1; background: var(--light-bg); padding: 20px; border-radius: 8px; border-right: 4px solid var(--primary-blue);">
+                        <strong style="color: var(--primary-blue); font-size: 16px; display: block;">BRIH Wafae</strong>
+                        <span style="color: var(--accent-gold); font-weight: 700; font-size: 13px; display: block; margin-bottom: 8px;">نائبة الرئيس — نادي العلوم</span>
+                        <span style="font-size: 14px; color: var(--text-dark); display: block; margin-bottom: 4px;" class="latin-text"><i class="fa-solid fa-phone" style="color: var(--primary-blue); width: 20px; margin-right: 8px;"></i> +212 662-538220</span>
+                        <span style="font-size: 13px; color: var(--text-dark); display: block;" class="latin-text"><i class="fa-solid fa-envelope" style="color: var(--primary-blue); width: 20px; margin-right: 8px;"></i> wafae.brih@e-polytechnique.ma</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-footer">
+                <span>التواصل</span>
+                <span class="latin-text">Page 11</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
