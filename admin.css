@@ -447,6 +447,38 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
   margin-bottom: 0 !important;
 }
 
+.resend-intro {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: -0.5rem 0 1rem;
+}
+
+.resend-intro code {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  background: var(--bg2);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.resend-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.resend-status {
+  font-size: 0.82rem;
+  min-height: 1.25rem;
+  color: var(--accent2);
+}
+
+.resend-status.err {
+  color: var(--danger);
+}
+
 /* Toolbar */
 .admin-toolbar {
   display: flex;

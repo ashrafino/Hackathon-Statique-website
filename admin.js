@@ -464,6 +464,99 @@ function copyBCCEmails(allMatching) {
   copyToClipboard(emails.join('; '));
 }
 
+function openSendResendModal() {
+  document.getElementById('resend-modal').classList.remove('hidden');
+  const st = document.getElementById('resend-status');
+  if (st) {
+    st.textContent = '';
+    st.classList.remove('err');
+  }
+}
+
+function fillResendRecipientsFromFiltered() {
+  const emails = [...new Set(lastFiltered.map(a => (a.email || '').trim()).filter(Boolean))];
+  document.getElementById('resend-to').value = emails.join('\n');
+  if (!emails.length) showBanner('No emails in current filter', 'warn');
+}
+
+function fillResendRecipientsFromPage() {
+  const emails = [...new Set(lastPageApps.map(a => (a.email || '').trim()).filter(Boolean))];
+  document.getElementById('resend-to').value = emails.join('\n');
+  if (!emails.length) showBanner('No emails on this page', 'warn');
+}
+
+async function submitResendEmail() {
+  if (!sessionPassword) {
+    alert('Log in again to send email.');
+    return;
+  }
+  const from = document.getElementById('resend-from').value.trim();
+  const to = document.getElementById('resend-to').value.trim();
+  const subject = document.getElementById('resend-subject').value.trim();
+  const text = document.getElementById('resend-body').value;
+  const st = document.getElementById('resend-status');
+  const btn = document.getElementById('resend-submit-btn');
+  st.textContent = '';
+  st.classList.remove('err');
+
+  if (!from || !to || !subject || !text.trim()) {
+    st.textContent = 'Fill From, To, Subject, and Message.';
+    st.classList.add('err');
+    return;
+  }
+
+  btn.disabled = true;
+  st.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('/.netlify/functions/send-resend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        password: sessionPassword,
+        from,
+        to,
+        subject,
+        text,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.status === 401) {
+      st.textContent = 'Wrong session — refresh and log in again.';
+      st.classList.add('err');
+      return;
+    }
+    if (res.status === 503 && data.error) {
+      st.textContent = data.error;
+      st.classList.add('err');
+      return;
+    }
+    if (!res.ok) {
+      st.textContent = data.error || `Error ${res.status}`;
+      st.classList.add('err');
+      return;
+    }
+
+    if (data.success) {
+      st.textContent = `Sent ${data.sent} message(s).`;
+      showBanner(`Resend: ${data.sent} email(s) sent`, 'success');
+      closeModal('resend-modal');
+    } else {
+      st.textContent = `Partial: ${data.sent}/${data.total} sent. Check failed list in console.`;
+      st.classList.add('err');
+      console.warn('Resend failures', data.failed);
+      showBanner(`Resend partial: ${data.sent}/${data.total} OK`, 'warn');
+    }
+  } catch (e) {
+    st.textContent = 'Network error — is the function deployed?';
+    st.classList.add('err');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 function copyCurrentDetail() {
   const apps = getApps();
   const a = apps.find(x => x.id === currentId);
