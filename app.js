@@ -348,20 +348,19 @@ function setLanguage(lang) {
   document.querySelectorAll('.btn-lang').forEach(btn => {
     btn.classList.remove('active');
   });
-  
-  // Add active class to the clicked button
-  event.target.classList.add('active');
-  
+
+  // Add active class to the selected button
+  const selected = Array.from(document.querySelectorAll('.btn-lang'))
+    .find(btn => btn.textContent.trim().toLowerCase() === lang);
+  if (selected) selected.classList.add('active');
+
   // Store language preference
   localStorage.setItem('language', lang);
-  
-  // TODO: Implement actual language switching logic here
-  // For now, just update the active state
+
+  // Keep UX explicit until full translation exists
   if (lang === 'fr') {
-    // French translation logic will go here
-    console.log('Switched to French');
+    alert('French content is coming soon. English version is currently live.');
   } else {
-    // English is default
     console.log('Switched to English');
   }
 }

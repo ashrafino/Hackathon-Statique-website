@@ -546,6 +546,22 @@ a { text-decoration: none; color: inherit; }
 
 .concept-body strong { color: var(--text); }
 
+.concept-list {
+  margin: 0 0 1.4rem 1.1rem;
+  color: var(--text-muted);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.concept-list li {
+  line-height: 1.6;
+  font-size: 0.92rem;
+}
+
+.concept-list strong {
+  color: var(--text);
+}
+
 .concept-tools {
   display: flex;
   flex-wrap: wrap;
@@ -851,6 +867,25 @@ a { text-decoration: none; color: inherit; }
 
 .partenariat-lead strong { color: var(--text); }
 
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0 0 1.4rem;
+}
+
+.trust-strip span {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--text-muted);
+}
+
 .sponsor-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -912,6 +947,13 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.7rem;
   color: var(--accent2);
   line-height: 1.5;
+}
+
+.prize-note {
+  margin-top: 0.45rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
 }
 
 /* FuzzyText prize teaser */
@@ -1135,6 +1177,35 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* =============================================
+   FAQ
+============================================= */
+.faq { background: var(--bg); }
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.1rem;
+}
+
+.faq-item h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.faq-item p {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+/* =============================================
    FOOTER
 ============================================= */
 .footer {
@@ -1182,6 +1253,7 @@ a { text-decoration: none; color: inherit; }
   .orga-grid { grid-template-columns: 1fr 1fr; }
   .orga-main { grid-column: span 2; }
   .sponsor-grid { grid-template-columns: 1fr 1fr; }
+  .trust-strip { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -1196,6 +1268,7 @@ a { text-decoration: none; color: inherit; }
   .benefits-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
   .section { padding: 5rem 1.2rem; }
+  .faq-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
