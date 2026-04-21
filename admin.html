@@ -28,11 +28,11 @@
     <aside class="sidebar">
       <div class="sidebar-logo"><span class="logo-dot"></span> ADMIN</div>
       <nav class="sidebar-nav">
-        <a href="#" class="active" onclick="showTab('all')">All Applications</a>
-        <a href="#" onclick="showTab('pending')">Pending</a>
-        <a href="#" onclick="showTab('accepted')">Accepted</a>
-        <a href="#" onclick="showTab('rejected')">Rejected</a>
-        <a href="#" onclick="showTab('waitlist')">Waitlist</a>
+        <a href="#" class="active" onclick="showTab('all', this); return false;">All Applications</a>
+        <a href="#" onclick="showTab('pending', this); return false;">Pending</a>
+        <a href="#" onclick="showTab('accepted', this); return false;">Accepted</a>
+        <a href="#" onclick="showTab('rejected', this); return false;">Rejected</a>
+        <a href="#" onclick="showTab('waitlist', this); return false;">Waitlist</a>
       </nav>
       <div class="sidebar-stats">
         <div class="ss-item"><span id="s-total">0</span><small>Total</small></div>
@@ -50,17 +50,47 @@
           <p id="tab-count" class="tab-count"></p>
         </div>
         <div class="topbar-right">
-          <input type="text" id="search-input" placeholder="Search by name, email, team..." oninput="renderTable()" />
+          <input type="text" id="search-input" placeholder="Search (captain, members, team, email…)" oninput="onSearchInput()" />
           <button class="btn-add" onclick="openAddModal()">+ Add Manually</button>
         </div>
       </div>
 
-      <div class="table-wrap">
+      <div class="admin-toolbar">
+        <div class="toolbar-group">
+          <label class="toolbar-label" for="filter-registering">Registration</label>
+          <select id="filter-registering" onchange="resetPageAndRender()">
+            <option value="all">All</option>
+            <option value="solo">Solo only</option>
+            <option value="team">Teams only</option>
+          </select>
+        </div>
+        <div class="toolbar-group">
+          <label class="toolbar-label" for="page-size">Rows / page</label>
+          <select id="page-size" onchange="resetPageAndRender()">
+            <option value="10">10</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <label class="toolbar-check">
+          <input type="checkbox" id="readable-rows" onchange="toggleReadableRows()" />
+          <span>Wrap long text in table</span>
+        </label>
+        <div class="toolbar-spacer"></div>
+        <button type="button" class="btn-tool" onclick="copyFilteredEmails()" title="Copy all visible emails (current page)">Copy page emails</button>
+        <button type="button" class="btn-tool" onclick="copyFilteredEmails(true)" title="Copy emails for all rows matching current filters">Copy all filtered emails</button>
+        <button type="button" class="btn-tool btn-tool-secondary" onclick="window.print()">Print view</button>
+      </div>
+
+      <div class="table-wrap" id="table-wrap">
         <table id="apps-table">
           <thead>
             <tr>
               <th>#</th>
               <th>Full Name</th>
+              <th>Team</th>
+              <th>Size</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Institution</th>
@@ -74,16 +104,20 @@
           <tbody id="table-body"></tbody>
         </table>
         <div id="empty-state" class="empty-state hidden">No applications found.</div>
+        <div id="pagination" class="pagination hidden"></div>
       </div>
     </main>
   </div>
 
   <!-- DETAIL MODAL -->
   <div id="detail-modal" class="modal hidden">
-    <div class="modal-box modal-box-lg">
+    <div class="modal-box modal-box-lg modal-box-scroll">
       <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
-      <h2 id="modal-name"></h2>
-      <div id="modal-body" class="modal-body"></div>
+      <div class="modal-head-row">
+        <h2 id="modal-name"></h2>
+        <button type="button" class="btn-tool btn-tool-inline" onclick="copyCurrentDetail()">Copy full record</button>
+      </div>
+      <div id="modal-body" class="modal-body modal-body-detail"></div>
       <div class="modal-actions">
         <button class="btn-accept" onclick="setStatus(currentId,'accepted')">Accept</button>
         <button class="btn-waitlist" onclick="setStatus(currentId,'waitlist')">Waitlist</button>

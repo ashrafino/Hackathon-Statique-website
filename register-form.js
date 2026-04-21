@@ -162,13 +162,11 @@ function renderMembers(count) {
 }
 
 /* ── CHARACTER COUNTERS ── */
-['project-idea', 'motivation'].forEach(id => {
-  const el = document.getElementById(id);
-  const counter = document.getElementById(id === 'project-idea' ? 'idea-count' : 'motivation-count');
-  if (el && counter) {
-    el.addEventListener('input', () => { counter.textContent = el.value.length; });
-  }
-});
+const ideaEl = document.getElementById('project-idea');
+const ideaCount = document.getElementById('idea-count');
+if (ideaEl && ideaCount) {
+  ideaEl.addEventListener('input', () => { ideaCount.textContent = ideaEl.value.length; });
+}
 
 /* ── SUMMARY ── */
 function buildSummary() {
@@ -176,14 +174,13 @@ function buildSummary() {
     { label: 'Full Name', id: 'fullname' },
     { label: 'Email', id: 'email' },
     { label: 'Phone', id: 'phone' },
-    { label: 'CIN', id: 'cin' },
     { label: 'Institution', id: 'etablissement' },
     { label: 'Program', id: 'filiere' },
     { label: 'Level', id: 'niveau' },
     { label: 'Experience', id: 'experience' },
     { label: 'T-Shirt', id: 'tshirt' },
     { label: 'Registering as', id: 'registering-as' },
-    { label: 'Challenge Theme', id: 'project-theme' },
+    { label: 'Project idea', id: 'project-idea' },
   ];
 
   const container = document.getElementById('summary-content');

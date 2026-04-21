@@ -93,23 +93,13 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">
-                  Email Address <span class="req">*</span>
-                  <span class="label-sub">Adresse Email · <span class="ar">البريد الإلكتروني</span></span>
-                </label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
-                <span class="field-error" id="err-email"></span>
-              </div>
-              <div class="form-group">
-                <label for="cin">
-                  CIN / Student ID <span class="req">*</span>
-                  <span class="label-sub">N° Étudiant · <span class="ar">رقم البطاقة / رقم الطالب</span></span>
-                </label>
-                <input type="text" id="cin" name="cin" placeholder="AB123456" required />
-                <span class="field-error" id="err-cin"></span>
-              </div>
+            <div class="form-group full">
+              <label for="email">
+                Email Address <span class="req">*</span>
+                <span class="label-sub">Adresse Email · <span class="ar">البريد الإلكتروني</span></span>
+              </label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+              <span class="field-error" id="err-email"></span>
             </div>
 
             <div class="form-row">
@@ -145,7 +135,13 @@
                   Technical Experience <span class="req">*</span>
                   <span class="label-sub">Expérience · <span class="ar">الخبرة التقنية</span></span>
                 </label>
-                <input type="text" id="experience" name="experience" placeholder="e.g. Beginner, 2 years coding, No experience..." required />
+                <select id="experience" name="experience" required>
+                  <option value="" disabled selected>Select · Choisir · اختر</option>
+                  <option>No experience · Aucune expérience · لا خبرة</option>
+                  <option>Beginner · Débutant · مبتدئ</option>
+                  <option>Intermediate · Intermédiaire · متوسط</option>
+                  <option>Advanced · Avancé · متقدم</option>
+                </select>
                 <span class="field-error" id="err-experience"></span>
               </div>
             </div>
@@ -249,23 +245,6 @@
             </div>
 
             <div class="form-group full">
-              <label for="project-theme">
-                Challenge Theme <span class="req">*</span>
-                <span class="label-sub">Thème du Challenge · <span class="ar">موضوع التحدي</span></span>
-              </label>
-              <select id="project-theme" name="project_theme" required>
-                <option value="" disabled selected>Select a theme · Choisir un thème · اختر موضوعاً</option>
-                <option>Smart Water Management · Gestion de l'Eau · إدارة المياه الذكية</option>
-                <option>FinTech & Financial Inclusion · Inclusion Financière · التكنولوجيا المالية</option>
-                <option>Sustainable Tourism · Tourisme Durable · السياحة المستدامة</option>
-                <option>Precision Agriculture · Agriculture de Précision · الزراعة الدقيقة</option>
-                <option>Education & Social Innovation · Innovation Sociale · التعليم والابتكار الاجتماعي</option>
-                <option>Open Innovation · Innovation Ouverte · الابتكار المفتوح</option>
-              </select>
-              <span class="field-error" id="err-project-theme"></span>
-            </div>
-
-            <div class="form-group full">
               <label for="project-idea">
                 Brief Project Idea
                 <span class="label-sub">Brève idée de projet · <span class="ar">فكرة مشروعك باختصار (اختياري)</span></span>
@@ -291,24 +270,7 @@
           ══════════════════════════════ -->
           <div class="form-step" id="step-4">
             <div class="form-section-title">
-              Motivation · <span class="ar">الدافع</span>
-            </div>
-
-            <div class="form-group full">
-              <label for="motivation">
-                Why do you want to participate?
-                <span class="label-sub">Pourquoi participer ? · <span class="ar">لماذا تريد المشاركة؟ (اختياري)</span></span>
-              </label>
-              <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you · Dites-nous ce qui vous motive · أخبرنا بما يدفعك للمشاركة (اختياري)..." maxlength="800"></textarea>
-              <div class="char-count"><span id="motivation-count">0</span>/800</div>
-            </div>
-
-            <div class="form-group full">
-              <label for="heard-from">
-                How did you hear about us?
-                <span class="label-sub">Comment nous avez-vous connus ? · <span class="ar">كيف سمعت عنا؟ (اختياري)</span></span>
-              </label>
-              <input type="text" id="heard-from" name="heard_from" placeholder="Instagram, Professor, Friend · إنستغرام، أستاذ، صديق..." />
+              Confirm &amp; submit · Confirmation · <span class="ar">التأكيد والإرسال</span>
             </div>
 
             <div class="form-group full checkbox-group">
@@ -375,6 +337,6 @@
     </div>
   </main>
 
-  <script src="register-form.js?v=5"></script>
+  <script src="register-form.js?v=7"></script>
 </body>
 </html>

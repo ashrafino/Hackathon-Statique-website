@@ -51,6 +51,13 @@ exports.handler = async (event) => {
     date:           new Date(),
   };
 
+  const skipKeys = new Set(['bot-field', 'form-name']);
+  const knownKeys = new Set(Object.keys(submission));
+  for (const [k, v] of Object.entries(data)) {
+    if (skipKeys.has(k) || knownKeys.has(k)) continue;
+    if (v !== undefined && v !== null) submission[k] = v;
+  }
+
   try {
     const db = await getDb();
     await db.collection('hackathon_registrations').insertOne(submission);
