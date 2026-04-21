@@ -57,6 +57,7 @@ const statNums = document.querySelectorAll('.stat-num');
 statNums.forEach(el => {
   const raw = el.textContent.trim();
   const num = parseInt(raw);
+  if (isNaN(num)) return; // skip non-numeric stats (teasers, icons, etc.)
   el.dataset.suffix = raw.includes('H') ? 'H' : '';
   el.dataset.target = num;
   el.textContent = '0' + el.dataset.suffix;
@@ -66,7 +67,9 @@ const statsObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       const el = e.target;
-      animateCounter(el, parseInt(el.dataset.target));
+      const target = parseInt(el.dataset.target);
+      if (isNaN(target)) return; // skip non-numeric stats
+      animateCounter(el, target);
       statsObserver.unobserve(el);
     }
   });
