@@ -380,21 +380,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =============================================
-   FUZZYTEXT ENGINE — ported from ReactBits
-   (vanilla JS / Canvas, no React needed)
+   FUZZYTEXT ENGINE — Simplified & Robust
 ============================================= */
 function initFuzzyText(canvas, {
   text          = '??? MAD',
-  fontSize      = 'clamp(1.4rem, 4vw, 2rem)',
+  fontSize      = '16px',
   fontWeight    = 900,
   fontFamily    = 'Space Mono, monospace',
-  gradient      = ['#6c63ff', '#00d4aa', '#ff6baf'],
-  baseIntensity = 0.55,
-  hoverIntensity= 0.08,
-  fuzzRange     = 28,
+  gradient      = ['#6c63ff', '#00d4aa'],
+  baseIntensity = 0.4,
+  hoverIntensity= 0.05,
+  fuzzRange     = 10,
   fps           = 60,
-  direction     = 'horizontal',
-  clickEffect   = true,
   glitchMode    = true,
   glitchInterval= 2200,
   glitchDuration= 180,
@@ -402,138 +399,85 @@ function initFuzzyText(canvas, {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  let animId, lastFrame = 0;
-  const frameDur = 1000 / fps;
-  let isHovering = false, isClicking = false, isGlitching = false;
-  let glitchTimer, glitchEndTimer, clickTimer;
-
-  // Resolve clamp() font-size to a pixel number
-  function resolveFontSize(str) {
-    const el = document.createElement('span');
-    el.style.cssText = `font-size:${str};position:absolute;visibility:hidden`;
-    document.body.appendChild(el);
-    const px = parseFloat(getComputedStyle(el).fontSize);
-    document.body.removeChild(el);
-    return px;
-  }
+  let animId;
+  let isHovering = false, isGlitching = false;
 
   function build() {
-    let numPx = typeof fontSize === 'number' ? fontSize : resolveFontSize(fontSize);
-    if (!numPx || isNaN(numPx)) numPx = 30; // Safe fallback
+    // 1. Resolve exact pixel size (safe fallback)
+    let numPx = 16;
+    if (typeof fontSize === 'number') numPx = fontSize;
+    else if (fontSize.includes('px')) numPx = parseFloat(fontSize);
+    else numPx = 20; // safe fallback for rem/clamp if calculation fails
 
     const fontStr = `${fontWeight} ${numPx}px ${fontFamily}`;
+    ctx.font = fontStr;
 
-    // Measure text on offscreen canvas
-    const off = document.createElement('canvas');
-    const offCtx = off.getContext('2d');
-    offCtx.font = fontStr;
-    offCtx.textBaseline = 'alphabetic';
-    const metrics = offCtx.measureText(text);
+    // 2. Measure exactly
+    const textWidth = ctx.measureText(text).width || (text.length * numPx * 0.6);
+    const hm = fuzzRange + 10;
+    const vm = numPx * 0.5;
+
+    // 3. Set physical canvas size (prevents flex collapse)
+    canvas.width = textWidth + (hm * 2);
+    canvas.height = numPx + (vm * 2);
     
-    // Safely get dimensions
-    const asc  = (metrics.actualBoundingBoxAscent !== undefined) ? metrics.actualBoundingBoxAscent : numPx;
-    const desc = (metrics.actualBoundingBoxDescent !== undefined) ? metrics.actualBoundingBoxDescent : numPx * 0.2;
-    const textWidth = metrics.width || (text.length * numPx * 0.6); // Fallback width
-    const tw   = Math.ceil(textWidth);
-    const th   = Math.ceil(asc + desc);
+    // Ensure CSS doesn't squash it
+    canvas.style.minWidth = `${canvas.width}px`;
 
-    const xBuf = 10;
-    off.width  = tw + xBuf;
-    off.height = th;
-
-    offCtx.font = fontStr;
-    offCtx.textBaseline = 'alphabetic';
-
-    // Gradient fill
-    const grad = offCtx.createLinearGradient(0, 0, tw + xBuf, 0);
-    gradient.forEach((c, i) => grad.addColorStop(i / (gradient.length - 1), c));
-    offCtx.fillStyle = grad;
-    const leftOffset = (metrics.actualBoundingBoxLeft !== undefined) ? metrics.actualBoundingBoxLeft : 0;
-    offCtx.fillText(text, (xBuf / 2) - leftOffset, asc);
-
-    const hm = fuzzRange + 20;
-    const vm = (direction === 'vertical' || direction === 'both') ? fuzzRange + 10 : 0;
-    canvas.width  = off.width + hm * 2;
-    canvas.height = th + vm * 2;
-    ctx.translate(hm, vm);
-
-    // Glitch loop
-    function startGlitch() {
-      if (!glitchMode) return;
-      glitchTimer = setTimeout(() => {
+    // 4. Glitch timer
+    if (glitchMode) {
+      setInterval(() => {
         isGlitching = true;
-        glitchEndTimer = setTimeout(() => { isGlitching = false; startGlitch(); }, glitchDuration);
-      }, glitchInterval + Math.random() * 800);
+        setTimeout(() => isGlitching = false, glitchDuration);
+      }, glitchInterval);
     }
-    startGlitch();
 
     let currentI = baseIntensity;
 
-    function draw(ts) {
-      if (ts - lastFrame < frameDur) { animId = requestAnimationFrame(draw); return; }
-      lastFrame = ts;
+    function draw() {
+      // Background clear
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.clearRect(-hm, -vm, canvas.width, canvas.height);
+      // Smooth intensity transition
+      const target = isGlitching ? 0.9 : (isHovering ? hoverIntensity : baseIntensity);
+      currentI += (target - currentI) * 0.2;
 
-      const target = isClicking ? 1 : isGlitching ? 0.9 : isHovering ? hoverIntensity : baseIntensity;
-      currentI += (target - currentI) * 0.18; // smooth transition
+      ctx.font = fontStr;
+      ctx.textBaseline = 'middle';
 
-      for (let row = 0; row < th; row++) {
-        const dx = (direction !== 'vertical')
-          ? Math.floor(currentI * (Math.random() - 0.5) * fuzzRange) : 0;
-        const dy = (direction !== 'horizontal')
-          ? Math.floor(currentI * (Math.random() - 0.5) * fuzzRange * 0.5) : 0;
-        ctx.drawImage(off, 0, row, off.width, 1, dx, row + dy, off.width, 1);
+      // Create gradient
+      const grad = ctx.createLinearGradient(hm, 0, hm + textWidth, 0);
+      gradient.forEach((c, i) => grad.addColorStop(i / (Math.max(1, gradient.length - 1)), c));
+      
+      // Draw multiple jittered layers to simulate "fuzz"
+      const layers = 5;
+      for (let i = 0; i < layers; i++) {
+        // Random offset based on intensity
+        const dx = (Math.random() - 0.5) * fuzzRange * currentI * 2;
+        const dy = (Math.random() - 0.5) * fuzzRange * currentI * 0.5;
+        
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = i === 0 ? 1 : (0.3 / layers); // Base layer is opaque, fuzz layers are faint
+        
+        ctx.fillText(text, hm + dx, (canvas.height / 2) + dy);
       }
+      ctx.globalAlpha = 1.0;
+
       animId = requestAnimationFrame(draw);
     }
-    animId = requestAnimationFrame(draw);
+    draw();
 
-    // Hover / click / touch
-    canvas.addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      const x = (e.clientX - r.left) * (canvas.width / r.width);
-      const y = (e.clientY - r.top)  * (canvas.height / r.height);
-      isHovering = x >= hm && x <= hm + tw && y >= vm && y <= vm + th;
-    });
-    canvas.addEventListener('mouseleave', () => { isHovering = false; });
-    canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      const t = e.touches[0];
-      const x = (t.clientX - r.left) * (canvas.width / r.width);
-      const y = (t.clientY - r.top)  * (canvas.height / r.height);
-      isHovering = x >= hm && x <= hm + tw && y >= vm && y <= vm + th;
-    }, { passive: false });
-    canvas.addEventListener('touchend', () => { isHovering = false; });
-    if (clickEffect) {
-      canvas.addEventListener('click', () => {
-        isClicking = true;
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { isClicking = false; }, 160);
-      });
-    }
+    // Interaction
+    canvas.addEventListener('mouseenter', () => isHovering = true);
+    canvas.addEventListener('mouseleave', () => isHovering = false);
+    canvas.addEventListener('touchstart', () => isHovering = true, {passive: true});
+    canvas.addEventListener('touchend', () => isHovering = false);
   }
 
-  // Ensure build runs even if fonts.ready hangs
-  let built = false;
-  const tryBuild = () => {
-    if (built) return;
-    built = true;
-    build();
-  };
-  
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(tryBuild).catch(tryBuild);
-  }
-  setTimeout(tryBuild, 150);
+  // Force build immediately
+  build();
 
-  return () => {
-    cancelAnimationFrame(animId);
-    clearTimeout(glitchTimer);
-    clearTimeout(glitchEndTimer);
-    clearTimeout(clickTimer);
-  };
+  return () => cancelAnimationFrame(animId);
 }
 
 /* ── Mount prize teaser ── */
