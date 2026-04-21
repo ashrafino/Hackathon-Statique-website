@@ -6,7 +6,7 @@
   <title>Admin — Vibe Coding Hackathon</title>
   <meta name="robots" content="noindex, nofollow" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 </head>
 <body>
   <!-- LOGIN SCREEN -->
@@ -39,8 +39,15 @@
         <div class="ss-item"><span id="s-accepted">0</span><small>Accepted</small></div>
         <div class="ss-item"><span id="s-pending">0</span><small>Pending</small></div>
       </div>
+      <div class="sidebar-mini">
+        <div class="sm-row"><span class="sm-label">Waitlist</span><span id="s-waitlist" class="sm-val">0</span></div>
+        <div class="sm-row"><span class="sm-label">Rejected</span><span id="s-rejected" class="sm-val">0</span></div>
+        <div class="sm-row"><span class="sm-label">Solo / Team</span><span id="s-solo-team" class="sm-val">0 / 0</span></div>
+      </div>
       <a href="index.html" class="sidebar-back">← Back to site</a>
+      <button type="button" class="btn-sidebar" onclick="refreshData()">↻ Refresh data</button>
       <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+      <button type="button" class="btn-sidebar btn-sidebar-secondary" onclick="exportJSON()">Export JSON</button>
     </aside>
 
     <main class="main-content">
@@ -54,6 +61,18 @@
           <button class="btn-add" onclick="openAddModal()">+ Add Manually</button>
         </div>
       </div>
+
+      <section class="stats-dashboard" id="stats-dashboard" aria-label="Application statistics"></section>
+
+      <details class="help-panel">
+        <summary>Email &amp; announcements (deliverability tips)</summary>
+        <div class="help-panel-body">
+          <p><strong>Free or low-cost sending:</strong> Use a proper transactional provider instead of PHP <code>mail()</code> or blind SMTP — try <strong>Resend</strong>, <strong>Brevo</strong> (Sendinblue), <strong>Mailgun</strong>, or <strong>Amazon SES</strong> (very cheap at scale). Many offer free monthly quotas for transactional mail (confirmations, password resets).</p>
+          <p><strong>Newsletters / broadcasts:</strong> Use <strong>Brevo</strong>, <strong>Mailchimp</strong>, or <strong>Buttondown</strong> for opt-in lists — they handle unsubscribe links and compliance. Copying hundreds of addresses into BCC from this admin works for tiny tests but is risky for spam filters and privacy.</p>
+          <p><strong>Avoid spam / Promotions:</strong> Send from a <strong>domain you control</strong> (not a free personal address as the official “From”). Add <strong>SPF</strong>, <strong>DKIM</strong>, and <strong>DMARC</strong> in DNS (your provider gives exact records). Keep a consistent sender name, use clear subject lines, avoid URL shorteners and spammy words, and only mail people who signed up. Warm up new domains gradually.</p>
+          <p class="help-note">This dashboard does not send email by itself — export CSV/JSON or use “Copy BCC” for mail merge in your provider.</p>
+        </div>
+      </details>
 
       <div class="admin-toolbar">
         <div class="toolbar-group">
@@ -80,6 +99,8 @@
         <div class="toolbar-spacer"></div>
         <button type="button" class="btn-tool" onclick="copyFilteredEmails()" title="Copy all visible emails (current page)">Copy page emails</button>
         <button type="button" class="btn-tool" onclick="copyFilteredEmails(true)" title="Copy emails for all rows matching current filters">Copy all filtered emails</button>
+        <button type="button" class="btn-tool" onclick="copyBCCEmails(false)" title="Semicolon-separated for Gmail / Outlook BCC (this page)">Copy page BCC</button>
+        <button type="button" class="btn-tool" onclick="copyBCCEmails(true)" title="BCC list for everyone matching current tab + search + registration filter">Copy filtered BCC</button>
         <button type="button" class="btn-tool btn-tool-secondary" onclick="window.print()">Print view</button>
       </div>
 
@@ -159,6 +180,6 @@
     </div>
   </div>
 
-  <script src="admin.js"></script>
+  <script src="admin.js?v=2"></script>
 </body>
 </html>

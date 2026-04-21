@@ -5,11 +5,14 @@ let currentId = null;
 let currentPage = 1;
 let lastFiltered = [];
 let lastPageApps = [];
+/** Set on login — used to re-fetch Netlify/Mongo submissions */
+let sessionPassword = '';
 
 /* ── AUTH ── */
 function checkLogin() {
   const val = document.getElementById('pwd-input').value;
   if (val === ADMIN_PASSWORD) {
+    sessionPassword = val;
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('dashboard').classList.remove('hidden');
     loadSubmissions(val);
@@ -21,6 +24,15 @@ function checkLogin() {
 document.getElementById('pwd-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkLogin();
 });
+
+async function refreshData() {
+  if (!sessionPassword) {
+    showBanner('Refresh after logging in.', 'warn');
+    return;
+  }
+  showBanner('Refreshing submissions…', 'info');
+  await loadSubmissions(sessionPassword);
+}
 
 /* ── LOAD: try Netlify Function, fall back to localStorage demo ── */
 async function loadSubmissions(password) {
@@ -147,6 +159,125 @@ function teamSizeDisplay(a) {
   return extra ? esc(String(extra + 1)) : '—';
 }
 
+function filterAppsLikeTable(apps) {
+  const search = document.getElementById('search-input').value.toLowerCase().trim();
+  const regFilter = document.getElementById('filter-registering').value;
+  return apps.filter(a => {
+    const matchTab = currentTab === 'all' || a.status === currentTab;
+    const isTeam = a.registering_as === 'team';
+    const matchReg =
+      regFilter === 'all' ||
+      (regFilter === 'team' && isTeam) ||
+      (regFilter === 'solo' && !isTeam);
+    const matchSearch = !search || appSearchBlob(a).includes(search);
+    return matchTab && matchReg && matchSearch;
+  });
+}
+
+function experienceBucket(exp) {
+  const s = String(exp || '').toLowerCase();
+  if (/\bno experience\b|aucune exp|لا خبرة/.test(s)) return 'none';
+  if (/\bbeginner\b|débutant|مبتدئ/.test(s)) return 'beginner';
+  if (/\bintermediate\b|intermédiaire|متوسط/.test(s)) return 'intermediate';
+  if (/\badvanced\b|avancé|متقدم/.test(s)) return 'advanced';
+  return 'other';
+}
+
+function renderStatsDashboard() {
+  const apps = getApps();
+  const el = document.getElementById('stats-dashboard');
+  if (!el) return;
+
+  if (!apps.length) {
+    el.innerHTML = '<p class="stats-empty">No applications yet. Submissions will appear here after the first registration.</p>';
+    return;
+  }
+
+  const total = apps.length;
+  const byStatus = { pending: 0, accepted: 0, rejected: 0, waitlist: 0 };
+  let solo = 0;
+  let teams = 0;
+  let people = 0;
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  let last7 = 0;
+  const exp = { none: 0, beginner: 0, intermediate: 0, advanced: 0, other: 0 };
+
+  apps.forEach(a => {
+    const st = a.status;
+    if (st && Object.prototype.hasOwnProperty.call(byStatus, st)) byStatus[st]++;
+    else byStatus.pending++;
+    if (a.registering_as === 'team') teams++;
+    else solo++;
+    people += 1 + extractTeamMembers(a).length;
+    const t = a.date ? new Date(a.date).getTime() : 0;
+    if (t && t >= cutoff) last7++;
+    exp[experienceBucket(a.experience)]++;
+  });
+
+  const pct = (n) => (total ? Math.round((n / total) * 1000) / 10 : 0);
+  const barPieces = [
+    ['accepted', 'seg-accepted'],
+    ['pending', 'seg-pending'],
+    ['waitlist', 'seg-waitlist'],
+    ['rejected', 'seg-rejected'],
+  ]
+    .map(([key, cls]) => {
+      const n = byStatus[key] || 0;
+      return n
+        ? `<div class="stat-bar-seg ${cls}" style="flex:${n}" title="${key}: ${n} (${pct(n)}%)">${n}</div>`
+        : '';
+    })
+    .join('');
+
+  const expLabels = {
+    none: 'No exp.',
+    beginner: 'Beginner',
+    intermediate: 'Intermediate',
+    advanced: 'Advanced',
+    other: 'Other',
+  };
+
+  el.innerHTML = `
+    <div class="stats-cards">
+      <div class="stat-card">
+        <span class="stat-card-value">${people}</span>
+        <span class="stat-card-label">Est. people (captains + listed teammates)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-value">${last7}</span>
+        <span class="stat-card-label">New in last 7 days</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-value">${teams}</span>
+        <span class="stat-card-label">Team applications · ${solo} solo</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card-value">${pct(byStatus.accepted)}%</span>
+        <span class="stat-card-label">Accepted rate (${byStatus.accepted} of ${total})</span>
+      </div>
+    </div>
+    <div class="stats-row-2">
+      <div class="stat-panel">
+        <h3 class="stat-panel-title">Status mix</h3>
+        <div class="stat-bar-total">${barPieces}</div>
+        <ul class="stat-legend">
+          <li><span class="dot seg-accepted"></span> Accepted ${byStatus.accepted}</li>
+          <li><span class="dot seg-pending"></span> Pending ${byStatus.pending}</li>
+          <li><span class="dot seg-waitlist"></span> Waitlist ${byStatus.waitlist}</li>
+          <li><span class="dot seg-rejected"></span> Rejected ${byStatus.rejected}</li>
+        </ul>
+      </div>
+      <div class="stat-panel">
+        <h3 class="stat-panel-title">Technical experience (captain)</h3>
+        <ul class="exp-breakdown">
+          ${(['none', 'beginner', 'intermediate', 'advanced', 'other']).map(k => `
+            <li><span>${expLabels[k]}</span><strong>${exp[k]}</strong> <em>(${pct(exp[k])}%)</em></li>
+          `).join('')}
+        </ul>
+      </div>
+    </div>`;
+}
+
 function renderPagination(total, pageSize, page) {
   const el = document.getElementById('pagination');
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -169,19 +300,7 @@ function renderPagination(total, pageSize, page) {
 /* ── RENDER TABLE ── */
 function renderTable() {
   const apps = getApps();
-  const search = document.getElementById('search-input').value.toLowerCase().trim();
-  const regFilter = document.getElementById('filter-registering').value;
-
-  const filtered = apps.filter(a => {
-    const matchTab = currentTab === 'all' || a.status === currentTab;
-    const isTeam = a.registering_as === 'team';
-    const matchReg =
-      regFilter === 'all' ||
-      (regFilter === 'team' && isTeam) ||
-      (regFilter === 'solo' && !isTeam);
-    const matchSearch = !search || appSearchBlob(a).includes(search);
-    return matchTab && matchReg && matchSearch;
-  });
+  const filtered = filterAppsLikeTable(apps);
 
   lastFiltered = filtered;
   const pageSize = getPageSize();
@@ -250,9 +369,20 @@ function showTab(tab, el) {
 /* ── STATS ── */
 function updateStats() {
   const apps = getApps();
-  document.getElementById('s-total').textContent    = apps.length;
+  document.getElementById('s-total').textContent = apps.length;
   document.getElementById('s-accepted').textContent = apps.filter(a => a.status === 'accepted').length;
-  document.getElementById('s-pending').textContent  = apps.filter(a => a.status === 'pending').length;
+  document.getElementById('s-pending').textContent = apps.filter(a => a.status === 'pending').length;
+  const wl = document.getElementById('s-waitlist');
+  const rj = document.getElementById('s-rejected');
+  const st = document.getElementById('s-solo-team');
+  if (wl) wl.textContent = apps.filter(a => a.status === 'waitlist').length;
+  if (rj) rj.textContent = apps.filter(a => a.status === 'rejected').length;
+  if (st) {
+    const solo = apps.filter(a => a.registering_as !== 'team').length;
+    const teams = apps.filter(a => a.registering_as === 'team').length;
+    st.textContent = `${solo} / ${teams}`;
+  }
+  renderStatsDashboard();
 }
 
 function memberCardsHtml(members) {
@@ -321,6 +451,17 @@ function copyFilteredEmails(allMatching) {
     return;
   }
   copyToClipboard(emails.join('\n'));
+}
+
+/** Semicolon-separated — paste into Gmail / Outlook BCC field */
+function copyBCCEmails(allMatching) {
+  const list = allMatching ? lastFiltered : lastPageApps;
+  const emails = [...new Set(list.map(a => (a.email || '').trim()).filter(Boolean))];
+  if (!emails.length) {
+    showBanner('No emails in this selection', 'warn');
+    return;
+  }
+  copyToClipboard(emails.join('; '));
 }
 
 function copyCurrentDetail() {
@@ -492,6 +633,18 @@ function exportCSV() {
   const a = document.createElement('a');
   a.href = url; a.download = 'hackathon_applications.csv'; a.click();
   URL.revokeObjectURL(url);
+}
+
+function exportJSON() {
+  const apps = getApps();
+  const blob = new Blob([JSON.stringify(apps, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `hackathon_applications_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showBanner(`Exported ${apps.length} record(s) as JSON`, 'success');
 }
 
 /* ── UTILS ── */

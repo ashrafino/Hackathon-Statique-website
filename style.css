@@ -1686,6 +1686,22 @@ a { text-decoration: none; color: inherit; }
   -webkit-appearance: none;
 }
 
+/* Checkboxes must stay native — text-field styling makes them invisible */
+.form-group input[type="checkbox"] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  padding: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  min-width: 1.2rem;
+  min-height: 1.2rem;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  accent-color: var(--accent);
+}
+
 .form-group select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237b84a3' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
