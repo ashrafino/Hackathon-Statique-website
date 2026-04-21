@@ -914,6 +914,49 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.5;
 }
 
+/* FuzzyText prize teaser */
+.fuzzy-prize-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.8rem 0 0.6rem;
+  padding: 0.6rem 0.4rem 0.2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(108,99,255,0.18);
+  background: rgba(108,99,255,0.04);
+  cursor: crosshair;
+  transition: border-color 0.3s, background 0.3s;
+  overflow: hidden;
+}
+
+.fuzzy-prize-wrap:hover {
+  border-color: rgba(108,99,255,0.4);
+  background: rgba(108,99,255,0.08);
+}
+
+.fuzzy-prize-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.fuzzy-prize-hint {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  margin-top: 0.2rem;
+}
+
+.fuzzy-prize-wrap:hover .fuzzy-prize-hint {
+  opacity: 0;
+}
+
 .benefits-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -378,3 +378,165 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/* =============================================
+   FUZZYTEXT ENGINE — ported from ReactBits
+   (vanilla JS / Canvas, no React needed)
+============================================= */
+function initFuzzyText(canvas, {
+  text          = '??? MAD',
+  fontSize      = 'clamp(1.4rem, 4vw, 2rem)',
+  fontWeight    = 900,
+  fontFamily    = 'Space Mono, monospace',
+  gradient      = ['#6c63ff', '#00d4aa', '#ff6baf'],
+  baseIntensity = 0.55,
+  hoverIntensity= 0.08,
+  fuzzRange     = 28,
+  fps           = 60,
+  direction     = 'horizontal',
+  clickEffect   = true,
+  glitchMode    = true,
+  glitchInterval= 2200,
+  glitchDuration= 180,
+} = {}) {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let animId, lastFrame = 0;
+  const frameDur = 1000 / fps;
+  let isHovering = false, isClicking = false, isGlitching = false;
+  let glitchTimer, glitchEndTimer, clickTimer;
+
+  // Resolve clamp() font-size to a pixel number
+  function resolveFontSize(str) {
+    const el = document.createElement('span');
+    el.style.cssText = `font-size:${str};position:absolute;visibility:hidden`;
+    document.body.appendChild(el);
+    const px = parseFloat(getComputedStyle(el).fontSize);
+    document.body.removeChild(el);
+    return px;
+  }
+
+  function build() {
+    const numPx = typeof fontSize === 'number' ? fontSize : resolveFontSize(fontSize);
+    const fontStr = `${fontWeight} ${numPx}px ${fontFamily}`;
+
+    // Measure text on offscreen canvas
+    const off = document.createElement('canvas');
+    const offCtx = off.getContext('2d');
+    offCtx.font = fontStr;
+    offCtx.textBaseline = 'alphabetic';
+    const metrics = offCtx.measureText(text);
+    const asc  = metrics.actualBoundingBoxAscent  ?? numPx;
+    const desc = metrics.actualBoundingBoxDescent ?? numPx * 0.2;
+    const tw   = Math.ceil(metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight || metrics.width);
+    const th   = Math.ceil(asc + desc);
+
+    const xBuf = 10;
+    off.width  = tw + xBuf;
+    off.height = th;
+
+    offCtx.font = fontStr;
+    offCtx.textBaseline = 'alphabetic';
+
+    // Gradient fill
+    const grad = offCtx.createLinearGradient(0, 0, tw + xBuf, 0);
+    gradient.forEach((c, i) => grad.addColorStop(i / (gradient.length - 1), c));
+    offCtx.fillStyle = grad;
+    offCtx.fillText(text, xBuf / 2 - (metrics.actualBoundingBoxLeft ?? 0), asc);
+
+    const hm = fuzzRange + 20;
+    const vm = (direction === 'vertical' || direction === 'both') ? fuzzRange + 10 : 0;
+    canvas.width  = off.width + hm * 2;
+    canvas.height = th + vm * 2;
+    ctx.translate(hm, vm);
+
+    // Glitch loop
+    function startGlitch() {
+      if (!glitchMode) return;
+      glitchTimer = setTimeout(() => {
+        isGlitching = true;
+        glitchEndTimer = setTimeout(() => { isGlitching = false; startGlitch(); }, glitchDuration);
+      }, glitchInterval + Math.random() * 800);
+    }
+    startGlitch();
+
+    let currentI = baseIntensity;
+
+    function draw(ts) {
+      if (ts - lastFrame < frameDur) { animId = requestAnimationFrame(draw); return; }
+      lastFrame = ts;
+
+      ctx.clearRect(-hm, -vm, canvas.width, canvas.height);
+
+      const target = isClicking ? 1 : isGlitching ? 0.9 : isHovering ? hoverIntensity : baseIntensity;
+      currentI += (target - currentI) * 0.18; // smooth transition
+
+      for (let row = 0; row < th; row++) {
+        const dx = (direction !== 'vertical')
+          ? Math.floor(currentI * (Math.random() - 0.5) * fuzzRange) : 0;
+        const dy = (direction !== 'horizontal')
+          ? Math.floor(currentI * (Math.random() - 0.5) * fuzzRange * 0.5) : 0;
+        ctx.drawImage(off, 0, row, off.width, 1, dx, row + dy, off.width, 1);
+      }
+      animId = requestAnimationFrame(draw);
+    }
+    animId = requestAnimationFrame(draw);
+
+    // Hover / click / touch
+    canvas.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      const x = (e.clientX - r.left) * (canvas.width / r.width);
+      const y = (e.clientY - r.top)  * (canvas.height / r.height);
+      isHovering = x >= hm && x <= hm + tw && y >= vm && y <= vm + th;
+    });
+    canvas.addEventListener('mouseleave', () => { isHovering = false; });
+    canvas.addEventListener('touchmove', e => {
+      e.preventDefault();
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches[0];
+      const x = (t.clientX - r.left) * (canvas.width / r.width);
+      const y = (t.clientY - r.top)  * (canvas.height / r.height);
+      isHovering = x >= hm && x <= hm + tw && y >= vm && y <= vm + th;
+    }, { passive: false });
+    canvas.addEventListener('touchend', () => { isHovering = false; });
+    if (clickEffect) {
+      canvas.addEventListener('click', () => {
+        isClicking = true;
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => { isClicking = false; }, 160);
+      });
+    }
+  }
+
+  // Wait for fonts then build
+  document.fonts.ready.then(build);
+
+  return () => {
+    cancelAnimationFrame(animId);
+    clearTimeout(glitchTimer);
+    clearTimeout(glitchEndTimer);
+    clearTimeout(clickTimer);
+  };
+}
+
+/* ── Mount prize teaser ── */
+const prizeFuzzyCanvas = document.getElementById('prize-fuzzy');
+if (prizeFuzzyCanvas) {
+  initFuzzyText(prizeFuzzyCanvas, {
+    text:           '??? MAD',
+    fontSize:       'clamp(1.2rem, 3.5vw, 1.8rem)',
+    fontWeight:     900,
+    fontFamily:     'Space Mono, monospace',
+    gradient:       ['#6c63ff', '#00d4aa', '#ff6baf'],
+    baseIntensity:  0.58,
+    hoverIntensity: 0.07,
+    fuzzRange:      30,
+    fps:            60,
+    direction:      'horizontal',
+    glitchMode:     true,
+    glitchInterval: 2400,
+    glitchDuration: 160,
+    clickEffect:    true,
+  });
+}
