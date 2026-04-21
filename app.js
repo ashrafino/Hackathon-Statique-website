@@ -400,14 +400,31 @@ function initFuzzyText(canvas, {
   if (!ctx) return;
 
   let animId;
+  let glitchTimer;
   let isHovering = false, isGlitching = false;
+  let dpr = Math.max(1, window.devicePixelRatio || 1);
+
+  function resolveFontPx(fontValue) {
+    if (typeof fontValue === 'number') return fontValue;
+    if (typeof fontValue === 'string') {
+      const parsed = Number.parseFloat(fontValue);
+      if (fontValue.includes('px') && !Number.isNaN(parsed)) return parsed;
+    }
+    const probe = document.createElement('span');
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    probe.style.pointerEvents = 'none';
+    probe.style.fontSize = String(fontValue || '16px');
+    probe.textContent = 'M';
+    document.body.appendChild(probe);
+    const measured = parseFloat(getComputedStyle(probe).fontSize) || 16;
+    probe.remove();
+    return measured;
+  }
 
   function build() {
-    // 1. Resolve exact pixel size (safe fallback)
-    let numPx = 16;
-    if (typeof fontSize === 'number') numPx = fontSize;
-    else if (fontSize.includes('px')) numPx = parseFloat(fontSize);
-    else numPx = 20; // safe fallback for rem/clamp if calculation fails
+    // 1. Resolve exact pixel size (supports clamp/rem/vw)
+    const numPx = resolveFontPx(fontSize);
 
     const fontStr = `${fontWeight} ${numPx}px ${fontFamily}`;
     ctx.font = fontStr;
@@ -417,26 +434,37 @@ function initFuzzyText(canvas, {
     const hm = fuzzRange + 10;
     const vm = numPx * 0.5;
 
-    // 3. Set physical canvas size (prevents flex collapse)
-    canvas.width = textWidth + (hm * 2);
-    canvas.height = numPx + (vm * 2);
-    
-    // Ensure CSS doesn't squash it
-    canvas.style.minWidth = `${canvas.width}px`;
+    // 3. Set CSS and physical canvas size (prevents flex collapse)
+    const cssWidth = textWidth + (hm * 2);
+    const cssHeight = numPx + (vm * 2);
+    canvas.style.width = `${cssWidth}px`;
+    canvas.style.height = `${cssHeight}px`;
+    canvas.style.minWidth = `${cssWidth}px`;
+    canvas.width = Math.ceil(cssWidth * dpr);
+    canvas.height = Math.ceil(cssHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.font = fontStr;
 
     // 4. Glitch timer
     if (glitchMode) {
-      setInterval(() => {
+      glitchTimer = setInterval(() => {
         isGlitching = true;
         setTimeout(() => isGlitching = false, glitchDuration);
       }, glitchInterval);
     }
 
     let currentI = baseIntensity;
+    let lastTime = 0;
+    const frameStep = 1000 / Math.max(1, fps);
 
-    function draw() {
+    function draw(ts = 0) {
+      if (ts - lastTime < frameStep) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      lastTime = ts;
       // Background clear
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
       // Smooth intensity transition
       const target = isGlitching ? 0.9 : (isHovering ? hoverIntensity : baseIntensity);
@@ -451,15 +479,22 @@ function initFuzzyText(canvas, {
       
       // Draw multiple jittered layers to simulate "fuzz"
       const layers = 5;
+      const centerY = (canvas.height / dpr) / 2;
+
+      // Solid base text for guaranteed visibility
+      ctx.fillStyle = grad;
+      ctx.globalAlpha = 1;
+      ctx.fillText(text, hm, centerY);
+
       for (let i = 0; i < layers; i++) {
         // Random offset based on intensity
         const dx = (Math.random() - 0.5) * fuzzRange * currentI * 2;
         const dy = (Math.random() - 0.5) * fuzzRange * currentI * 0.5;
         
         ctx.fillStyle = grad;
-        ctx.globalAlpha = i === 0 ? 1 : (0.3 / layers); // Base layer is opaque, fuzz layers are faint
+        ctx.globalAlpha = 0.26 / layers;
         
-        ctx.fillText(text, hm + dx, (canvas.height / 2) + dy);
+        ctx.fillText(text, hm + dx, centerY + dy);
       }
       ctx.globalAlpha = 1.0;
 
@@ -477,7 +512,10 @@ function initFuzzyText(canvas, {
   // Force build immediately
   build();
 
-  return () => cancelAnimationFrame(animId);
+  return () => {
+    cancelAnimationFrame(animId);
+    if (glitchTimer) clearInterval(glitchTimer);
+  };
 }
 
 /* ── Mount prize teaser ── */
