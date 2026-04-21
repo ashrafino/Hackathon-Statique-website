@@ -418,7 +418,9 @@ function initFuzzyText(canvas, {
   }
 
   function build() {
-    const numPx = typeof fontSize === 'number' ? fontSize : resolveFontSize(fontSize);
+    let numPx = typeof fontSize === 'number' ? fontSize : resolveFontSize(fontSize);
+    if (!numPx || isNaN(numPx)) numPx = 30; // Safe fallback
+
     const fontStr = `${fontWeight} ${numPx}px ${fontFamily}`;
 
     // Measure text on offscreen canvas
@@ -427,9 +429,12 @@ function initFuzzyText(canvas, {
     offCtx.font = fontStr;
     offCtx.textBaseline = 'alphabetic';
     const metrics = offCtx.measureText(text);
-    const asc  = metrics.actualBoundingBoxAscent  ?? numPx;
-    const desc = metrics.actualBoundingBoxDescent ?? numPx * 0.2;
-    const tw   = Math.ceil(metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight || metrics.width);
+    
+    // Safely get dimensions
+    const asc  = (metrics.actualBoundingBoxAscent !== undefined) ? metrics.actualBoundingBoxAscent : numPx;
+    const desc = (metrics.actualBoundingBoxDescent !== undefined) ? metrics.actualBoundingBoxDescent : numPx * 0.2;
+    const textWidth = metrics.width || (text.length * numPx * 0.6); // Fallback width
+    const tw   = Math.ceil(textWidth);
     const th   = Math.ceil(asc + desc);
 
     const xBuf = 10;
@@ -443,7 +448,8 @@ function initFuzzyText(canvas, {
     const grad = offCtx.createLinearGradient(0, 0, tw + xBuf, 0);
     gradient.forEach((c, i) => grad.addColorStop(i / (gradient.length - 1), c));
     offCtx.fillStyle = grad;
-    offCtx.fillText(text, xBuf / 2 - (metrics.actualBoundingBoxLeft ?? 0), asc);
+    const leftOffset = (metrics.actualBoundingBoxLeft !== undefined) ? metrics.actualBoundingBoxLeft : 0;
+    offCtx.fillText(text, (xBuf / 2) - leftOffset, asc);
 
     const hm = fuzzRange + 20;
     const vm = (direction === 'vertical' || direction === 'both') ? fuzzRange + 10 : 0;
@@ -521,61 +527,63 @@ function initFuzzyText(canvas, {
 }
 
 /* ── Mount prize teaser ── */
-const prizeFuzzyCanvas = document.getElementById('prize-fuzzy');
-if (prizeFuzzyCanvas) {
-  initFuzzyText(prizeFuzzyCanvas, {
-    text:           '??? MAD',
-    fontSize:       'clamp(1.2rem, 3.5vw, 1.8rem)',
-    fontWeight:     900,
-    fontFamily:     'Space Mono, monospace',
-    gradient:       ['#6c63ff', '#00d4aa', '#ff6baf'],
-    baseIntensity:  0.58,
-    hoverIntensity: 0.07,
-    fuzzRange:      30,
-    fps:            60,
-    direction:      'horizontal',
-    glitchMode:     true,
-    glitchInterval: 2400,
-    glitchDuration: 160,
-    clickEffect:    true,
-  });
-}
-const heroPrizeFuzzy = document.getElementById('hero-prize-fuzzy');
-if (heroPrizeFuzzy) {
-  initFuzzyText(heroPrizeFuzzy, {
-    text:           'Prizes Revealed Soon',
-    fontSize:       'clamp(1rem, 2.5vw, 1.4rem)',
-    fontWeight:     700,
-    fontFamily:     'Space Grotesk, sans-serif',
-    gradient:       ['#6c63ff', '#00d4aa'],
-    baseIntensity:  0.4,
-    hoverIntensity: 0.05,
-    fuzzRange:      18,
-    fps:            60,
-    direction:      'horizontal',
-    glitchMode:     true,
-    glitchInterval: 3000,
-    glitchDuration: 200,
-    clickEffect:    true,
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const prizeFuzzyCanvas = document.getElementById('prize-fuzzy');
+  if (prizeFuzzyCanvas) {
+    initFuzzyText(prizeFuzzyCanvas, {
+      text:           '??? MAD',
+      fontSize:       'clamp(1.2rem, 3.5vw, 1.8rem)',
+      fontWeight:     900,
+      fontFamily:     'Space Mono, monospace',
+      gradient:       ['#6c63ff', '#00d4aa', '#ff6baf'],
+      baseIntensity:  0.58,
+      hoverIntensity: 0.07,
+      fuzzRange:      30,
+      fps:            60,
+      direction:      'horizontal',
+      glitchMode:     true,
+      glitchInterval: 2400,
+      glitchDuration: 160,
+      clickEffect:    true,
+    });
+  }
+  const heroPrizeFuzzy = document.getElementById('hero-prize-fuzzy');
+  if (heroPrizeFuzzy) {
+    initFuzzyText(heroPrizeFuzzy, {
+      text:           'Prizes Revealed Soon',
+      fontSize:       'clamp(1rem, 2.5vw, 1.4rem)',
+      fontWeight:     700,
+      fontFamily:     'Space Mono, monospace',
+      gradient:       ['#6c63ff', '#00d4aa'],
+      baseIntensity:  0.4,
+      hoverIntensity: 0.05,
+      fuzzRange:      18,
+      fps:            60,
+      direction:      'horizontal',
+      glitchMode:     true,
+      glitchInterval: 3000,
+      glitchDuration: 200,
+      clickEffect:    true,
+    });
+  }
 
-const ctaPrizeFuzzy = document.getElementById('cta-prize-fuzzy');
-if (ctaPrizeFuzzy) {
-  initFuzzyText(ctaPrizeFuzzy, {
-    text:           'Prizes Soon',
-    fontSize:       '1.2rem',
-    fontWeight:     700,
-    fontFamily:     'Space Grotesk, sans-serif',
-    gradient:       ['#6c63ff', '#00d4aa'],
-    baseIntensity:  0.4,
-    hoverIntensity: 0.05,
-    fuzzRange:      15,
-    fps:            60,
-    direction:      'horizontal',
-    glitchMode:     true,
-    glitchInterval: 2800,
-    glitchDuration: 180,
-    clickEffect:    true,
-  });
-}
+  const ctaPrizeFuzzy = document.getElementById('cta-prize-fuzzy');
+  if (ctaPrizeFuzzy) {
+    initFuzzyText(ctaPrizeFuzzy, {
+      text:           'Prizes Soon',
+      fontSize:       '1.2rem',
+      fontWeight:     700,
+      fontFamily:     'Space Mono, monospace',
+      gradient:       ['#6c63ff', '#00d4aa'],
+      baseIntensity:  0.4,
+      hoverIntensity: 0.05,
+      fuzzRange:      15,
+      fps:            60,
+      direction:      'horizontal',
+      glitchMode:     true,
+      glitchInterval: 2800,
+      glitchDuration: 180,
+      clickEffect:    true,
+    });
+  }
+});
