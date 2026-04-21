@@ -134,20 +134,20 @@ document.querySelectorAll('.btn-primary, .btn-ghost, .btn-nav').forEach(btn => {
    HAMBURGER — MOBILE NAV
 ============================================= */
 const hamburger = document.getElementById('hamburger');
-const navLinks  = document.querySelector('.nav-links');
+const navLinksContainer = document.querySelector('.nav-links');
 
-if (hamburger && navLinks) {
+if (hamburger && navLinksContainer) {
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
-    navLinks.classList.toggle('open');
-    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+    navLinksContainer.classList.toggle('open');
+    document.body.style.overflow = navLinksContainer.classList.contains('open') ? 'hidden' : '';
   });
 
   // Close menu when any link is clicked
-  navLinks.querySelectorAll('a').forEach(a => {
+  navLinksContainer.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       hamburger.classList.remove('open');
-      navLinks.classList.remove('open');
+      navLinksContainer.classList.remove('open');
       document.body.style.overflow = '';
     });
   });
@@ -537,6 +537,46 @@ if (prizeFuzzyCanvas) {
     glitchMode:     true,
     glitchInterval: 2400,
     glitchDuration: 160,
+    clickEffect:    true,
+  });
+}
+
+const heroPrizeFuzzy = document.getElementById('hero-prize-fuzzy');
+if (heroPrizeFuzzy) {
+  initFuzzyText(heroPrizeFuzzy, {
+    text:           '???',
+    fontSize:       'clamp(2rem, 5vw, 3rem)',
+    fontWeight:     900,
+    fontFamily:     'Space Mono, monospace',
+    gradient:       ['#6c63ff', '#00d4aa'],
+    baseIntensity:  0.6,
+    hoverIntensity: 0.05,
+    fuzzRange:      35,
+    fps:            60,
+    direction:      'horizontal',
+    glitchMode:     true,
+    glitchInterval: 3000,
+    glitchDuration: 200,
+    clickEffect:    true,
+  });
+}
+
+const ctaPrizeFuzzy = document.getElementById('cta-prize-fuzzy');
+if (ctaPrizeFuzzy) {
+  initFuzzyText(ctaPrizeFuzzy, {
+    text:           '???',
+    fontSize:       '1.8rem',
+    fontWeight:     900,
+    fontFamily:     'Space Mono, monospace',
+    gradient:       ['#6c63ff', '#00d4aa'],
+    baseIntensity:  0.5,
+    hoverIntensity: 0.05,
+    fuzzRange:      25,
+    fps:            60,
+    direction:      'horizontal',
+    glitchMode:     true,
+    glitchInterval: 2800,
+    glitchDuration: 180,
     clickEffect:    true,
   });
 }
