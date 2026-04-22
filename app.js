@@ -137,10 +137,11 @@ const hamburger = document.getElementById('hamburger');
 const navLinksContainer = document.querySelector('.nav-links');
 
 if (hamburger && navLinksContainer) {
-  hamburger.addEventListener('click', () => {
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
     hamburger.classList.toggle('open');
     navLinksContainer.classList.toggle('open');
-    document.body.style.overflow = navLinksContainer.classList.contains('open') ? 'hidden' : '';
+    document.body.classList.toggle('nav-open', navLinksContainer.classList.contains('open'));
   });
 
   // Close menu when any link is clicked
@@ -148,8 +149,17 @@ if (hamburger && navLinksContainer) {
     a.addEventListener('click', () => {
       hamburger.classList.remove('open');
       navLinksContainer.classList.remove('open');
-      document.body.style.overflow = '';
+      document.body.classList.remove('nav-open');
     });
+  });
+
+  // Close menu when clicking on the overlay background (not a link)
+  navLinksContainer.addEventListener('click', (e) => {
+    if (e.target === navLinksContainer) {
+      hamburger.classList.remove('open');
+      navLinksContainer.classList.remove('open');
+      document.body.classList.remove('nav-open');
+    }
   });
 }
 
