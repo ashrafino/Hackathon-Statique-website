@@ -326,8 +326,10 @@ exports.handler = async (event) => {
     // Still redirect to success — submission is logged above
   }
 
-  // Send confirmation email (fire-and-forget — never blocks redirect)
-  sendConfirmationEmail(submission.email, submission.fullname).catch(() => {});
+  // Send confirmation email — must await, otherwise Netlify kills the function before the fetch completes
+  await sendConfirmationEmail(submission.email, submission.fullname).catch((err) => {
+    console.error('Email send failed:', err.message);
+  });
 
   return {
     statusCode: 302,
